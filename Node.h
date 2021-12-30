@@ -21,18 +21,23 @@ public:
     explicit Node(T &data);
     Node(weak_ptr<Node<T>> parent, T &data);
 
+    bool isRoot() const;
     const unique_ptr<T> &getData() const;
 };
 
 template<typename T>
 Node<T>::Node(weak_ptr<Node<T>> parent, T &data) : parent {parent}, data {make_unique<T>(data)}{
-
+    cout << "Called Node(weak_ptr<Node<T>> parent, T &data) constructor" << endl;
 }
 
 template<typename T>
-Node<T>::Node(T &data) : data {make_unique<T>(data) } {
-
+Node<T>::Node(T &data) : parent {shared_ptr<Node<T>>(nullptr)}, data {make_unique<T>(data) } {
+    cout << "Called Node(T &data) constructor" << endl;
 }
+
+template<typename T>
+Node<T>::Node() = default;
+
 
 template<typename T>
 const unique_ptr<T> &Node<T>::getData() const {
@@ -40,6 +45,8 @@ const unique_ptr<T> &Node<T>::getData() const {
 }
 
 template<typename T>
-Node<T>::Node() = default;
+bool Node<T>::isRoot() const {
+    return parent.use_count() == 0;
+}
 
 #endif //TREE_NODE_H

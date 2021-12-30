@@ -10,6 +10,7 @@ int main() {
     tree.addNode(*root);
 
     std::cout << tree.getRoot()->getData()->getName() << std::endl;
+    std::cout << tree.getRoot()->isRoot() << std::endl;
 
     return 0;
 }
