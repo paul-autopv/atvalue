@@ -14,22 +14,22 @@ using namespace std;
 template <typename T>
 class Tree {
 private:
-    unique_ptr<Node<T>> root;
+    shared_ptr<Node<T>> root;
     std::map<unsigned, std::weak_ptr<T>> tree_map;
 
 public:
-    const unique_ptr<Node<T>> &getRoot() const;
-    void addRoot(T &data);
+    const shared_ptr<Node<T>> &getRoot() const;
+    void addNode(T &data);
 
 };
 
 template<typename T>
-void Tree<T>::addRoot(T &data) {
-    this->root = std::make_unique<Node<T>>(data);
+void Tree<T>::addNode(T &data) {
+    this->root = std::make_shared<Node<T>>(data);
 }
 
 template<typename T>
-const unique_ptr<Node<T>> &Tree<T>::getRoot() const {
+const shared_ptr<Node<T>> &Tree<T>::getRoot() const {
     return root;
 }
 

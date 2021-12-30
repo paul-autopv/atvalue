@@ -7,7 +7,7 @@ int main() {
     Tree<Unit> tree;
     auto root = std::make_unique<Unit>(0, "root");
 
-    tree.addRoot(*root);
+    tree.addNode(*root);
 
     std::cout << tree.getRoot()->getData()->getName() << std::endl;
 
