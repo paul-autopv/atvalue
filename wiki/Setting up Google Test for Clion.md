@@ -8,6 +8,6 @@
 
 4. Copy the contents of `googletest-release-1.11.0\googltest` to the folder created in 1.
 
-   <img src="/Users/paul/Repos/tree/wiki/images/Screenshot 2021-12-30 at 13.08.13.png" style="zoom:30%;" />
+   <img src="images/Screenshot 2021-12-30 at 13.08.13.png" style="zoom:30%;" />
 
 5. 
