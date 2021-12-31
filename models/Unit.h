@@ -21,11 +21,12 @@ class Unit {
 public:
     friend ostream& operator<<(ostream& os, const Unit& unit);
 
+    Unit() = delete;
     Unit(unsigned id, string name);
 
-    Unit() = delete;
-
-    void addChild();
+    void setParent(const shared_ptr<Unit>&);
+    void addChild(const shared_ptr<Unit>& child);
+    bool isRoot() const;
     unsigned getId() const;
     string getName() const;
 };

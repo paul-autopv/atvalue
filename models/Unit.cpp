@@ -23,7 +23,16 @@ std::string Unit::getName() const {
     return this->name_;
 }
 
-void Unit::addChild() {
+void Unit::addChild(const shared_ptr<Unit>& child) {
+    children_.push_back(child);
+}
 
+bool Unit::isRoot() const {
+    return parent_.use_count() == 0;
+}
+
+void Unit::setParent(const shared_ptr<Unit>& parent_ptr) {
+    parent_ = parent_ptr;
+    parent_.lock()->addChild(make_shared<Unit>(*this));
 }
 
