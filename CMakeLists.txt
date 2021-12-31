@@ -6,8 +6,6 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 
 # Define header and source files
 set(HEADER_FILES
-        models/tree.h
-        models/node.h
         models/unit.h
         models/facility.h)
 set(SOURCE_FILES
@@ -17,4 +15,4 @@ set(SOURCE_FILES
 add_library(models STATIC ${SOURCE_FILES} ${HEADER_FILES})
 
 add_subdirectory(Google_tests)
-add_executable(tree ${SOURCE_FILES})
+add_executable(tree main.cpp ${SOURCE_FILES})

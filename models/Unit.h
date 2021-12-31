@@ -14,7 +14,7 @@ class Unit {
     unsigned id_;
     string name_;
     weak_ptr<Unit> parent_;
-    vector<shared_ptr<Unit>> children;
+//    vector<shared_ptr<Unit>> children;
 
 
 public:
