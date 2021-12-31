@@ -1,16 +1,20 @@
 #include <iostream>
-#include "Unit.h"
-#include "Tree.h"
+
+#include "models/Unit.h"
+#include "models/Facility.h"
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
-    Tree<Unit> tree;
-    auto root = std::make_unique<Unit>(0, "root");
+    std::cout << "Hello, AtValue!" << std::endl;
 
-    tree.addNode(*root);
+    auto facility = make_unique<Facility>();
+    facility->addRoot(std::make_shared<Unit>(0, "Root"));
+    facility->addUnit(1, make_shared<Unit>(1, "Unit 1"), 0);
+    facility->addUnit(2, make_shared<Unit>(2, "Unit 2"), 1);
 
-    std::cout << tree.getRoot()->getData()->getName() << std::endl;
-    std::cout << tree.getRoot()->isRoot() << std::endl;
+    std::cout << facility->unitCount() << std::endl;
+    auto node = facility->getNode(0);
+    cout <<node.isRoot() << endl;
+    std::cout << facility->unitCount() << std::endl;
 
     return 0;
 }

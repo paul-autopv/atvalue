@@ -3,4 +3,18 @@ project(tree)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(tree main.cpp Unit.cpp Unit.h Tree.h Node.h)
+set(CMAKE_VERBOSE_MAKEFILE ON)
+
+# Define header and source files
+set(HEADER_FILES
+        models/unit.h
+        models/Facility.h)
+set(SOURCE_FILES
+        models/unit.cpp
+        models/Facility.cpp)
+
+add_library(models STATIC ${SOURCE_FILES} ${HEADER_FILES})
+
+add_subdirectory(Google_tests)
+add_executable(tree main.cpp ${SOURCE_FILES})
+
