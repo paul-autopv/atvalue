@@ -7,14 +7,8 @@
 #include "Unit.h"
 
 Unit::Unit(unsigned int id, std::string name) : id_ {id}, name_ {std::move(name)}{
-}
 
-Unit::Unit(std::string name) : Unit {0, std::move(name)} {
 };
-
-Unit::Unit() : Unit {0, ""}{
-
-}
 
 std::ostream &operator<<(std::ostream &os, const Unit &unit) {
     os << "Unit id_: " << unit.id_ << " (" << unit.name_ << ")";

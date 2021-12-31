@@ -22,8 +22,8 @@ public:
     friend ostream& operator<<(ostream& os, const Unit& unit);
 
     Unit(unsigned id, string name);
-    explicit Unit(string name);
-    Unit();
+
+    Unit() = delete;
 
     void addChild();
     unsigned getId() const;
