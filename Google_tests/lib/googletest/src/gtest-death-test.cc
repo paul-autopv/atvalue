@@ -280,7 +280,7 @@ enum DeathTestOutcome { IN_PROGRESS, DIED, LIVED, RETURNED, THREW };
 
 // Routine for aborting the program which is safe to call from an
 // exec-style death test child process, in which case the error
-// message is propagated back to the parent process.  Otherwise, the
+// message is propagated back to the parent_ process.  Otherwise, the
 // message is simply printed to stderr.  In either case, the program
 // then exits with status 1.
 static void DeathTestAbort(const std::string& message) {
@@ -340,7 +340,7 @@ std::string GetLastErrnoDescription() {
     return errno == 0 ? "" : posix::StrError(errno);
 }
 
-// This is called from a death test parent process to read a failure
+// This is called from a death test parent_ process to read a failure
 // message from the death test child process and log it with the FATAL
 // severity. On Windows, the message is read from a pipe handle. On other
 // platforms, it is read from a file descriptor.
@@ -424,7 +424,7 @@ class DeathTestImpl : public DeathTest {
   int write_fd() const { return write_fd_; }
   void set_write_fd(int fd) { write_fd_ = fd; }
 
-  // Called in the parent process only. Reads the result code of the death
+  // Called in the parent_ process only. Reads the result code of the death
   // test child process via a pipe, interprets it to set the outcome_
   // member, and closes read_fd_.  Outputs diagnostics and terminates in
   // case of unexpected codes.
@@ -449,13 +449,13 @@ class DeathTestImpl : public DeathTest {
   // always -1 in the child process.  The child keeps its write end of the
   // pipe in write_fd_.
   int read_fd_;
-  // Descriptor to the child's write end of the pipe to the parent process.
-  // It is always -1 in the parent process.  The parent keeps its end of the
+  // Descriptor to the child's write end of the pipe to the parent_ process.
+  // It is always -1 in the parent_ process.  The parent_ keeps its end of the
   // pipe in read_fd_.
   int write_fd_;
 };
 
-// Called in the parent process only. Reads the result code of the death
+// Called in the parent_ process only. Reads the result code of the death
 // test child process via a pipe, interprets it to set the outcome_
 // member, and closes read_fd_.  Outputs diagnostics and terminates in
 // case of unexpected codes.
@@ -465,7 +465,7 @@ void DeathTestImpl::ReadAndInterpretStatusByte() {
 
   // The read() here blocks until data is available (signifying the
   // failure of the death test) or until the pipe is closed (signifying
-  // its success), so it's okay to call this in the parent before
+  // its success), so it's okay to call this in the parent_ before
   // the child process has exited.
   do {
     bytes_read = posix::Read(read_fd(), &flag, 1);
@@ -509,7 +509,7 @@ std::string DeathTestImpl::GetErrorLogs() {
 // Writes a status byte to the child's status file descriptor, then
 // calls _exit(1).
 void DeathTestImpl::Abort(AbortReason reason) {
-  // The parent process considers the death test to be a failure if
+  // The parent_ process considers the death test to be a failure if
   // it finds any data in our pipe.  So, here we write a single flag byte
   // to the pipe, then exit.
   const char status_ch =
@@ -626,21 +626,21 @@ bool DeathTestImpl::Passed(bool status_ok) {
 // --gtest_death_test_style=threadsafe there.
 //
 // A few implementation notes:  Like the Linux version, the Windows
-// implementation uses pipes for child-to-parent communication. But due to
+// implementation uses pipes for child-to-parent_ communication. But due to
 // the specifics of pipes on Windows, some extra steps are required:
 //
-// 1. The parent creates a communication pipe and stores handles to both
+// 1. The parent_ creates a communication pipe and stores handles to both
 //    ends of it.
-// 2. The parent starts the child and provides it with the information
+// 2. The parent_ starts the child and provides it with the information
 //    necessary to acquire the handle to the write end of the pipe.
-// 3. The child acquires the write end of the pipe and signals the parent
+// 3. The child acquires the write end of the pipe and signals the parent_
 //    using a Windows event.
-// 4. Now the parent can release the write end of the pipe on its side. If
+// 4. Now the parent_ can release the write end of the pipe on its side. If
 //    this is done before step 3, the object's reference count goes down to
 //    0 and it is destroyed, preventing the child from acquiring it. The
-//    parent now has to release it, or read operations on the read end of
+//    parent_ now has to release it, or read operations on the read end of
 //    the pipe will not return when the child terminates.
-// 5. The parent reads child's output through the pipe (outcome code and
+// 5. The parent_ reads child's output through the pipe (outcome code and
 //    any possible error messages) from the pipe, and its stderr and then
 //    determines whether to fail the test.
 //
@@ -668,9 +668,9 @@ class WindowsDeathTest : public DeathTestImpl {
   AutoHandle write_handle_;
   // Child process handle.
   AutoHandle child_handle_;
-  // Event the child process uses to signal the parent that it has
+  // Event the child process uses to signal the parent_ that it has
   // acquired the handle to the write end of the pipe. After seeing this
-  // event the parent can release its own handles to make sure its
+  // event the parent_ can release its own handles to make sure its
   // ReadFile() calls return when the child terminates.
   AutoHandle event_handle_;
 };
@@ -784,7 +784,7 @@ DeathTest::TestRole WindowsDeathTest::AssumeRole() {
   // Flush the log buffers since the log streams are shared with the child.
   FlushInfoLog();
 
-  // The child process will share the standard handles with the parent.
+  // The child process will share the standard handles with the parent_.
   STARTUPINFOA startup_info;
   memset(&startup_info, 0, sizeof(STARTUPINFO));
   startup_info.dwFlags = STARTF_USESTDHANDLES;
@@ -800,7 +800,7 @@ DeathTest::TestRole WindowsDeathTest::AssumeRole() {
           nullptr,  // Retuned thread handle is not inheritable.
           TRUE,  // Child inherits all inheritable handles (for write_handle_).
           0x0,   // Default creation flags.
-          nullptr,  // Inherit the parent's environment.
+          nullptr,  // Inherit the parent_'s environment.
           UnitTest::GetInstance()->original_working_dir(), &startup_info,
           &process_info) != FALSE);
   child_handle_.Reset(process_info.hProcess);
@@ -1011,7 +1011,7 @@ DeathTest::TestRole FuchsiaDeathTest::AssumeRole() {
   fdio_spawn_action_t spawn_actions[2] = {};
   fdio_spawn_action_t* add_handle_action = &spawn_actions[0];
   add_handle_action->action = FDIO_SPAWN_ACTION_ADD_HANDLE;
-  add_handle_action->h.id = PA_HND(PA_FD, kFuchsiaReadPipeFd);
+  add_handle_action->h.id_ = PA_HND(PA_FD, kFuchsiaReadPipeFd);
   add_handle_action->h.handle = child_pipe_handle;
 
   // Create a socket pair will be used to receive the child process' stderr.
@@ -1129,7 +1129,7 @@ DeathTest::TestRole NoExecDeathTest::AssumeRole() {
   // When we fork the process below, the log file buffers are copied, but the
   // file descriptors are shared.  We flush all log files here so that closing
   // the file descriptors in the child process doesn't throw off the
-  // synchronization between descriptors and buffers in the parent process.
+  // synchronization between descriptors and buffers in the parent_ process.
   // This is as close to the fork as possible to avoid a race condition in case
   // there are multiple threads running before the death test, and another
   // thread writes to the log file.
@@ -1142,7 +1142,7 @@ DeathTest::TestRole NoExecDeathTest::AssumeRole() {
     GTEST_DEATH_TEST_CHECK_SYSCALL_(close(pipe_fd[0]));
     set_write_fd(pipe_fd[1]);
     // Redirects all logging to stderr in the child process to prevent
-    // concurrent writes to the log files.  We capture stderr in the parent
+    // concurrent writes to the log files.  We capture stderr in the parent_
     // process and append the child process' output to a log.
     LogToStderr();
     // Event forwarding to the listeners of event listener API mush be shut
@@ -1525,7 +1525,7 @@ static int GetStatusFileDescriptor(unsigned int parent_process_id,
                                                    FALSE,  // Non-inheritable.
                                                    parent_process_id));
   if (parent_process_handle.Get() == INVALID_HANDLE_VALUE) {
-    DeathTestAbort("Unable to open parent process " +
+    DeathTestAbort("Unable to open parent_ process " +
                    StreamableToString(parent_process_id));
   }
 
@@ -1535,7 +1535,7 @@ static int GetStatusFileDescriptor(unsigned int parent_process_id,
       reinterpret_cast<HANDLE>(write_handle_as_size_t);
   HANDLE dup_write_handle;
 
-  // The newly initialized handle is accessible only in the parent
+  // The newly initialized handle is accessible only in the parent_
   // process. To obtain one accessible within the child, we need to use
   // DuplicateHandle.
   if (!::DuplicateHandle(parent_process_handle.Get(), write_handle,
@@ -1546,7 +1546,7 @@ static int GetStatusFileDescriptor(unsigned int parent_process_id,
                          DUPLICATE_SAME_ACCESS)) {
     DeathTestAbort("Unable to duplicate the pipe handle " +
                    StreamableToString(write_handle_as_size_t) +
-                   " from the parent process " +
+                   " from the parent_ process " +
                    StreamableToString(parent_process_id));
   }
 
@@ -1560,7 +1560,7 @@ static int GetStatusFileDescriptor(unsigned int parent_process_id,
                          DUPLICATE_SAME_ACCESS)) {
     DeathTestAbort("Unable to duplicate the event handle " +
                    StreamableToString(event_handle_as_size_t) +
-                   " from the parent process " +
+                   " from the parent_ process " +
                    StreamableToString(parent_process_id));
   }
 
@@ -1572,8 +1572,8 @@ static int GetStatusFileDescriptor(unsigned int parent_process_id,
                    " to a file descriptor");
   }
 
-  // Signals the parent that the write end of the pipe has been acquired
-  // so the parent can release its own write end.
+  // Signals the parent_ that the write end of the pipe has been acquired
+  // so the parent_ can release its own write end.
   ::SetEvent(dup_event_handle);
 
   return write_fd;

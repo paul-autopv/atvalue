@@ -100,7 +100,7 @@ The argument *`param_generator`* is one of the following GoogleTest-provided
 functions that generate the test parameters, all defined in the `::testing`
 namespace:
 
-<span id="param-generators"></span>
+<span id_="param-generators"></span>
 
 | Parameter Generator | Behavior                                             |
 | ------------------- | ---------------------------------------------------- |

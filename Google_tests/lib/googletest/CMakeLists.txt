@@ -133,7 +133,7 @@ set_target_properties(gtest PROPERTIES VERSION ${GOOGLETEST_VERSION})
 cxx_library(gtest_main "${cxx_strict}" src/gtest_main.cc)
 set_target_properties(gtest_main PROPERTIES VERSION ${GOOGLETEST_VERSION})
 # If the CMake version supports it, attach header directory information
-# to the targets for when we are part of a parent build (ie being pulled
+# to the targets for when we are part of a parent_ build (ie being pulled
 # in via add_subdirectory() rather than being a standalone build).
 if (DEFINED CMAKE_VERSION AND NOT "${CMAKE_VERSION}" VERSION_LESS "2.8.11")
   target_include_directories(gtest SYSTEM INTERFACE

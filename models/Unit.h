@@ -8,20 +8,25 @@
 
 #include <string>
 
+using namespace std;
+
 class Unit {
-    unsigned id;
-    std::string name;
+    unsigned id_;
+    string name_;
+    weak_ptr<Unit> parent_;
+    vector<shared_ptr<Unit>> children;
 
 
 public:
-    friend std::ostream& operator<<(std::ostream& os, const Unit& unit);
+    friend ostream& operator<<(ostream& os, const Unit& unit);
 
-    Unit(unsigned id, std::string name);
-    explicit Unit(std::string name);
+    Unit(unsigned id, string name);
+    explicit Unit(string name);
     Unit();
 
+    void addChild();
     unsigned getId() const;
-    std::string getName() const;
+    string getName() const;
 };
 
 

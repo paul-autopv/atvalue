@@ -106,7 +106,7 @@ else()
   set_target_properties(gmock_main PROPERTIES VERSION ${GOOGLETEST_VERSION})
 endif()
 # If the CMake version supports it, attach header directory information
-# to the targets for when we are part of a parent build (ie being pulled
+# to the targets for when we are part of a parent_ build (ie being pulled
 # in via add_subdirectory() rather than being a standalone build).
 if (DEFINED CMAKE_VERSION AND NOT "${CMAKE_VERSION}" VERSION_LESS "2.8.11")
   target_include_directories(gmock SYSTEM INTERFACE

@@ -71,13 +71,13 @@ GTEST_API_ bool InDeathTestChild();
 //   thread.  This is because it's safe to fork() or clone() only
 //   when there is a single thread.
 //
-//   2. The parent process clone()s a sub-process and runs the death
+//   2. The parent_ process clone()s a sub-process and runs the death
 //   test in it; the sub-process exits with code 0 at the end of the
 //   death test, if it hasn't exited already.
 //
-//   3. The parent process waits for the sub-process to terminate.
+//   3. The parent_ process waits for the sub-process to terminate.
 //
-//   4. The parent process checks the exit code and error message of
+//   4. The parent_ process checks the exit code and error message of
 //   the sub-process.
 //
 // Examples:

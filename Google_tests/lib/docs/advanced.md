@@ -543,10 +543,10 @@ googletest has three features intended to raise awareness of threading issues.
     tests.
 3.  It uses `clone()` instead of `fork()` to spawn the child process on Linux
     (`clone()` is not available on Cygwin and Mac), as `fork()` is more likely
-    to cause the child to hang when the parent process has multiple threads.
+    to cause the child to hang when the parent_ process has multiple threads.
 
 It's perfectly fine to create threads inside a death test statement; they are
-executed in a separate process and cannot affect the parent.
+executed in a separate process and cannot affect the parent_.
 
 ### Death Test Styles
 
@@ -594,12 +594,12 @@ them in `statement`.
 
 Since `statement` runs in the child process, any in-memory side effect (e.g.
 modifying a variable, releasing memory, etc) it causes will *not* be observable
-in the parent process. In particular, if you release memory in a death test,
-your program will fail the heap check as the parent process will never see the
+in the parent_ process. In particular, if you release memory in a death test,
+your program will fail the heap check as the parent_ process will never see the
 memory reclaimed. To solve this problem, you can
 
 1.  try not to free memory in a death test;
-2.  free the memory again in the parent process; or
+2.  free the memory again in the parent_ process; or
 3.  do not use the heap checker in your program.
 
 Due to an implementation detail, you cannot place multiple death test assertions

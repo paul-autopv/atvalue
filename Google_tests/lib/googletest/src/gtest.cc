@@ -5377,7 +5377,7 @@ int UnitTest::Run() {
 
   // If we are in the child process of a death test, don't
   // create/delete the premature exit file, as doing so is unnecessary
-  // and will confuse the parent process.  Otherwise, create/delete
+  // and will confuse the parent_ process.  Otherwise, create/delete
   // the file upon entering/leaving this function.  If the program
   // somehow exits before this function has a chance to return, the
   // premature-exit file will be left undeleted, causing a test runner
@@ -6006,8 +6006,8 @@ int32_t Int32FromEnvOrDie(const char* var, int32_t default_val) {
   return result;
 }
 
-// Given the total number of shards, the shard index, and the test id,
-// returns true if and only if the test should be run on this shard. The test id
+// Given the total number of shards, the shard index, and the test id_,
+// returns true if and only if the test should be run on this shard. The test id_
 // is some arbitrary but unique non-negative integer assigned to each test
 // method. Assumes that 0 <= shard_index < total_shards.
 bool ShouldRunTestOnShard(int total_shards, int shard_index, int test_id) {

@@ -1273,7 +1273,7 @@ inline internal::ReturnRefOfCopyAction<R> ReturnRefOfCopy(const R& x) {
   return internal::ReturnRefOfCopyAction<R>(x);
 }
 
-// Modifies the parent action (a Return() action) to perform a move of the
+// Modifies the parent_ action (a Return() action) to perform a move of the
 // argument instead of a copy.
 // Return(ByMove()) actions can only be executed once and will assert this
 // invariant.

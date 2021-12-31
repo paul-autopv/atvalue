@@ -9,10 +9,10 @@ set(HEADER_FILES
         models/tree.h
         models/node.h
         models/unit.h
-        )
+        models/facility.h)
 set(SOURCE_FILES
         models/unit.cpp
-        )
+        models/facility.cpp)
 
 add_library(models STATIC ${SOURCE_FILES} ${HEADER_FILES})
 

@@ -27,7 +27,7 @@ public:
 
 template<typename T>
 Node<T>::Node(weak_ptr<Node<T>> parent, T &data) : parent {parent}, data {make_unique<T>(data)}{
-    cout << "Called Node(weak_ptr<Node<T>> parent, T &data) constructor" << endl;
+    cout << "Called Node(weak_ptr<Node<T>> parent_, T &data) constructor" << endl;
 }
 
 template<typename T>
