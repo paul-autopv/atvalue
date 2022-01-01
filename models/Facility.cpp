@@ -7,9 +7,9 @@
 
 void Facility::addUnit(Unit *unit, unsigned parent_id) {
     auto unit_ptr = shared_ptr<Unit>(unit);
-    auto parent = shared_ptr<Unit>(unit_map_.at(parent_id));
-    unit->setParent(parent);
-    parent->addChild(unit_ptr);
+    auto parent_ptr = shared_ptr<Unit>(unit_map_.at(parent_id));
+    unit->setParent(parent_ptr);
+    parent_ptr->addChild(unit_ptr);
     unit_map_.emplace(unit->getId(), unit_ptr);
 }
 
@@ -29,4 +29,3 @@ unsigned Facility::getChildrenCountOfUnit(int unit_id) const {
     auto unit = unit_map_.at(unit_id);
     return unit->countOfChildren();
 }
-

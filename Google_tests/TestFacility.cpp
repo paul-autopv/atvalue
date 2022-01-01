@@ -32,7 +32,7 @@ TEST_F(FacilityTest, addUnitsCreateCorrectChildrenCount){
     auto unit1_result = facility->getChildrenCountOfUnit(1);
     auto unit2_result = facility->getChildrenCountOfUnit(2);
 
-    ASSERT_EQ(root_result, 2);ß
+    ASSERT_EQ(root_result, 2);
     ASSERT_EQ(unit1_result, 1);
     ASSERT_EQ(unit2_result, 0);
 }
