@@ -43,3 +43,16 @@ int Unit::getParentId() const {
 unsigned Unit::countOfChildren() const{
     return children_.size();
 }
+
+void Unit::addFailureMode(FailureMode mode) {
+    failure_modes_.push_back(mode);
+
+}
+
+double Unit::getCapacity() const {
+    return capacity;
+}
+
+void Unit::setCapacity(double capacity) {
+    Unit::capacity = capacity;
+}

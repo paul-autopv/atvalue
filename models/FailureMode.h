@@ -2,13 +2,13 @@
 // Created by Paul on 2022/01/01.
 //
 
-#ifndef TREE_FAILUREMODES_H
-#define TREE_FAILUREMODES_H
+#ifndef TREE_FAILUREMODE_H
+#define TREE_FAILUREMODE_H
 
 
 #include <string>
 
-class FailureModes {
+class FailureMode {
 private:
     std::string name;
     std::string description;
@@ -31,4 +31,4 @@ public:
 };
 
 
-#endif //TREE_FAILUREMODES_H
+#endif //TREE_FAILUREMODE_H

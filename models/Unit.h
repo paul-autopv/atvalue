@@ -8,7 +8,7 @@
 
 #include <string>
 #include <vector>
-#include "FailureModes.h"
+#include "FailureMode.h"
 
 using namespace std;
 
@@ -17,7 +17,12 @@ class Unit {
     string name_;
     shared_ptr<Unit> parent_;
     vector<weak_ptr<Unit>> children_;
-    vector<FailureModes> failure_modes_;
+    vector<FailureMode> failure_modes_;
+    double capacity;
+public:
+    double getCapacity() const;
+
+    void setCapacity(double capacity);
 
 
 public:
@@ -33,6 +38,8 @@ public:
     int getId() const;
     unsigned countOfChildren() const;
     string getName() const;
+
+    void addFailureMode(FailureMode mode);
 };
 
 

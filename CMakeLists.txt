@@ -9,14 +9,18 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 set(HEADER_FILES
         models/unit.h
         models/Facility.h
-        models/FailureModes.h
+        models/FailureMode.h
         models/IProbability.h
-        probabilities/WeibullProbability.h)
+        probabilities/WeibullProbability.h
+        utilities/CsvReader.h
+        )
 set(SOURCE_FILES
         models/unit.cpp
         models/Facility.cpp
-        models/FailureModes.cpp
-        probabilities/WeibullProbability.cpp)
+        models/FailureMode.cpp
+        probabilities/WeibullProbability.cpp
+        utilities/CsvReader.cpp
+        )
 
 add_library(models STATIC ${SOURCE_FILES} ${HEADER_FILES})
 
