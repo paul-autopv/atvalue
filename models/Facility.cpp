@@ -5,12 +5,19 @@
 #include <iostream>
 #include "Facility.h"
 
-void Facility::addUnit(Unit *unit, unsigned parent_id) {
+void Facility::addUnit(Unit *unit, int parent_id) {
     auto unit_ptr = shared_ptr<Unit>(unit);
-    auto parent_ptr = shared_ptr<Unit>(unit_map_.at(parent_id));
+    shared_ptr<Unit> parent_ptr = getParent(parent_id);
     unit->setParent(parent_ptr);
     parent_ptr->addChild(unit_ptr);
     unit_map_.emplace(unit->getId(), unit_ptr);
+}
+
+shared_ptr<Unit> Facility::getParent(int parent_id) {
+    if (!isInUnitMap(parent_id))
+        throw (parent_id);
+    auto parent_ptr = shared_ptr<Unit>(unit_map_.at(parent_id));
+    return parent_ptr;
 }
 
 void Facility::addRoot(Unit *unit) {
@@ -22,10 +29,17 @@ unsigned Facility::unitCount() const {
 }
 
 int Facility::getParentIdOfUnit(int unit_id) const {
+    if(!isInUnitMap(unit_id))
+        throw (unit_id);
     return unit_map_.at(unit_id)->getParentId();
 }
 
-unsigned Facility::getChildrenCountOfUnit(int unit_id) const {
-    auto unit = unit_map_.at(unit_id);
-    return unit->countOfChildren();
+unsigned Facility::getChildrenCountForUnit(int unit_id) const {
+    if (!isInUnitMap(unit_id))
+        throw (unit_id);
+    return unit_map_.at(unit_id)->countOfChildren();
+}
+
+bool Facility::isInUnitMap(int id) const{
+    return unit_map_.find(id) != unit_map_.end();
 }

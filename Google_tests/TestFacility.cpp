@@ -9,6 +9,21 @@ class FacilityTest : public ::testing::Test{
 
 };
 
+TEST_F(FacilityTest, addUnitsCreateCorrectChildrenCount){
+    auto facility = make_unique<Facility>();
+    facility->addRoot(new Unit(0, "Root"));
+    facility->addUnit(new Unit(1, "Test"), 0);
+    facility->addUnit(new Unit(2, "Test"), 0);
+    facility->addUnit(new Unit(3, "Test"), 1);
+
+    auto root_result = facility->getChildrenCountForUnit(0);
+    auto unit1_result = facility->getChildrenCountForUnit(1);
+    auto unit2_result = facility->getChildrenCountForUnit(2);
+
+    ASSERT_EQ(root_result, 2);
+    ASSERT_EQ(unit1_result, 1);
+    ASSERT_EQ(unit2_result, 0);
+}
 
 TEST_F(FacilityTest, addUnitAssignCorrectParentIfNotRoot){
     auto new_unit_id = 234;
@@ -21,18 +36,9 @@ TEST_F(FacilityTest, addUnitAssignCorrectParentIfNotRoot){
     ASSERT_EQ(result, 0);
 }
 
-TEST_F(FacilityTest, addUnitsCreateCorrectChildrenCount){
+TEST_F(FacilityTest, addUnitThrowErrorIfParentDoesNotExist){
     auto facility = make_unique<Facility>();
     facility->addRoot(new Unit(0, "Root"));
-    facility->addUnit(new Unit(1, "Test"), 0);
-    facility->addUnit(new Unit(2, "Test"), 0);
-    facility->addUnit(new Unit(3, "Test"), 1);
 
-    auto root_result = facility->getChildrenCountOfUnit(0);
-    auto unit1_result = facility->getChildrenCountOfUnit(1);
-    auto unit2_result = facility->getChildrenCountOfUnit(2);
-
-    ASSERT_EQ(root_result, 2);
-    ASSERT_EQ(unit1_result, 1);
-    ASSERT_EQ(unit2_result, 0);
+    ASSERT_THROW(facility->addUnit(new Unit(123, "Test"), 1);, int);
 }
