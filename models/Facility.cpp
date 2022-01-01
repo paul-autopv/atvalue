@@ -2,7 +2,6 @@
 // Created by Paul on 2021/12/31.
 //
 
-#include <iostream>
 #include "Facility.h"
 
 void Facility::addUnit(Unit *unit, int parent_id) {
@@ -16,8 +15,7 @@ void Facility::addUnit(Unit *unit, int parent_id) {
 shared_ptr<Unit> Facility::getParent(int parent_id) {
     if (!isInUnitMap(parent_id))
         throw (parent_id);
-    auto parent_ptr = shared_ptr<Unit>(unit_map_.at(parent_id));
-    return parent_ptr;
+    return {unit_map_.at(parent_id)};
 }
 
 void Facility::addRoot(Unit *unit) {

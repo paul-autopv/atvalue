@@ -19,9 +19,13 @@ class Facility {
     bool isInUnitMap(int id) const;
 public:
     void addUnit(Unit *unit, int parent_id);
+
     void addRoot(Unit *unit);
+
     unsigned unitCount() const;
+
     int getParentIdOfUnit(int unit_id) const;
+
     unsigned getChildrenCountForUnit(int unit_id) const;
 };
 
