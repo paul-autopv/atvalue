@@ -24,7 +24,7 @@ std::string Unit::getName() const {
 }
 
 void Unit::addChild(const shared_ptr<Unit>& child) {
-    children_.push_back(child);
+    children_.push_back(weak_ptr<Unit>(child));
 }
 
 bool Unit::isRoot() const {
@@ -40,3 +40,6 @@ int Unit::getParentId() const {
     return parent->getId();
 }
 
+unsigned Unit::countOfChildren() const{
+    return children_.size();
+}
