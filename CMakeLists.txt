@@ -8,10 +8,15 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 # Define header and source files
 set(HEADER_FILES
         models/unit.h
-        models/Facility.h models/FailureModes.h models/Probability.h)
+        models/Facility.h
+        models/FailureModes.h
+        models/IProbability.h
+        probabilities/WeibullProbability.h)
 set(SOURCE_FILES
         models/unit.cpp
-        models/Facility.cpp models/FailureModes.cpp )
+        models/Facility.cpp
+        models/FailureModes.cpp
+        probabilities/WeibullProbability.cpp)
 
 add_library(models STATIC ${SOURCE_FILES} ${HEADER_FILES})
 
