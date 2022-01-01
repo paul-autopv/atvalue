@@ -13,8 +13,10 @@ void Facility::addUnit(Unit *unit, int parent_id) {
 }
 
 shared_ptr<Unit> Facility::getParent(int parent_id) {
-    if (!isInUnitMap(parent_id))
-        throw (parent_id);
+    if (!isInUnitMap(parent_id)) {
+        std::string message = "Current unit map does not contain unit with id " + parent_id;
+        throw std::invalid_argument(message);
+    }
     return {unit_map_.at(parent_id)};
 }
 
@@ -27,15 +29,18 @@ unsigned Facility::unitCount() const {
 }
 
 int Facility::getParentIdOfUnit(int unit_id) const {
-    if(!isInUnitMap(unit_id))
-        throw (unit_id);
+    if(!isInUnitMap(unit_id)){
+        std::string message = "Current unit map does not contain unit with id " + unit_id;
+        throw std::invalid_argument(message);
+    }
     return unit_map_.at(unit_id)->getParentId();
 }
 
 unsigned Facility::getChildrenCountForUnit(int unit_id) const {
-    if (!isInUnitMap(unit_id))
-        throw (unit_id);
-    return unit_map_.at(unit_id)->countOfChildren();
+    if(!isInUnitMap(unit_id)){
+        std::string message = "Current unit map does not contain unit with id " + unit_id;
+        throw std::invalid_argument(message);
+    }    return unit_map_.at(unit_id)->countOfChildren();
 }
 
 bool Facility::isInUnitMap(int id) const{

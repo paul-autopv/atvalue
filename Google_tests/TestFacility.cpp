@@ -40,5 +40,5 @@ TEST_F(FacilityTest, addUnitThrowErrorIfParentDoesNotExist){
     auto facility = make_unique<Facility>();
     facility->addRoot(new Unit(0, "Root"));
 
-    ASSERT_THROW(facility->addUnit(new Unit(123, "Test"), 1);, int);
+    ASSERT_THROW(facility->addUnit(new Unit(123, "Test"), 1);, std::invalid_argument);
 }
