@@ -16,11 +16,12 @@ class Facility {
     map<unsigned, shared_ptr<Unit>> unit_map_;
 
 public:
-    void addUnit(unsigned id, Unit *unit, unsigned parent_id);
+    void addUnit(Unit *unit, unsigned parent_id);
     void addRoot(Unit *unit);
 
     unsigned unitCount() const;
     int getParentIdOfUnit(int unit_id) const;
+    unsigned getChildrenCountOfUnit(int unit_id) const;
 
 };
 

@@ -29,6 +29,7 @@ public:
     void addChild(const shared_ptr<Unit>& child);
     bool isRoot() const;
     int getId() const;
+    unsigned countOfChildren() const;
     string getName() const;
 };
 

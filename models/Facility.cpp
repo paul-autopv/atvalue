@@ -5,10 +5,12 @@
 #include <iostream>
 #include "Facility.h"
 
-void Facility::addUnit(unsigned id, Unit *unit, unsigned parent_id) {
-    auto parent = shared_ptr<Unit>(unit_map_.at(parent_id));
-    unit->setParent(parent);
-    unit_map_.emplace(id, shared_ptr<Unit>(unit));
+void Facility::addUnit(Unit *unit, unsigned parent_id) {
+    auto unit_ptr = shared_ptr<Unit>(unit);
+    auto parent_ptr = shared_ptr<Unit>(unit_map_.at(parent_id));
+    unit->setParent(parent_ptr);
+    parent_ptr->addChild(unit_ptr);
+    unit_map_.emplace(unit->getId(), unit_ptr);
 }
 
 void Facility::addRoot(Unit *unit) {
@@ -23,3 +25,7 @@ int Facility::getParentIdOfUnit(int unit_id) const {
     return unit_map_.at(unit_id)->getParentId();
 }
 
+unsigned Facility::getChildrenCountOfUnit(int unit_id) const {
+    auto unit = unit_map_.at(unit_id);
+    return unit->countOfChildren();
+}
