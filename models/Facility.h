@@ -13,7 +13,8 @@
 using namespace std;
 
 class Facility {
-    map<unsigned, shared_ptr<Unit>> unit_map_;
+    map<int, shared_ptr<Unit>> unit_map_;
+
     shared_ptr<Unit> getParent(int parent_id);
     bool isInUnitMap(int id) const;
 public:
