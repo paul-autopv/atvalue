@@ -6,7 +6,7 @@
 #include <utility>
 #include "Unit.h"
 
-Unit::Unit(unsigned int id, std::string name) : id_ {id}, name_ {std::move(name)}{
+Unit::Unit(int id, std::string name) : id_ {id}, name_ {std::move(name)}{
 
 };
 
@@ -15,7 +15,7 @@ std::ostream &operator<<(std::ostream &os, const Unit &unit) {
     return os;
 }
 
-unsigned Unit::getId() const{
+int Unit::getId() const{
     return this->id_;
 }
 
@@ -31,8 +31,12 @@ bool Unit::isRoot() const {
     return parent_.use_count() == 0;
 }
 
-void Unit::setParent(const shared_ptr<Unit>& parent_ptr) {
-    parent_ = parent_ptr;
-    parent_.lock()->addChild(make_shared<Unit>(*this));
+void Unit::setParent(shared_ptr<Unit> parent_ptr) {
+    parent_ = std::move(parent_ptr);
+}
+
+int Unit::getParentId() const {
+    shared_ptr<Unit> parent{parent_};
+    return parent->getId();
 }
 

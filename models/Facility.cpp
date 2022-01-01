@@ -5,27 +5,21 @@
 #include <iostream>
 #include "Facility.h"
 
-void Facility::addUnit(unsigned id, const shared_ptr<Unit>& unit, unsigned parent_id) {
-    auto parent = make_shared<Unit>(getParent(parent_id));
+void Facility::addUnit(unsigned id, Unit *unit, unsigned parent_id) {
+    auto parent = shared_ptr<Unit>(unit_map_.at(parent_id));
     unit->setParent(parent);
-    unit_map_.emplace(id, *unit);
+    unit_map_.emplace(id, shared_ptr<Unit>(unit));
 }
 
-void Facility::addRoot(const shared_ptr<Unit>& unit) {
-    unit_map_.emplace(0, *unit);
+void Facility::addRoot(Unit *unit) {
+    unit_map_.emplace(0, std::shared_ptr<Unit>(unit));
 }
 
 unsigned Facility::unitCount() const {
     return unit_map_.size();
 }
 
-Unit Facility::getNode(unsigned id) const {
-    return unit_map_.at(id);
+int Facility::getParentIdOfUnit(int unit_id) const {
+    return unit_map_.at(unit_id)->getParentId();
 }
 
-Unit Facility::getParent(unsigned id) {
-    if (unit_map_.find(id) == unit_map_.end())
-        throw "Parent unit not found.";
-    return unit_map_.at(id);
-
-}

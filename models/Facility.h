@@ -13,16 +13,14 @@
 using namespace std;
 
 class Facility {
-    map<unsigned, Unit> unit_map_;
-
-    Unit getParent(unsigned id);
+    map<unsigned, shared_ptr<Unit>> unit_map_;
 
 public:
-    void addUnit(unsigned id, const shared_ptr<Unit>& unit, unsigned parent_id);
-    void addRoot(const shared_ptr<Unit>& unit);
+    void addUnit(unsigned id, Unit *unit, unsigned parent_id);
+    void addRoot(Unit *unit);
 
     unsigned unitCount() const;
-    Unit getNode(unsigned id) const;
+    int getParentIdOfUnit(int unit_id) const;
 
 };
 

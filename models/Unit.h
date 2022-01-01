@@ -12,22 +12,23 @@
 using namespace std;
 
 class Unit {
-    unsigned id_;
+    int id_;
     string name_;
-    weak_ptr<Unit> parent_;
-    vector<shared_ptr<Unit>> children_;
+    shared_ptr<Unit> parent_;
+    vector<weak_ptr<Unit>> children_;
 
 
 public:
     friend ostream& operator<<(ostream& os, const Unit& unit);
 
     Unit() = delete;
-    Unit(unsigned id, string name);
+    Unit(int id, string name);
 
-    void setParent(const shared_ptr<Unit>&);
+    void setParent(shared_ptr<Unit>);
+    int getParentId() const;
     void addChild(const shared_ptr<Unit>& child);
     bool isRoot() const;
-    unsigned getId() const;
+    int getId() const;
     string getName() const;
 };
 
