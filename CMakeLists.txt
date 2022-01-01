@@ -8,7 +8,7 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 # Define header and source files
 set(HEADER_FILES
         models/unit.h
-        models/Facility.h models/FailureModes.h)
+        models/Facility.h models/FailureModes.h models/Probability.h)
 set(SOURCE_FILES
         models/unit.cpp
         models/Facility.cpp models/FailureModes.cpp )
