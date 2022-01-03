@@ -18,7 +18,9 @@ class Facility {
     shared_ptr<Unit> getParent(int parent_id);
     bool isInUnitMap(int id) const;
 public:
-    void addUnit(Unit *unit, int parent_id);
+
+    template <typename First, typename ... Rest>
+    void addUnit(First parent_id, Rest ... args);
 
     void addRoot(Unit *unit);
 
