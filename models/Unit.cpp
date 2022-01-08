@@ -6,7 +6,7 @@
 #include <utility>
 #include "Unit.h"
 
-Unit::Unit(int id, std::string name) : id_ {id}, name_ {std::move(name)}{
+Unit::Unit(int id, std::string name) : id_ {id}, name_ {std::move(name)}, capacity_ {0}{
 
 };
 
@@ -31,13 +31,14 @@ bool Unit::isRoot() const {
     return parent_.use_count() == 0;
 }
 
-void Unit::setParent(shared_ptr<Unit> parent_ptr) {
-    parent_ = std::move(parent_ptr);
+void Unit::setParent(const shared_ptr<Unit>& parent_ptr) {
+    cout << "Before parent set count is: " << parent_ptr.use_count() << endl;
+    parent_ = parent_ptr;
+    cout << "After parent set count is: " << parent_ptr.use_count() << endl;
 }
 
 int Unit::getParentId() const {
-    shared_ptr<Unit> parent{parent_};
-    return parent->getId();
+    return parent_->getId();
 }
 
 unsigned Unit::countOfChildren() const{
@@ -50,9 +51,9 @@ void Unit::addFailureMode(FailureMode mode) {
 }
 
 double Unit::getCapacity() const {
-    return capacity;
+    return capacity_;
 }
 
 void Unit::setCapacity(double capacity) {
-    Unit::capacity = capacity;
+    Unit::capacity_ = capacity;
 }

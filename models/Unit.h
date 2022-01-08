@@ -18,7 +18,7 @@ class Unit {
     shared_ptr<Unit> parent_;
     vector<weak_ptr<Unit>> children_;
     vector<FailureMode> failure_modes_;
-    double capacity;
+    double capacity_;
 public:
     double getCapacity() const;
 
@@ -31,7 +31,7 @@ public:
     Unit() = delete;
     Unit(int id, string name);
 
-    void setParent(shared_ptr<Unit>);
+    void setParent(const shared_ptr<Unit>&);
     int getParentId() const;
     void addChild(const shared_ptr<Unit>& child);
     bool isRoot() const;

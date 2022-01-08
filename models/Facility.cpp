@@ -2,12 +2,12 @@
 // Created by Paul on 2021/12/31.
 //
 
+#include <iostream>
 #include "Facility.h"
-§
-template <typename First, typename ... Rest>
-void Facility::addUnit(First parent_id, Rest ... args) {
-    auto unit_ptr = make_shared<Unit>(args...);
-    auto parent_ptr = make_shared<Unit>(getParent(parent_id));
+
+void Facility::addUnit(std::unique_ptr<Unit> unit, int parent_id) {
+    auto unit_ptr = make_shared<Unit>(*unit);
+    auto parent_ptr = getParent(parent_id);
     unit_ptr->setParent(parent_ptr);
     parent_ptr->addChild(unit_ptr);
     unit_map_.emplace(unit_ptr->getId(), unit_ptr);
@@ -15,8 +15,8 @@ void Facility::addUnit(First parent_id, Rest ... args) {
 
 shared_ptr<Unit> Facility::getParent(int parent_id) {
     if (!isInUnitMap(parent_id)) {
-        std::string message = "Current unit map does not contain unit with provide parent_id";
-        throw std::invalid_argument(message);
+        std::string message = "Current unit map does not contain unit with parent_id";
+        throw std::invalid_argument( message );
     }
     return {unit_map_.at(parent_id)};
 }

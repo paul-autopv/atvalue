@@ -19,8 +19,8 @@ class Facility {
     bool isInUnitMap(int id) const;
 public:
 
-    template <typename First, typename ... Rest>
-    void addUnit(First parent_id, Rest ... args);
+
+    void addUnit(std::unique_ptr<Unit> unit, int parent_id);
 
     void addRoot(Unit *unit);
 
