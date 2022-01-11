@@ -13,7 +13,7 @@ int main() {
     auto facility = make_unique<Facility>();
 
     try {
-        facility->addRoot(new Unit(0, "Root"));
+        facility->addRoot(std::make_unique<Unit>(0, "Root"));
         facility->addUnit(std::make_unique<Unit>(2, "Test Unit 2"), 0);
         facility->addUnit(std::make_unique<Unit>(1, "Test Unit 1"), 0);
     } catch (unsigned e){

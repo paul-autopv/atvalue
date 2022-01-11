@@ -15,14 +15,18 @@ using namespace std;
 class Facility {
     map<int, shared_ptr<Unit>> unit_map_;
 
-    shared_ptr<Unit> getParent(int parent_id);
-    bool isInUnitMap(int id) const;
-public:
+    shared_ptr<Unit> registerUnit(unique_ptr<Unit> &unit);
 
+    shared_ptr<Unit> getParent(int parent_id);
+
+    bool isInUnitMap(int id) const;
+
+
+public:
 
     void addUnit(std::unique_ptr<Unit> unit, int parent_id);
 
-    void addRoot(Unit *unit);
+    void addRoot(unique_ptr<Unit> unit);
 
     unsigned unitCount() const;
 
