@@ -6,14 +6,25 @@
 #define TREE_FACILITY_H
 
 #include <memory>
+#include <map>
 #include <unordered_map>
+#include <iostream>
 
 #include "Unit.h"
+#include "CsvMap.h"
 
 using namespace std;
 
 class Facility {
     unordered_map<int, shared_ptr<Unit>> unit_map_;
+
+    void addRoot(unique_ptr<Unit> unit);
+
+    void addUnit(std::unique_ptr<Unit> unit, int parent_id);
+
+    int getParentIdOfUnit(int unit_id) const;
+
+    unsigned getChildrenCountForUnit(int unit_id) const;
 
     shared_ptr<Unit> registerUnit(unique_ptr<Unit> &unit);
 
@@ -21,18 +32,13 @@ class Facility {
 
     bool isInUnitMap(int id) const;
 
-
 public:
 
-    void addUnit(std::unique_ptr<Unit> unit, int parent_id);
-
-    void addRoot(unique_ptr<Unit> unit);
+    void buildFacility(const std::map<unsigned int, std::vector<std::string>>& unit_map);
 
     unsigned unitCount() const;
 
-    int getParentIdOfUnit(int unit_id) const;
 
-    unsigned getChildrenCountForUnit(int unit_id) const;
 };
 
 

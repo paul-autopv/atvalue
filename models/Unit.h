@@ -19,17 +19,12 @@ class Unit {
     vector<shared_ptr<Unit>> children_;
     vector<FailureMode> failure_modes_;
     double capacity_;
-public:
-    double getCapacity() const;
-
-    void setCapacity(double capacity);
-
 
 public:
     friend ostream& operator<<(ostream& os, const Unit& unit);
 
     Unit() = delete;
-    Unit(int id, string name);
+    Unit(int id, string name, double capacity = 0);
 
     void setParent(weak_ptr<Unit> parent_ptr);
     int getParentId() const;
@@ -38,7 +33,7 @@ public:
     int getId() const;
     unsigned countOfChildren() const;
     string getName() const;
-
+    [[nodiscard]] double getCapacity() const;
     void addFailureMode(FailureMode mode);
 };
 

@@ -2,7 +2,6 @@
 // Created by Paul on 2021/12/31.
 //
 
-#include <iostream>
 #include "Facility.h"
 
 void Facility::addRoot(unique_ptr<Unit> unit) {
@@ -53,4 +52,23 @@ unsigned Facility::getChildrenCountForUnit(int unit_id) const {
 
 bool Facility::isInUnitMap(int id) const{
     return unit_map_.find(id) != unit_map_.end();
+}
+
+void Facility::buildFacility(const std::map<unsigned int, std::vector<std::string>>& unit_map) {
+
+    StationFields fields;
+    auto root = cbegin(unit_map)->second;
+    this->addRoot(std::make_unique<Unit>(stoi(root[fields.id]), root[fields.name]));
+
+    auto cstart = ++cbegin(unit_map);
+    for (auto iter { cstart }; iter != cend(unit_map); ++iter) {
+        auto id = stoi(iter->second[fields.id]);
+        auto name = iter->second[fields.name];
+        auto parent_id = stoi(iter->second[fields.parent_id]);
+        auto capacity = stod(iter->second[fields.capacity]);
+        this->addUnit(make_unique<Unit>(id, name, capacity), parent_id);
+        cout << "Added " << name << " (id: " << id << ", parent: " << parent_id << ")" << endl;
+    }
+
+
 }

@@ -6,7 +6,7 @@
 #include <utility>
 #include "Unit.h"
 
-Unit::Unit(int id, std::string name) : id_ {id}, name_ {std::move(name)}, capacity_ {0}{
+Unit::Unit(int id, std::string name, double capacity) : id_ {id}, name_ {std::move(name)}, capacity_ {capacity}{
 
 };
 
@@ -52,6 +52,3 @@ double Unit::getCapacity() const {
     return capacity_;
 }
 
-void Unit::setCapacity(double capacity) {
-    Unit::capacity_ = capacity;
-}
