@@ -18,9 +18,13 @@ using namespace std;
 class Facility {
     unordered_map<int, shared_ptr<Unit>> unit_map_;
 
-    void addRoot(unique_ptr<Unit> unit);
+    void addUnit(unique_ptr<Unit> unit);
 
     void addUnit(std::unique_ptr<Unit> unit, int parent_id);
+
+    static std::shared_ptr<std::map<unsigned int, unsigned int>> childCounter(const map<unsigned int, vector<std::string>>& unit_map);
+
+    static unsigned int childrenCount(std::shared_ptr<std::map<unsigned, unsigned>> family_tree, unsigned unit_id);
 
     int getParentIdOfUnit(int unit_id) const;
 
@@ -34,11 +38,13 @@ class Facility {
 
 public:
 
+
     void buildFacility(const std::map<unsigned int, std::vector<std::string>>& unit_map);
 
     unsigned unitCount() const;
 
-
+    void configureUnit(const vector<string>& unit, const map<unsigned int, std::vector<std::string>> &unit_map,
+                       shared_ptr<std::map<unsigned int, unsigned int>> &family_tree, bool isRoot);
 };
 
 

@@ -6,7 +6,9 @@
 #include <utility>
 #include "Unit.h"
 
-Unit::Unit(int id, std::string name, double capacity) : id_ {id}, name_ {std::move(name)}, capacity_ {capacity}{
+Unit::Unit(int id, string name, double capacity, unsigned children)
+        : id_ {id}, name_ {std::move(name)}, capacity_ {capacity}{
+    children_.reserve(children);
 
 };
 

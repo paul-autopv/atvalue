@@ -4,7 +4,7 @@
 
 #include "Facility.h"
 
-void Facility::addRoot(unique_ptr<Unit> unit) {
+void Facility::addUnit(unique_ptr<Unit> unit) {
     registerUnit(unit);
 }
 
@@ -56,19 +56,54 @@ bool Facility::isInUnitMap(int id) const{
 
 void Facility::buildFacility(const std::map<unsigned int, std::vector<std::string>>& unit_map) {
 
-    StationFields fields;
+    auto family_tree= childCounter(unit_map);
+
     auto root = cbegin(unit_map)->second;
-    this->addRoot(std::make_unique<Unit>(stoi(root[fields.id]), root[fields.name]));
+    configureUnit(root, unit_map, family_tree, true);
 
     auto cstart = ++cbegin(unit_map);
     for (auto iter { cstart }; iter != cend(unit_map); ++iter) {
-        auto id = stoi(iter->second[fields.id]);
-        auto name = iter->second[fields.name];
-        auto parent_id = stoi(iter->second[fields.parent_id]);
-        auto capacity = stod(iter->second[fields.capacity]);
-        this->addUnit(make_unique<Unit>(id, name, capacity), parent_id);
-        cout << "Added " << name << " (id: " << id << ", parent: " << parent_id << ")" << endl;
+        auto unit = iter->second;
+        configureUnit(unit, unit_map, family_tree, false);
     }
+}
 
+void Facility::configureUnit(const vector<string>& unit, const map<unsigned int,
+                             std::vector<std::string>> &unit_map,
+                             shared_ptr<std::map<unsigned int, unsigned int>> &family_tree,
+                             bool isRoot) {
+    StationFields fields;
+    auto id = stoi(unit[fields.id]);
+    auto name = unit[fields.name];
+    auto capacity = stod(unit[fields.capacity]);
+    auto children = childrenCount(family_tree, id);
+    auto parent_id = stoi(unit[fields.parent_id]);
+    if (isRoot)
+        addUnit(make_unique<Unit>(id, name, capacity, children));
+    else
+        addUnit(make_unique<Unit>(id, name, capacity, children), parent_id);
+    cout << "Added " << name << " (id: " << id << ", parent: " << parent_id << ")" << endl;
+}
 
+std::shared_ptr<std::map<unsigned int, unsigned int>> Facility::childCounter(const std::map<unsigned int, std::vector<std::string>>& unit_map) {
+
+    auto children = std::make_unique<std::map<unsigned, unsigned>>();
+    StationFields fields;
+
+    if (!unit_map.empty()) {
+        for (auto iter{cbegin(unit_map)}; iter != cend(unit_map); ++iter) {
+            auto parent_id = stoi(iter->second[fields.parent_id]);
+            if (children == nullptr || children->find(parent_id) == children->end())
+                (*children)[parent_id] = 0;
+            (*children)[parent_id]++;
+        }
+    }
+    return children;
+}
+
+unsigned int Facility::childrenCount(std::shared_ptr<std::map<unsigned int, unsigned int>> family_tree, unsigned int unit_id) {
+    if (!family_tree->empty() && (*family_tree)[unit_id]){
+        return family_tree->find(unit_id)->second;
+    }
+    return 0;
 }

@@ -24,7 +24,8 @@ public:
     friend ostream& operator<<(ostream& os, const Unit& unit);
 
     Unit() = delete;
-    Unit(int id, string name, double capacity = 0);
+    Unit(int id, string name, unsigned children);
+    Unit(int id, string name, double capacity=0, unsigned children=0);
 
     void setParent(weak_ptr<Unit> parent_ptr);
     int getParentId() const;
