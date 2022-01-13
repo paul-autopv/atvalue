@@ -33,7 +33,7 @@ public:
     int getId() const;
     unsigned countOfChildren() const;
     string getName() const;
-    [[nodiscard]] double getCapacity() const;
+    double getCapacity() const;
     void addFailureMode(FailureMode mode);
 };
 
