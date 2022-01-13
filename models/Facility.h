@@ -6,14 +6,14 @@
 #define TREE_FACILITY_H
 
 #include <memory>
-#include <map>
+#include <unordered_map>
 
 #include "Unit.h"
 
 using namespace std;
 
 class Facility {
-    map<int, shared_ptr<Unit>> unit_map_;
+    unordered_map<int, shared_ptr<Unit>> unit_map_;
 
     shared_ptr<Unit> registerUnit(unique_ptr<Unit> &unit);
 

@@ -11,6 +11,11 @@ int main() {
     auto failure_modes = CsvReader::readCsv("/Users/paul/Repos/tree/data/failure_modes.csv", true);
 
     auto facility = make_unique<Facility>();
+//    facility->addRoot(make_unique<Unit>(station.at(1)))
+
+    for (const auto &unit:station) {
+
+    }
 
     try {
         facility->addRoot(std::make_unique<Unit>(0, "Root"));

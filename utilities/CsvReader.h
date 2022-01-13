@@ -21,6 +21,8 @@ public:
 
 private:
     static std::string fileToString(const std::string& path);
+
+    static void discardLine(std::istringstream &file_entry, std::string &record);
 };
 
 

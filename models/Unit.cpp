@@ -24,7 +24,6 @@ std::string Unit::getName() const {
 }
 
 void Unit::addChild(const shared_ptr<Unit>& child) {
-    cout << &child << endl;
     children_.push_back(child);
 }
 
@@ -33,11 +32,7 @@ bool Unit::isRoot() const {
 }
 
 void Unit::setParent(weak_ptr<Unit> parent_ptr) {
-    cout << "parent_ Before parent set count is: " << parent_.use_count() << endl;
-    cout << "Before parent set count is: " << parent_ptr.lock().get() << endl;
     parent_ = move(parent_ptr);
-    cout << "parent_ After parent set count is: " << parent_.use_count() << endl;
-    cout << "After parent set count is: " << parent_ptr.use_count() << endl;
 }
 
 int Unit::getParentId() const {
