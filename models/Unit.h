@@ -8,29 +8,33 @@
 
 #include <string>
 #include <vector>
+#include "FailureMode.h"
 
 using namespace std;
 
 class Unit {
     int id_;
     string name_;
-    shared_ptr<Unit> parent_;
-    vector<weak_ptr<Unit>> children_;
-
+    weak_ptr<Unit> parent_;
+    vector<shared_ptr<Unit>> children_;
+    vector<FailureMode> failure_modes_;
+    double capacity_;
 
 public:
     friend ostream& operator<<(ostream& os, const Unit& unit);
 
     Unit() = delete;
-    Unit(int id, string name);
+    Unit(int id, string name, double capacity = 0);
 
-    void setParent(shared_ptr<Unit>);
+    void setParent(weak_ptr<Unit> parent_ptr);
     int getParentId() const;
     void addChild(const shared_ptr<Unit>& child);
     bool isRoot() const;
     int getId() const;
     unsigned countOfChildren() const;
     string getName() const;
+    [[nodiscard]] double getCapacity() const;
+    void addFailureMode(FailureMode mode);
 };
 
 

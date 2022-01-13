@@ -16,7 +16,7 @@ class Unit {
 public:
     friend std::ostream& operator<<(std::ostream& os, const Unit& unit);
 
-    Unit(unsigned id, std::string name);
+    Unit(unsigned id, std::string name, double capacity = 0);
     explicit Unit(std::string name);
     Unit();
 

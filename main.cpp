@@ -2,20 +2,20 @@
 
 #include "models/Unit.h"
 #include "models/Facility.h"
+#include "utilities/CsvReader.h"
+#include "models/CsvMap.h"
 
 int main() {
     std::cout << "Hello, AtValue!" << std::endl;
 
-    auto facility = make_unique<Facility>();
-    try {
-        facility->addRoot(new Unit(0, "Root"));
-        facility->addUnit(new Unit(1, "Unit 1"), 0);
-        facility->addUnit(new Unit(2, "Unit 0"), 0);
-    } catch (unsigned e){
-        cout << "Parent with id " <<  e << " not found.  Corresponding unit not added to facility. " << endl;
-    };
+    StationFields fields;
+    auto failure_modes = CsvReader::readCsv("/Users/paul/Repos/tree/data/failure_modes.csv", true);
 
-    std::cout << facility->unitCount() << std::endl;
+    auto facility = make_unique<Facility>();
+    auto station = CsvReader::readCsv("/Users/paul/Repos/tree/data/model_1.csv", true);
+    auto children_map = std::move(CsvReader::childCounter(station));
+    facility->buildFacility(station);
+
     std::cout << facility->unitCount() << std::endl;
 
     return 0;
