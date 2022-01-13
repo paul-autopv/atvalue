@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.21)
 project(tree)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 
 set(CMAKE_VERBOSE_MAKEFILE ON)
 
@@ -13,7 +13,7 @@ set(HEADER_FILES
         models/IProbability.h
         probabilities/WeibullProbability.h
         utilities/CsvReader.h
-        )
+        models/CsvMap.h models/CsvMap.cpp)
 set(SOURCE_FILES
         models/unit.cpp
         models/Facility.cpp

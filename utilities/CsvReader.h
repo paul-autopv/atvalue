@@ -19,6 +19,8 @@ public:
      */
     static std::map<unsigned, std::vector<std::string>> readCsv(const std::string& path, bool has_header = false);
 
+    static std::unique_ptr<std::map<unsigned, unsigned>> childCounter(std::map<unsigned, std::vector<std::string>> unit_map);
+
 private:
     static std::string fileToString(const std::string& path);
 
