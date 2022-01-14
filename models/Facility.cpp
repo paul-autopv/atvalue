@@ -11,10 +11,11 @@ void Facility::addUnit(unique_ptr<Unit> unit) {
 void Facility::addUnit(std::unique_ptr<Unit> unit, int parent_id) {
     auto unit_ptr = registerUnit(unit);
 
-    auto parent_ptr = getParent(parent_id);
-    unit_ptr->setParent(weak_ptr<Unit>(parent_ptr));
-
-    parent_ptr->addChild(unit_ptr);
+    if (parent_id > 0){
+        auto parent_ptr = getParent(parent_id);
+        unit_ptr->setParent(weak_ptr<Unit>(parent_ptr));
+        parent_ptr->addChild(unit_ptr);
+    }
 }
 
 shared_ptr<Unit> Facility::registerUnit(unique_ptr<Unit> &unit) {
@@ -73,16 +74,15 @@ void Facility::configureUnit(const vector<string>& unit, const map<unsigned int,
                              shared_ptr<std::map<unsigned int, unsigned int>> &family_tree,
                              bool isRoot) {
     StationFields fields;
+
     auto id = stoi(unit[fields.id]);
     auto name = unit[fields.name];
     auto capacity = stod(unit[fields.capacity]);
     auto children = childrenCount(family_tree, id);
-    auto parent_id = stoi(unit[fields.parent_id]);
-    if (isRoot)
-        addUnit(make_unique<Unit>(id, name, capacity, children));
-    else
-        addUnit(make_unique<Unit>(id, name, capacity, children), parent_id);
-    cout << "Added " << name << " (id: " << id << ", parent: " << parent_id << ")" << endl;
+    auto parent_id = (isRoot) ? -1 : stoi(unit[fields.parent_id]);
+    addUnit(make_unique<Unit>(id, name, capacity, children), parent_id);
+
+    cout << "Added " << name << " (id: " << id << ")" << endl;
 }
 
 std::shared_ptr<std::map<unsigned int, unsigned int>> Facility::childCounter(const std::map<unsigned int, std::vector<std::string>>& unit_map) {

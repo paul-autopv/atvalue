@@ -9,7 +9,6 @@
 Unit::Unit(int id, string name, double capacity, unsigned children)
         : id_ {id}, name_ {std::move(name)}, capacity_ {capacity}{
     children_.reserve(children);
-
 };
 
 std::ostream &operator<<(std::ostream &os, const Unit &unit) {

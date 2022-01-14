@@ -1,2 +1,2 @@
-﻿id,unit_id,name,description,tag,probability,a,b,c,d,e,f
-1,2,Unit failure,Unit failure description,tag_name,weibull,,,,,,
+﻿id,unit_id,name,description,tag,probability,alpha,beta,days_installed,days_should_fail,days_will_fail
+1,2,Unit failure,Unit failure description,tag_name,weibull,,,,

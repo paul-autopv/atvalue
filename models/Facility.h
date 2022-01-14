@@ -22,6 +22,9 @@ class Facility {
 
     void addUnit(std::unique_ptr<Unit> unit, int parent_id);
 
+    void configureUnit(const vector<string>& unit, const map<unsigned int, std::vector<std::string>> &unit_map,
+                       shared_ptr<std::map<unsigned int, unsigned int>> &family_tree, bool isRoot);
+
     static std::shared_ptr<std::map<unsigned int, unsigned int>> childCounter(const map<unsigned int, vector<std::string>>& unit_map);
 
     static unsigned int childrenCount(std::shared_ptr<std::map<unsigned, unsigned>> family_tree, unsigned unit_id);
@@ -36,15 +39,12 @@ class Facility {
 
     bool isInUnitMap(int id) const;
 
-public:
 
+public:
 
     void buildFacility(const std::map<unsigned int, std::vector<std::string>>& unit_map);
 
     unsigned unitCount() const;
-
-    void configureUnit(const vector<string>& unit, const map<unsigned int, std::vector<std::string>> &unit_map,
-                       shared_ptr<std::map<unsigned int, unsigned int>> &family_tree, bool isRoot);
 };
 
 
