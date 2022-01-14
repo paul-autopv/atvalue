@@ -15,18 +15,9 @@ private:
     std::string tag;
 
 public:
-    const std::string &getName() const;
 
-    void setName(const std::string &name);
-
-    const std::string &getDescription() const;
-
-    void setDescription(const std::string &description);
-
-    const std::string &getTag() const;
-
-    void setTag(const std::string &tag);
-
+    FailureMode() = delete;
+    FailureMode()
 
 };
 
