@@ -13,7 +13,7 @@ set(HEADER_FILES
         models/IProbability.h
         probabilities/WeibullProbability.h
         utilities/CsvReader.h
-        models/CsvMap.h models/CsvMap.cpp dto/FailureModeDto.cpp dto/FailureModeDto.h)
+        models/CsvMap.h models/CsvMap.cpp)
 set(SOURCE_FILES
         models/unit.cpp
         models/Facility.cpp
