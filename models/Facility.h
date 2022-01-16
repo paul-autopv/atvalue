@@ -16,18 +16,21 @@
 using namespace std;
 
 using FamilyTree = std::shared_ptr<std::map<unsigned int, unsigned int>>;
-using UnitMap = std::map<unsigned int, std::vector<std::string>>;
+using InputMap = std::map<unsigned int, std::vector<std::string>>;
+using UnitFailureModes = std::unordered_map<unsigned, std::vector<unsigned>>;
 
 class Facility {
     unordered_map<int, shared_ptr<Unit>> unit_map_;
 
     void addUnit(unique_ptr<Unit> unit, int parent_id);
 
-    void configureUnit(const vector<string>& unit, const UnitMap &unit_map, FamilyTree &family_tree, bool isRoot);
+    void configureUnit(const vector<string>& unit, const InputMap &unit_map, FamilyTree &family_tree, bool isRoot);
 
-    static FamilyTree childCounter(const UnitMap& unit_map);
+    static FamilyTree childCounter(const InputMap& unit_map);
 
     static unsigned int childrenCount(const FamilyTree & family_tree, unsigned unit_id);
+
+    static std::unique_ptr<UnitFailureModes> unitFailureModes(const InputMap& failure_mode_map);
 
     int getParentIdOfUnit(int unit_id) const;
 
@@ -42,7 +45,7 @@ class Facility {
 
 public:
 
-    void buildFacility(const UnitMap& unit_map);
+    void buildFacility(const InputMap& unit_map);
 
     unsigned unitCount() const;
 };

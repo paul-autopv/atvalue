@@ -1,12 +1,6 @@
-//
-
 #include "Facility.h"
 
-
-
-//
-// Created by Paul on 2021/12/31.
-void Facility::buildFacility(const UnitMap& unit_map) {
+void Facility::buildFacility(const InputMap& unit_map) {
     auto family_tree= childCounter(unit_map);
 
     auto root = cbegin(unit_map)->second;
@@ -19,7 +13,7 @@ void Facility::buildFacility(const UnitMap& unit_map) {
     }
 }
 
-FamilyTree Facility::childCounter(const UnitMap& unit_map) {
+FamilyTree Facility::childCounter(const InputMap& unit_map) {
 
     StationFields fields;
     auto children = std::make_unique<std::map<unsigned, unsigned>>();
@@ -35,7 +29,22 @@ FamilyTree Facility::childCounter(const UnitMap& unit_map) {
     return children;
 }
 
-void Facility::configureUnit(const vector<string>& unit, const UnitMap &unit_map, FamilyTree &family_tree, bool isRoot) {
+std::unique_ptr<UnitFailureModes> Facility::unitFailureModes(const InputMap& failure_mode_map) {
+
+    FailureModes fields;
+    auto failures = std::make_unique<std::unordered_map<unsigned, std::vector<unsigned>>>();
+
+    if(!failure_mode_map.empty()){
+        for (auto iter{cbegin(failure_mode_map)}; iter != cend(failure_mode_map); ++iter) {
+            auto unit_id = stoi(iter->second[fields.unit_id]);
+            auto failure_id = stoi(iter->second[fields.id]);
+            (*failures)[unit_id].push_back(failure_id);
+        }
+    }
+    return failures;
+}
+
+void Facility::configureUnit(const vector<string>& unit, const InputMap &unit_map, FamilyTree &family_tree, bool isRoot) {
 
     StationFields fields;
 

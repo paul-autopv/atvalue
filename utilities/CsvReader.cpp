@@ -58,18 +58,3 @@ string CsvReader::fileToString(const string &path)  {
 
 void CsvReader::discardLine(istringstream &file_entry, string &record) { std::getline(file_entry, record); }
 
-std::unique_ptr<std::map<unsigned, unsigned>> CsvReader::childCounter(std::map<unsigned int, std::vector<std::string>> unit_map) {
-
-    auto children = std::make_unique<std::map<unsigned, unsigned>>();
-    StationFields fields;
-
-    if (!unit_map.empty()) {
-        for (auto iter{cbegin(unit_map)}; iter != cend(unit_map); ++iter) {
-            auto parent_id = stoi(iter->second[fields.parent_id]);
-            if (children == nullptr || children->find(parent_id) == children->end())
-                (*children)[parent_id] = 0;
-            (*children)[parent_id]++;
-        }
-    }
-    return children;
-}
