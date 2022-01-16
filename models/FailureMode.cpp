@@ -5,3 +5,6 @@
 #include "FailureMode.h"
 
 
+FailureMode::FailureMode(std::unique_ptr<IProbability> probability) {
+
+}

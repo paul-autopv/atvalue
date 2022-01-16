@@ -7,17 +7,20 @@
 
 
 #include <string>
+#include "IProbability.h"
+
+using namespace std;
 
 class FailureMode {
-private:
-    std::string name;
-    std::string description;
-    std::string tag;
+    string name;
+    string description;
+    string tag;
+    unique_ptr<IProbability> probability;
 
 public:
 
     FailureMode() = delete;
-    FailureMode()
+    explicit FailureMode(unique_ptr<IProbability> probability);
 
 };
 

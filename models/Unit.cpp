@@ -44,8 +44,8 @@ unsigned Unit::countOfChildren() const{
     return children_.size();
 }
 
-void Unit::addFailureMode(FailureMode mode) {
-    failure_modes_.push_back(mode);
+void Unit::addFailureMode(unique_ptr<FailureMode> mode) {
+    failure_modes_.push_back(move(mode));
 
 }
 

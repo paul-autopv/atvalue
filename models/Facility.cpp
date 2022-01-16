@@ -4,10 +4,6 @@
 
 #include "Facility.h"
 
-void Facility::addUnit(unique_ptr<Unit> unit) {
-    registerUnit(unit);
-}
-
 void Facility::addUnit(std::unique_ptr<Unit> unit, int parent_id) {
     auto unit_ptr = registerUnit(unit);
 
@@ -69,8 +65,8 @@ void Facility::buildFacility(const std::map<unsigned int, std::vector<std::strin
     }
 }
 
-void Facility::configureUnit(const vector<string>& unit, const map<unsigned int,
-                             std::vector<std::string>> &unit_map,
+void Facility::configureUnit(const vector<string>& unit,
+                             const map<unsigned int, std::vector<std::string>> &unit_map,
                              shared_ptr<std::map<unsigned int, unsigned int>> &family_tree,
                              bool isRoot) {
     StationFields fields;
