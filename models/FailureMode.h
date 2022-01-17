@@ -7,26 +7,25 @@
 
 
 #include <string>
+#include "IProbability.h"
+
+using namespace std;
 
 class FailureMode {
-private:
-    std::string name;
-    std::string description;
-    std::string tag;
+    int id_;
+    int unit_id_;
+    string name_;
+    string description_;
+    string tag_;
+    unique_ptr<IProbability> probability_;
 
 public:
-    const std::string &getName() const;
 
-    void setName(const std::string &name);
+    FailureMode() = delete;
+    FailureMode(int id, int unit_id, string name, string description, string tag, unique_ptr<IProbability> probability);
 
-    const std::string &getDescription() const;
-
-    void setDescription(const std::string &description);
-
-    const std::string &getTag() const;
-
-    void setTag(const std::string &tag);
-
+    int getId() const;
+    int getUnitId() const;
 
 };
 

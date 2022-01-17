@@ -1,22 +1,19 @@
 #include <iostream>
 
-#include "models/Unit.h"
 #include "models/Facility.h"
 #include "utilities/CsvReader.h"
-#include "models/CsvMap.h"
 
 int main() {
     std::cout << "Hello, AtValue!" << std::endl;
 
-    StationFields fields;
     auto failure_modes = CsvReader::readCsv("/Users/paul/Repos/tree/data/failure_modes.csv", true);
-
     auto station = CsvReader::readCsv("/Users/paul/Repos/tree/data/model_1.csv", true);
-    auto children_map = std::move(CsvReader::childCounter(station));
+
     auto facility = make_unique<Facility>();
-    facility->buildFacility(station);
+    facility->buildFacility(station, failure_modes);
 
     std::cout << facility->unitCount() << std::endl;
+    std::cout << facility->failureCount() << std::endl;
 
     return 0;
 }

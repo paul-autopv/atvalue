@@ -1,2 +1,4 @@
-﻿id,unit_id,name,description,tag,probability,a,b,c,d,e,f
-1,2,Unit failure,Unit failure description,tag_name,weibull,,,,,,
+﻿id,unit_id,name,description,tag,probability,a,b
+1,2,Unit failure,Unit failure description,tag_name,weibull,200,3000
+2,2,Unit failure,Unit failure description,tag_name,weibull,300,45
+3,1,Unit failure,Unit failure description,tag_name,weibull,1000,2345

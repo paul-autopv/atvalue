@@ -6,6 +6,7 @@
 #define TREE_IPROBABILITY_H
 
 class IProbability{
+protected:
     virtual bool hasOccurred() = 0;
 };
 

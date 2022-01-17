@@ -4,26 +4,20 @@
 
 #include "FailureMode.h"
 
-const std::string &FailureMode::getName() const {
-    return name;
+#include <utility>
+
+
+FailureMode::FailureMode(int id, int unit_id, string name, string description, string tag,
+                         std::unique_ptr<IProbability> probability) :
+id_ {id}, unit_id_ {unit_id}, name_ {std::move(name)}, description_ {std::move(description)},
+tag_ {std::move(tag)}, probability_ {move(probability)}{
+
 }
 
-void FailureMode::setName(const std::string &name) {
-    FailureMode::name = name;
+int FailureMode::getId() const {
+    return id_;
 }
 
-const std::string &FailureMode::getDescription() const {
-    return description;
-}
-
-void FailureMode::setDescription(const std::string &description) {
-    FailureMode::description = description;
-}
-
-const std::string &FailureMode::getTag() const {
-    return tag;
-}
-
-void FailureMode::setTag(const std::string &tag) {
-    FailureMode::tag = tag;
+int FailureMode::getUnitId() const {
+    return unit_id_;
 }

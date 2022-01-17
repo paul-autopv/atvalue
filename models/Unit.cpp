@@ -6,8 +6,9 @@
 #include <utility>
 #include "Unit.h"
 
-Unit::Unit(int id, std::string name, double capacity) : id_ {id}, name_ {std::move(name)}, capacity_ {capacity}{
-
+Unit::Unit(int id, string name, int days_installed, vector<shared_ptr<FailureMode>> failure_modes, double capacity, int children)
+        : id_ {id}, name_ {std::move(name)}, failure_modes_ {move(failure_modes)}, capacity_ {capacity}, days_installed_ {days_installed}{
+    children_.reserve(children);
 };
 
 std::ostream &operator<<(std::ostream &os, const Unit &unit) {
@@ -39,16 +40,20 @@ int Unit::getParentId() const {
     return parent_.lock()->getId();
 }
 
-unsigned Unit::countOfChildren() const{
+int Unit::countOfChildren() const{
     return children_.size();
 }
 
-void Unit::addFailureMode(FailureMode mode) {
-    failure_modes_.push_back(mode);
+void Unit::addFailureMode(unique_ptr<FailureMode> mode) {
+    failure_modes_.push_back(move(mode));
 
 }
 
 double Unit::getCapacity() const {
     return capacity_;
+}
+
+int Unit::getDaysInstalled() const {
+    return days_installed_;
 }
 

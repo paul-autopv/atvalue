@@ -5,3 +5,4 @@
 #include "CsvMap.h"
 
 struct StationFields stationFields;
+struct FailureModeFields failureModes;

@@ -11,7 +11,7 @@ class FacilityTest : public ::testing::Test{
 
 TEST_F(FacilityTest, addUnitsCreateCorrectChildrenCount){
     auto facility = make_unique<Facility>();
-    facility->addRoot(make_unique<Unit>(0, "Root"));
+    facility->addUnit(make_unique<Unit>(0, "Root"));
     facility->addUnit(make_unique<Unit>(1, "Test"), 0);
     facility->addUnit(make_unique<Unit>(2, "Test"), 0);
     facility->addUnit(make_unique<Unit>(3, "Test"), 1);
@@ -28,7 +28,7 @@ TEST_F(FacilityTest, addUnitsCreateCorrectChildrenCount){
 TEST_F(FacilityTest, addUnitAssignCorrectParentIfNotRoot){
     auto new_unit_id = 234;
     auto facility = make_unique<Facility>();
-    facility->addRoot(make_unique<Unit>(0, "Root"));
+    facility->addUnit(make_unique<Unit>(0, "Root"));
     facility->addUnit(make_unique<Unit>(new_unit_id, "Test"), 0);
 
     auto result = facility->getParentIdOfUnit(new_unit_id);
@@ -38,7 +38,7 @@ TEST_F(FacilityTest, addUnitAssignCorrectParentIfNotRoot){
 
 TEST_F(FacilityTest, addUnitThrowErrorIfParentDoesNotExist){
     auto facility = make_unique<Facility>();
-    facility->addRoot(make_unique<Unit>(0, "Root"));
+    facility->addUnit(make_unique<Unit>(0, "Root"));
 
     ASSERT_THROW(facility->addUnit(make_unique<Unit>(123, "Test"), 1);, std::invalid_argument);
 }

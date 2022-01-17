@@ -9,17 +9,19 @@
 #include <vector>
 #include <string>
 #include <map>
+#include <unordered_map>
+
+using InputMap = std::map<int, std::vector<std::string>>;
+
 
 class CsvReader {
 public:
     /**
-     * Read unit structure CSV file.  First coloumn is unit ID.  Must be UTF-8 encoded.
+     * Read unit structure CSV file.  First coloumn is unique id.  Must be UTF-8 encoded.
      * @param path Path to CSV
-     * @return map of type <int unit_id, std::string> full comma delimited row including unit_id
+     * @return map of type <int unique_id, std::string> full comma delimited row including unit_id
      */
-    static std::map<unsigned, std::vector<std::string>> readCsv(const std::string& path, bool has_header = false);
-
-    static std::unique_ptr<std::map<unsigned, unsigned>> childCounter(std::map<unsigned, std::vector<std::string>> unit_map);
+    static InputMap readCsv(const std::string& path, bool has_header = false);
 
 private:
     static std::string fileToString(const std::string& path);

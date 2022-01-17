@@ -10,7 +10,7 @@ class UnitTest : public ::testing::Test{
 };
 
 TEST_F(UnitTest, TwoArgConstructor){
-    Unit unit = Unit(23, "Test Unit");
+    Unit unit = Unit(23, "Test Unit", 0);
 
     auto id = unit.getId();
     auto name = unit.getName();
