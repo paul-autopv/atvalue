@@ -48,6 +48,9 @@ class Facility {
 
     shared_ptr<Unit> getParent(int parent_id);
 
+    vector<shared_ptr<FailureMode>> getFailureModes(const InputMap &failure_map, vector<unsigned int> &unit_failures);
+
+    void registerFailureModes(const vector<shared_ptr<FailureMode>>& failure_modes);
 
     bool isInUnitMap(int id) const;
 
@@ -59,7 +62,6 @@ public:
 
     unsigned failureCount() const;
 
-    vector<shared_ptr<FailureMode>> getFailureModes(const InputMap &failure_map, vector<unsigned int> &unit_failures);
 };
 
 

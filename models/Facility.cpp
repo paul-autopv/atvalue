@@ -8,6 +8,7 @@ void Facility::buildFacility(const InputMap &unit_map, const InputMap &failure_m
         auto is_root = (iter == cbegin(unit_map));
         auto unit_record = iter->second;
         auto failures = getFailureModes(failure_map, (*failure_modes)[iter->first]);
+        registerFailureModes(failures);
         loadUnit(unit_record, unit_map, family_tree, move(failures), is_root);
     }
 }
@@ -25,11 +26,11 @@ vector<shared_ptr<FailureMode>> Facility::getFailureModes(const InputMap &failur
                             failure_parameters[fields.description],
                             failure_parameters[fields.tag],
                             move(probability)));
-        failure_map_.emplace(failure_mode->getId(), failure_mode);
         failures.push_back(failure_mode);
     }
     return failures;
 }
+
 
 unique_ptr<IProbability> Facility::getProbability(const vector<string> &failure_mode,
                                                   const basic_string<char, char_traits<char>, allocator<char>> &probability_type) {
@@ -145,4 +146,11 @@ unsigned int Facility::childrenCount(const FamilyTree& family_tree, unsigned int
 
 unsigned Facility::failureCount() const {
     return failure_map_.size();
+}
+
+void Facility::registerFailureModes(const vector<shared_ptr<FailureMode>>& failure_modes) {
+    for (const auto& failure : failure_modes) {
+        failure_map_.emplace(failure->getId(), failure);
+    }
+
 }
