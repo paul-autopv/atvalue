@@ -16,6 +16,7 @@ void Facility::buildFacility(const InputMap &unit_map, const InputMap &failure_m
             auto probability = getProbability(failure_parameters, failure_parameters[fields.probability]);
             auto failure_mode = make_shared<FailureMode>(
                     FailureMode(stoi(failure_parameters[fields.id]),
+                                stoi(failure_parameters[fields.unit_id]),
                                 failure_parameters[fields.name],
                                 failure_parameters[fields.description],
                                 failure_parameters[fields.tag],
