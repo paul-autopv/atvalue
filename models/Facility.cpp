@@ -4,13 +4,11 @@ void Facility::buildFacility(const InputMap &unit_map, const InputMap &failure_m
     auto family_tree= childCounter(unit_map);
     auto failure_modes = unitFailureModes(failure_map);
 
-    auto root_record = cbegin(unit_map)->second;
-    loadUnit(root_record, unit_map, family_tree, true);
 
-    auto cstart = ++cbegin(unit_map);
-    for (auto iter { cstart }; iter != cend(unit_map); ++iter) {
+    for (auto iter {cbegin(unit_map)}; iter != cend(unit_map); ++iter) {
         auto unit_record = iter->second;
-        loadUnit(unit_record, unit_map, family_tree, false);
+        auto is_root = (iter == cbegin(unit_map));
+        loadUnit(unit_record, unit_map, family_tree, is_root);
     }
 }
 

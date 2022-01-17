@@ -31,10 +31,10 @@ map<unsigned, std::vector<string>> CsvReader::readCsv(const string& path, bool h
         discardLine(file_entry, record);
 
     while (std::getline(file_entry, record)) {
-        string parameter;
+        string item;
         istringstream line(record);
-        while (std::getline(line, parameter, delimiter)) {
-            items.push_back(parameter);
+        while (std::getline(line, item, delimiter)) {
+            items.push_back(item);
         }
         csv_contents[stoi(items[0])] = items;
         items.clear();
