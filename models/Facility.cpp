@@ -5,27 +5,30 @@ void Facility::buildFacility(const InputMap &unit_map, const InputMap &failure_m
     auto failure_modes = unitFailureModes(failure_map);
 
     for (auto iter {cbegin(unit_map)}; iter != cend(unit_map); ++iter) {
-        vector<shared_ptr<FailureMode>> failures;
         auto is_root = (iter == cbegin(unit_map));
         auto unit_record = iter->second;
-        auto unit_failures = (*failure_modes)[iter->first];
-
-        for (auto failure : unit_failures){
-            FailureModeFields fields;
-            auto failure_parameters = failure_map.at(failure);
-            auto probability = getProbability(failure_parameters, failure_parameters[fields.probability]);
-            auto failure_mode = make_shared<FailureMode>(
-                    FailureMode(stoi(failure_parameters[fields.id]),
-                                stoi(failure_parameters[fields.unit_id]),
-                                failure_parameters[fields.name],
-                                failure_parameters[fields.description],
-                                failure_parameters[fields.tag],
-                                move(probability)));
-            failure_map_.emplace(failure_mode->getId(), failure_mode);
-            failures.push_back(failure_mode);
-        }
+        auto failures = getFailureModes(failure_map, (*failure_modes)[iter->first]);
         loadUnit(unit_record, unit_map, family_tree, move(failures), is_root);
     }
+}
+
+vector<shared_ptr<FailureMode>> Facility::getFailureModes(const InputMap &failure_map, vector<unsigned int> &unit_failures) {
+    vector<shared_ptr<FailureMode>> failures;
+    for (auto failure : unit_failures){
+        FailureModeFields fields;
+        auto failure_parameters = failure_map.at(failure);
+        auto probability = getProbability(failure_parameters, failure_parameters[fields.probability]);
+        auto failure_mode = make_shared<FailureMode>(
+                FailureMode(stoi(failure_parameters[fields.id]),
+                            stoi(failure_parameters[fields.unit_id]),
+                            failure_parameters[fields.name],
+                            failure_parameters[fields.description],
+                            failure_parameters[fields.tag],
+                            move(probability)));
+        failure_map_.emplace(failure_mode->getId(), failure_mode);
+        failures.push_back(failure_mode);
+    }
+    return failures;
 }
 
 unique_ptr<IProbability> Facility::getProbability(const vector<string> &failure_mode,

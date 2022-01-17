@@ -58,6 +58,8 @@ public:
     unsigned unitCount() const;
 
     unsigned failureCount() const;
+
+    vector<shared_ptr<FailureMode>> getFailureModes(const InputMap &failure_map, vector<unsigned int> &unit_failures);
 };
 
 
