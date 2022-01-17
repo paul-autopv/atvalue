@@ -12,6 +12,7 @@
 
 #include "Unit.h"
 #include "CsvMap.h"
+#include "../probabilities/WeibullProbability.h"
 
 using namespace std;
 
@@ -48,6 +49,9 @@ public:
     void buildFacility(const InputMap &unit_map, const InputMap &failure_map);
 
     unsigned unitCount() const;
+
+    unique_ptr<IProbability> getProbability(const FailureModes &fields, const vector<string> &failure_mode,
+                                const basic_string<char, char_traits<char>, allocator<char>> &probability_type) const;
 };
 
 

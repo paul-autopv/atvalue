@@ -20,11 +20,9 @@ struct FailureModes {
     unsigned description {3};
     unsigned tag {4};
     unsigned probability {5};
-    unsigned alpha {6};
-    unsigned beta {7};
-    unsigned days_installed {8};
-    unsigned days_should_fail {9};
-    unsigned days_will_fail {10};
+    unsigned a {6};
+    unsigned b {7};
+
 };
 
 #endif //TREE_CSVMAP_H

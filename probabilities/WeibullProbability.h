@@ -7,7 +7,7 @@
 
 #include "../models/IProbability.h"
 
-class WeibullProbability : IProbability {
+class WeibullProbability : public IProbability {
     double alpha;
     double beta;
 public:

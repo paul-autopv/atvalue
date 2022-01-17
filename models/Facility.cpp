@@ -4,12 +4,32 @@ void Facility::buildFacility(const InputMap &unit_map, const InputMap &failure_m
     auto family_tree= childCounter(unit_map);
     auto failure_modes = unitFailureModes(failure_map);
 
-
     for (auto iter {cbegin(unit_map)}; iter != cend(unit_map); ++iter) {
-        auto unit_record = iter->second;
         auto is_root = (iter == cbegin(unit_map));
+        auto unit_record = iter->second;
+        auto failures = (*failure_modes)[iter->first];
+        for (auto failure : failures){
+            FailureModes fields;
+            auto failure_mode = failure_map.at(failure);
+            auto probability_type = failure_mode[fields.probability];
+            auto probability = getProbability(fields, failure_mode, probability_type);
+        }
+//      for each failure mode for unit:
+//          create probability
+//          create failure mode
+//          add to list of failure modes for new unit
         loadUnit(unit_record, unit_map, family_tree, is_root);
     }
+}
+
+unique_ptr<IProbability> Facility::getProbability(const FailureModes &fields, const vector<string> &failure_mode,
+                                      const basic_string<char, char_traits<char>, allocator<char>> &probability_type) const {
+    if (probability_type == "weibull") {
+        auto alpha = stod(failure_mode[fields.a]);
+        auto beta = stod(failure_mode[fields.b]);
+        return make_unique<WeibullProbability>(WeibullProbability(alpha, beta));
+    }
+    if (probability_type == "triangular")
 }
 
 FamilyTree Facility::childCounter(const InputMap& unit_map) {
