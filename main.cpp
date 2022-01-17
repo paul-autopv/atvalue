@@ -13,7 +13,7 @@ int main() {
     auto facility = make_unique<Facility>();
     facility->buildFacility(station, failure_modes);
 
-    auto simulator = Simulator(1000, move(facility));
+    auto simulator = Simulator(9, move(facility));
     simulator.run();
 
     return 0;
