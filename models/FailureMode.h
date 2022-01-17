@@ -12,6 +12,7 @@
 using namespace std;
 
 class FailureMode {
+    unsigned id_;
     string name_;
     string description_;
     string tag_;
@@ -20,7 +21,9 @@ class FailureMode {
 public:
 
     FailureMode() = delete;
-    FailureMode(string name, string description, string tag, unique_ptr<IProbability> probability);
+    FailureMode(unsigned id, string name, string description, string tag, std::unique_ptr<IProbability> probability);
+
+    unsigned getId() const;
 
 };
 

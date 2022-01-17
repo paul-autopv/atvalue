@@ -5,31 +5,36 @@ void Facility::buildFacility(const InputMap &unit_map, const InputMap &failure_m
     auto failure_modes = unitFailureModes(failure_map);
 
     for (auto iter {cbegin(unit_map)}; iter != cend(unit_map); ++iter) {
+        vector<shared_ptr<FailureMode>> failures;
         auto is_root = (iter == cbegin(unit_map));
         auto unit_record = iter->second;
-        auto failures = (*failure_modes)[iter->first];
-        for (auto failure : failures){
-            FailureModes fields;
-            auto failure_mode = failure_map.at(failure);
-            auto probability_type = failure_mode[fields.probability];
-            auto probability = getProbability(fields, failure_mode, probability_type);
+        auto unit_failures = (*failure_modes)[iter->first];
+
+        for (auto failure : unit_failures){
+            FailureModeFields fields;
+            auto failure_parameters = failure_map.at(failure);
+            auto probability = getProbability(failure_parameters, failure_parameters[fields.probability]);
+            auto failure_mode = make_shared<FailureMode>(
+                    FailureMode(stoi(failure_parameters[fields.id]),
+                                failure_parameters[fields.name],
+                                failure_parameters[fields.description],
+                                failure_parameters[fields.tag],
+                                move(probability)));
+            failure_map_.emplace(failure_mode->getId(), failure_mode);
+            failures.push_back(failure_mode);
         }
-//      for each failure mode for unit:
-//          create probability
-//          create failure mode
-//          add to list of failure modes for new unit
-        loadUnit(unit_record, unit_map, family_tree, is_root);
+        loadUnit(unit_record, unit_map, family_tree, move(failures), is_root);
     }
 }
 
-unique_ptr<IProbability> Facility::getProbability(const FailureModes &fields, const vector<string> &failure_mode,
-                                      const basic_string<char, char_traits<char>, allocator<char>> &probability_type) const {
-    if (probability_type == "weibull") {
-        auto alpha = stod(failure_mode[fields.a]);
-        auto beta = stod(failure_mode[fields.b]);
-        return make_unique<WeibullProbability>(WeibullProbability(alpha, beta));
-    }
-    if (probability_type == "triangular")
+unique_ptr<IProbability> Facility::getProbability(const vector<string> &failure_mode,
+                                                  const basic_string<char, char_traits<char>, allocator<char>> &probability_type) {
+    FailureModeFields fields;
+    auto a = stod(failure_mode[fields.a]);
+    auto b = stod(failure_mode[fields.b]);
+    if (probability_type == "weibull")
+        return make_unique<WeibullProbability>(a, b);
+    return make_unique<TriangularProbability>(TriangularProbability((unsigned) a, (unsigned) b));
 }
 
 FamilyTree Facility::childCounter(const InputMap& unit_map) {
@@ -50,7 +55,7 @@ FamilyTree Facility::childCounter(const InputMap& unit_map) {
 
 std::unique_ptr<UnitFailureModes> Facility::unitFailureModes(const InputMap& failure_mode_map) {
 
-    FailureModes fields;
+    FailureModeFields fields;
     auto failures = std::make_unique<std::unordered_map<unsigned, std::vector<unsigned>>>();
 
     if(!failure_mode_map.empty()){
@@ -63,7 +68,8 @@ std::unique_ptr<UnitFailureModes> Facility::unitFailureModes(const InputMap& fai
     return failures;
 }
 
-void Facility::loadUnit(const vector<string>& unit, const InputMap &unit_map, FamilyTree &family_tree, bool isRoot) {
+void Facility::loadUnit(const vector<string> &unit, const InputMap &unit_map, FamilyTree &family_tree,
+                        vector<shared_ptr<FailureMode>> failures, bool isRoot) {
 
     StationFields fields;
 
@@ -73,7 +79,7 @@ void Facility::loadUnit(const vector<string>& unit, const InputMap &unit_map, Fa
     auto days_installed = stoi(unit[fields.days_installed]);
     auto children = childrenCount(family_tree, id);
     auto parent_id = (isRoot) ? -1 : stoi(unit[fields.parent_id]);
-    addUnit(make_unique<Unit>(id, name, capacity, children), parent_id);
+    addUnit(make_unique<Unit>(id, name, days_installed, move(failures), capacity, children), parent_id);
 
     cout << "Added " << name << " (id: " << id << ")" << endl;
 }
@@ -131,4 +137,8 @@ unsigned int Facility::childrenCount(const FamilyTree& family_tree, unsigned int
         return family_tree->find(unit_id)->second;
     }
     return 0;
+}
+
+unsigned Facility::failureCount() const {
+    return failure_map_.size();
 }

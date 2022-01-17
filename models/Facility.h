@@ -13,6 +13,7 @@
 #include "Unit.h"
 #include "CsvMap.h"
 #include "../probabilities/WeibullProbability.h"
+#include "../probabilities/TriangularProbability.h"
 
 using namespace std;
 
@@ -23,13 +24,19 @@ using UnitFailureModes = std::unordered_map<unsigned, std::vector<unsigned>>;
 class Facility {
     unordered_map<int, shared_ptr<Unit>> unit_map_;
 
+    unordered_map<int, shared_ptr<FailureMode>> failure_map_;
+
     void addUnit(unique_ptr<Unit> unit, int parent_id);
 
-    void loadUnit(const vector<string>& unit, const InputMap &unit_map, FamilyTree &family_tree, bool isRoot);
+    void loadUnit(const vector<string> &unit, const InputMap &unit_map, FamilyTree &family_tree,
+                  vector<shared_ptr<FailureMode>> failures, bool isRoot);
 
     static FamilyTree childCounter(const InputMap& unit_map);
 
     static unsigned int childrenCount(const FamilyTree & family_tree, unsigned unit_id);
+
+    static unique_ptr<IProbability> getProbability(const vector<string> &failure_mode,
+                                                   const basic_string<char, char_traits<char>, allocator<char>> &probability_type) ;
 
     static std::unique_ptr<UnitFailureModes> unitFailureModes(const InputMap& failure_mode_map);
 
@@ -41,8 +48,8 @@ class Facility {
 
     shared_ptr<Unit> getParent(int parent_id);
 
-    bool isInUnitMap(int id) const;
 
+    bool isInUnitMap(int id) const;
 
 public:
 
@@ -50,8 +57,7 @@ public:
 
     unsigned unitCount() const;
 
-    unique_ptr<IProbability> getProbability(const FailureModes &fields, const vector<string> &failure_mode,
-                                const basic_string<char, char_traits<char>, allocator<char>> &probability_type) const;
+    unsigned failureCount() const;
 };
 
 

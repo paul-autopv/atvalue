@@ -13,6 +13,7 @@ int main() {
     facility->buildFacility(station, failure_modes);
 
     std::cout << facility->unitCount() << std::endl;
+    std::cout << facility->failureCount() << std::endl;
 
     return 0;
 }

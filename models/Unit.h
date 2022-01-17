@@ -17,7 +17,7 @@ class Unit {
     string name_;
     weak_ptr<Unit> parent_;
     vector<shared_ptr<Unit>> children_;
-    vector<unique_ptr<FailureMode>> failure_modes_;
+    vector<shared_ptr<FailureMode>> failure_modes_;
     unsigned days_installed_;
     double capacity_;
 
@@ -25,7 +25,7 @@ public:
     friend ostream& operator<<(ostream& os, const Unit& unit);
 
     Unit() = delete;
-    Unit(int id, string name, unsigned days_installed, double capacity=0, unsigned children=0);
+    Unit(int id, string name, unsigned days_installed, vector<shared_ptr<FailureMode>> failure_modes, double capacity=0, unsigned children=0);
 
     void setParent(weak_ptr<Unit> parent_ptr);
     int getParentId() const;

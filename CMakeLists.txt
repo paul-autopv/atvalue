@@ -13,13 +13,15 @@ set(HEADER_FILES
         models/IProbability.h
         probabilities/WeibullProbability.h
         utilities/CsvReader.h
-        models/CsvMap.h models/CsvMap.cpp probabilities/TriangularProbability.cpp probabilities/TriangularProbability.h)
+        models/CsvMap.h probabilities/TriangularProbability.h)
 set(SOURCE_FILES
         models/unit.cpp
         models/Facility.cpp
         models/FailureMode.cpp
         probabilities/WeibullProbability.cpp
         utilities/CsvReader.cpp
+        models/CsvMap.cpp
+        probabilities/TriangularProbability.cpp
         )
 
 add_library(models STATIC ${SOURCE_FILES} ${HEADER_FILES})

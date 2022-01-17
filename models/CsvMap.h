@@ -13,7 +13,7 @@ struct StationFields {
     unsigned days_installed {4};
 };
 
-struct FailureModes {
+struct FailureModeFields {
     unsigned id {0};
     unsigned unit_id {1};
     unsigned name {2};

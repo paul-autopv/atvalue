@@ -17,7 +17,6 @@ public:
 
     bool hasOccurred() override;
 };
-};
 
 
 #endif //TREE_TRIANGULARPROBABILITY_H

@@ -6,8 +6,8 @@
 #include <utility>
 #include "Unit.h"
 
-Unit::Unit(int id, string name, unsigned days_installed, double capacity,  unsigned children)
-        : id_ {id}, name_ {std::move(name)}, capacity_ {capacity}, days_installed_ {days_installed}{
+Unit::Unit(int id, string name, unsigned days_installed, vector<shared_ptr<FailureMode>> failure_modes, double capacity,  unsigned children)
+        : id_ {id}, name_ {std::move(name)}, failure_modes_ {move(failure_modes)}, capacity_ {capacity}, days_installed_ {days_installed}{
     children_.reserve(children);
 };
 
