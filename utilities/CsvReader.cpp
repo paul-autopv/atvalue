@@ -17,10 +17,10 @@ using std::cout; using std::cerr; using std::endl;
 using std::istringstream; using std::ostringstream;
 
 
-map<unsigned, std::vector<string>> CsvReader::readCsv(const string& path, bool has_header) {
+map<int, std::vector<string>> CsvReader::readCsv(const string& path, bool has_header) {
 
     string file_contents;
-    std::map<unsigned, std::vector<string>> csv_contents;
+    std::map<int, std::vector<string>> csv_contents;
     char delimiter = ',';
 
     istringstream file_entry {fileToString(path)};

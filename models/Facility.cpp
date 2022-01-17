@@ -13,7 +13,7 @@ void Facility::buildFacility(const InputMap &unit_map, const InputMap &failure_m
     }
 }
 
-vector<shared_ptr<FailureMode>> Facility::getFailureModes(const InputMap &failure_map, vector<unsigned int> &unit_failures) {
+vector<shared_ptr<FailureMode>> Facility::getFailureModes(const InputMap &failure_map, vector<int> &unit_failures) {
     vector<shared_ptr<FailureMode>> failures;
     for (auto failure : unit_failures){
         FailureModeFields fields;
@@ -39,13 +39,13 @@ unique_ptr<IProbability> Facility::getProbability(const vector<string> &failure_
     auto b = stod(failure_mode[fields.b]);
     if (probability_type == "weibull")
         return make_unique<WeibullProbability>(a, b);
-    return make_unique<TriangularProbability>(TriangularProbability((unsigned) a, (unsigned) b));
+    return make_unique<TriangularProbability>(TriangularProbability((int) a, (int) b));
 }
 
 FamilyTree Facility::childCounter(const InputMap& unit_map) {
 
     StationFields fields;
-    auto children = std::make_unique<std::map<unsigned, unsigned>>();
+    auto children = std::make_unique<std::map<int, int>>();
 
     if (!unit_map.empty()) {
         for (auto iter{cbegin(unit_map)}; iter != cend(unit_map); ++iter) {
@@ -61,7 +61,7 @@ FamilyTree Facility::childCounter(const InputMap& unit_map) {
 std::unique_ptr<UnitFailureModes> Facility::unitFailureModes(const InputMap& failure_mode_map) {
 
     FailureModeFields fields;
-    auto failures = std::make_unique<std::unordered_map<unsigned, std::vector<unsigned>>>();
+    auto failures = std::make_unique<std::unordered_map<int, std::vector<int>>>();
 
     if(!failure_mode_map.empty()){
         for (auto iter{cbegin(failure_mode_map)}; iter != cend(failure_mode_map); ++iter) {
@@ -113,7 +113,7 @@ shared_ptr<Unit> Facility::getParent(int parent_id) {
     return {unit_map_.at(parent_id)};
 }
 
-unsigned Facility::unitCount() const {
+int Facility::unitCount() const {
     return unit_map_.size();
 }
 
@@ -126,7 +126,7 @@ int Facility::getParentIdOfUnit(int unit_id) const {
     return unit_map_.at(unit_id)->getParentId();
 }
 
-unsigned Facility::getChildrenCountForUnit(int unit_id) const {
+int Facility::getChildrenCountForUnit(int unit_id) const {
     if(!isInUnitMap(unit_id)){
         std::string message = "Current unit map does not contain unit with provided id";
         throw std::invalid_argument(message);
@@ -137,14 +137,14 @@ bool Facility::isInUnitMap(int id) const{
     return unit_map_.find(id) != unit_map_.end();
 }
 
-unsigned int Facility::childrenCount(const FamilyTree& family_tree, unsigned int unit_id) {
+int Facility::childrenCount(const FamilyTree& family_tree, int unit_id) {
     if (!family_tree->empty() && (*family_tree)[unit_id]){
         return family_tree->find(unit_id)->second;
     }
     return 0;
 }
 
-unsigned Facility::failureCount() const {
+int Facility::failureCount() const {
     return failure_map_.size();
 }
 

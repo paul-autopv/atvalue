@@ -12,8 +12,8 @@
 using namespace std;
 
 class FailureMode {
-    unsigned id_;
-    unsigned unit_id_;
+    int id_;
+    int unit_id_;
     string name_;
     string description_;
     string tag_;
@@ -22,10 +22,10 @@ class FailureMode {
 public:
 
     FailureMode() = delete;
-    FailureMode(unsigned id, unsigned unit_id, string name, string description, string tag, unique_ptr<IProbability> probability);
+    FailureMode(int id, int unit_id, string name, string description, string tag, unique_ptr<IProbability> probability);
 
-    unsigned getId() const;
-    unsigned getUnitId() const;
+    int getId() const;
+    int getUnitId() const;
 
 };
 

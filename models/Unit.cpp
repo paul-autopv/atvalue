@@ -6,7 +6,7 @@
 #include <utility>
 #include "Unit.h"
 
-Unit::Unit(int id, string name, unsigned days_installed, vector<shared_ptr<FailureMode>> failure_modes, double capacity,  unsigned children)
+Unit::Unit(int id, string name, int days_installed, vector<shared_ptr<FailureMode>> failure_modes, double capacity, int children)
         : id_ {id}, name_ {std::move(name)}, failure_modes_ {move(failure_modes)}, capacity_ {capacity}, days_installed_ {days_installed}{
     children_.reserve(children);
 };
@@ -40,7 +40,7 @@ int Unit::getParentId() const {
     return parent_.lock()->getId();
 }
 
-unsigned Unit::countOfChildren() const{
+int Unit::countOfChildren() const{
     return children_.size();
 }
 
@@ -53,7 +53,7 @@ double Unit::getCapacity() const {
     return capacity_;
 }
 
-unsigned Unit::getDaysInstalled() const {
+int Unit::getDaysInstalled() const {
     return days_installed_;
 }
 

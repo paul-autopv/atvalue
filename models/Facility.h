@@ -17,9 +17,9 @@
 
 using namespace std;
 
-using FamilyTree = std::shared_ptr<std::map<unsigned int, unsigned int>>;
-using InputMap = std::map<unsigned int, std::vector<std::string>>;
-using UnitFailureModes = std::unordered_map<unsigned, std::vector<unsigned>>;
+using FamilyTree = std::shared_ptr<std::map<int, int>>;
+using InputMap = std::map<int, std::vector<std::string>>;
+using UnitFailureModes = std::unordered_map<int, std::vector<int>>;
 
 class Facility {
     unordered_map<int, shared_ptr<Unit>> unit_map_;
@@ -33,7 +33,7 @@ class Facility {
 
     static FamilyTree childCounter(const InputMap& unit_map);
 
-    static unsigned int childrenCount(const FamilyTree & family_tree, unsigned unit_id);
+    static int childrenCount(const FamilyTree & family_tree, int unit_id);
 
     static unique_ptr<IProbability> getProbability(const vector<string> &failure_mode,
                                                    const basic_string<char, char_traits<char>, allocator<char>> &probability_type) ;
@@ -42,13 +42,13 @@ class Facility {
 
     int getParentIdOfUnit(int unit_id) const;
 
-    unsigned getChildrenCountForUnit(int unit_id) const;
+    int getChildrenCountForUnit(int unit_id) const;
 
     shared_ptr<Unit> registerUnit(unique_ptr<Unit> &unit);
 
     shared_ptr<Unit> getParent(int parent_id);
 
-    vector<shared_ptr<FailureMode>> getFailureModes(const InputMap &failure_map, vector<unsigned int> &unit_failures);
+    static vector<shared_ptr<FailureMode>> getFailureModes(const InputMap &failure_map, vector<int> &unit_failures);
 
     void registerFailureModes(const vector<shared_ptr<FailureMode>>& failure_modes);
 
@@ -58,9 +58,9 @@ public:
 
     void buildFacility(const InputMap &unit_map, const InputMap &failure_map);
 
-    unsigned unitCount() const;
+    int unitCount() const;
 
-    unsigned failureCount() const;
+    int failureCount() const;
 
 };
 

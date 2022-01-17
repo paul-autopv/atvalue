@@ -11,7 +11,7 @@
 #include <map>
 #include <unordered_map>
 
-using InputMap = std::map<unsigned int, std::vector<std::string>>;
+using InputMap = std::map<int, std::vector<std::string>>;
 
 
 class CsvReader {
