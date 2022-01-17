@@ -2,6 +2,7 @@
 
 #include "models/Facility.h"
 #include "utilities/CsvReader.h"
+#include "controllers/Simulator.h"
 
 int main() {
     std::cout << "Hello, AtValue!" << std::endl;
@@ -12,8 +13,8 @@ int main() {
     auto facility = make_unique<Facility>();
     facility->buildFacility(station, failure_modes);
 
-    std::cout << facility->unitCount() << std::endl;
-    std::cout << facility->failureCount() << std::endl;
+    auto simulator = Simulator(1000, move(facility));
+    simulator.run();
 
     return 0;
 }
