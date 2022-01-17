@@ -10,7 +10,7 @@ int main() {
     auto station = CsvReader::readCsv("/Users/paul/Repos/tree/data/model_1.csv", true);
 
     auto facility = make_unique<Facility>();
-    facility->buildFacility(station);
+    facility->buildFacility(station, failure_modes);
 
     std::cout << facility->unitCount() << std::endl;
 

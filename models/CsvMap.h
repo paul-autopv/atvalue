@@ -10,6 +10,7 @@ struct StationFields {
     unsigned parent_id {1};
     unsigned name {2};
     unsigned capacity {3};
+    unsigned days_installed {4};
 };
 
 struct FailureModes {

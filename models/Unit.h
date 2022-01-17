@@ -18,23 +18,25 @@ class Unit {
     weak_ptr<Unit> parent_;
     vector<shared_ptr<Unit>> children_;
     vector<unique_ptr<FailureMode>> failure_modes_;
+    unsigned days_installed_;
     double capacity_;
 
 public:
     friend ostream& operator<<(ostream& os, const Unit& unit);
 
     Unit() = delete;
-    Unit(int id, string name, double capacity=0, unsigned children=0);
+    Unit(int id, string name, unsigned days_installed, double capacity=0, unsigned children=0);
 
     void setParent(weak_ptr<Unit> parent_ptr);
     int getParentId() const;
     void addChild(const shared_ptr<Unit>& child);
+    void addFailureMode(unique_ptr<FailureMode> mode);
     bool isRoot() const;
     int getId() const;
     unsigned countOfChildren() const;
     string getName() const;
     double getCapacity() const;
-    void addFailureMode(unique_ptr<FailureMode> mode);
+    unsigned getDaysInstalled() const;
 };
 
 

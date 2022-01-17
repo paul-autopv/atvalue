@@ -30,17 +30,14 @@ map<unsigned, std::vector<string>> CsvReader::readCsv(const string& path, bool h
     if (has_header)
         discardLine(file_entry, record);
 
-    int counter = 0;
     while (std::getline(file_entry, record)) {
-        string unit;
+        string parameter;
         istringstream line(record);
-        while (std::getline(line, unit, delimiter)) {
-            items.push_back(unit);
+        while (std::getline(line, parameter, delimiter)) {
+            items.push_back(parameter);
         }
-
-        csv_contents[counter] = items;
+        csv_contents[stoi(items[0])] = items;
         items.clear();
-        counter ++;
     }
     return csv_contents;
 }

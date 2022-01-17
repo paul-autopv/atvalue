@@ -1,15 +1,16 @@
 #include "Facility.h"
 
-void Facility::buildFacility(const InputMap& unit_map) {
+void Facility::buildFacility(const InputMap &unit_map, const InputMap &failure_map) {
     auto family_tree= childCounter(unit_map);
+    auto failure_modes = unitFailureModes(failure_map);
 
-    auto root = cbegin(unit_map)->second;
-    configureUnit(root, unit_map, family_tree, true);
+    auto root_record = cbegin(unit_map)->second;
+    loadUnit(root_record, unit_map, family_tree, true);
 
     auto cstart = ++cbegin(unit_map);
     for (auto iter { cstart }; iter != cend(unit_map); ++iter) {
-        auto unit = iter->second;
-        configureUnit(unit, unit_map, family_tree, false);
+        auto unit_record = iter->second;
+        loadUnit(unit_record, unit_map, family_tree, false);
     }
 }
 
@@ -44,13 +45,14 @@ std::unique_ptr<UnitFailureModes> Facility::unitFailureModes(const InputMap& fai
     return failures;
 }
 
-void Facility::configureUnit(const vector<string>& unit, const InputMap &unit_map, FamilyTree &family_tree, bool isRoot) {
+void Facility::loadUnit(const vector<string>& unit, const InputMap &unit_map, FamilyTree &family_tree, bool isRoot) {
 
     StationFields fields;
 
     auto id = stoi(unit[fields.id]);
     auto name = unit[fields.name];
     auto capacity = stod(unit[fields.capacity]);
+    auto days_installed = stoi(unit[fields.days_installed]);
     auto children = childrenCount(family_tree, id);
     auto parent_id = (isRoot) ? -1 : stoi(unit[fields.parent_id]);
     addUnit(make_unique<Unit>(id, name, capacity, children), parent_id);

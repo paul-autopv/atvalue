@@ -12,15 +12,15 @@
 using namespace std;
 
 class FailureMode {
-    string name;
-    string description;
-    string tag;
-    unique_ptr<IProbability> probability;
+    string name_;
+    string description_;
+    string tag_;
+    unique_ptr<IProbability> probability_;
 
 public:
 
     FailureMode() = delete;
-    explicit FailureMode(unique_ptr<IProbability> probability);
+    FailureMode(string name, string description, string tag, unique_ptr<IProbability> probability);
 
 };
 

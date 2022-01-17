@@ -1,5 +1,5 @@
-﻿id,parent_id,name,capacity
-1,0,facility,100
-2,1,unit1,100
-3,1,unit2,50
-4,2,generator1,100
+﻿id,parent_id,name,capacity,days_installed
+1,0,facility,100,345
+2,1,unit1,100,3000
+3,1,unit2,50,234
+4,2,generator1,100,445

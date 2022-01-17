@@ -6,8 +6,8 @@
 #include <utility>
 #include "Unit.h"
 
-Unit::Unit(int id, string name, double capacity, unsigned children)
-        : id_ {id}, name_ {std::move(name)}, capacity_ {capacity}{
+Unit::Unit(int id, string name, unsigned days_installed, double capacity,  unsigned children)
+        : id_ {id}, name_ {std::move(name)}, capacity_ {capacity}, days_installed_ {days_installed}{
     children_.reserve(children);
 };
 
@@ -51,5 +51,9 @@ void Unit::addFailureMode(unique_ptr<FailureMode> mode) {
 
 double Unit::getCapacity() const {
     return capacity_;
+}
+
+unsigned Unit::getDaysInstalled() const {
+    return days_installed_;
 }
 

@@ -24,7 +24,7 @@ class Facility {
 
     void addUnit(unique_ptr<Unit> unit, int parent_id);
 
-    void configureUnit(const vector<string>& unit, const InputMap &unit_map, FamilyTree &family_tree, bool isRoot);
+    void loadUnit(const vector<string>& unit, const InputMap &unit_map, FamilyTree &family_tree, bool isRoot);
 
     static FamilyTree childCounter(const InputMap& unit_map);
 
@@ -45,7 +45,7 @@ class Facility {
 
 public:
 
-    void buildFacility(const InputMap& unit_map);
+    void buildFacility(const InputMap &unit_map, const InputMap &failure_map);
 
     unsigned unitCount() const;
 };
