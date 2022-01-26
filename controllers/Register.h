@@ -15,7 +15,6 @@ public:
         register_.resize(size_);
     };
 
-
     vector<int> operator()() {
         vector<int> temp(size_);
         for (int i = 0; i < size_; ++i) {
@@ -24,7 +23,6 @@ public:
         for (int i = 0; i < size_; ++i) {
             register_[i] += temp[i];
         }
-
         return register_;
     }
 

@@ -14,10 +14,15 @@
 #include "../models/Facility.h"
 
 class Simulator {
+
+    using TypeRegister = vector<int>;
+
     int simulations_;
     const int duration_;
     std::unique_ptr<Facility> facility_;
     inline static mutex cout_mutex;
+
+    static TypeRegister& sumRegister(TypeRegister& a, TypeRegister& b);
 
 public:
     Simulator() = delete;

@@ -14,7 +14,7 @@ int main() {
     auto facility = make_unique<Facility>();
     facility->buildFacility(station, failure_modes);
 
-    int simulations {10};
+    int simulations {1000};
     int duration {8000};
 
     auto simulator = Simulator(simulations, move(facility), duration);
@@ -33,8 +33,8 @@ int main() {
     std::cout << "Single elapsed time: " << single_elapsed.count() << "s\n";
     std::cout << "Single elapsed time: " << single_elapsed.count() / simulations << "s/simulation\n";
 
-    auto ratio = single_elapsed/concurrent_elapsed;
-    std::cout << "Single/Concurrent: " <<  ratio << endl;
+    auto ratio = 100 * (1 - concurrent_elapsed/single_elapsed);
+    std::cout << "Concurrent is " <<  ratio  << "% faster than Single." << endl;
 
     return 0;
 }

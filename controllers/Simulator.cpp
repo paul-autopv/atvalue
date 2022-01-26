@@ -13,7 +13,7 @@ Simulator::Simulator(int simulations, std::unique_ptr<Facility> facility, int du
 
 void Simulator::run() {
 
-    using Task_type = int();
+    using Task_type = vector<int>();
 
     vector<std::thread> threads;
     threads.reserve(simulations_);
@@ -32,7 +32,7 @@ void Simulator::run() {
     }
 
     // define futures
-    vector<future<int>> futures(simulations_);
+    vector<future<TypeRegister>> futures(simulations_);
     for (auto i = 0; i < simulations_; ++i){
         futures[i] = packagedTasks[i].get_future();
     }
@@ -47,11 +47,18 @@ void Simulator::run() {
         ++i;
     }
 
+    TypeRegister accumulator;
+    accumulator.resize(duration_);
     for (auto future = 0; future < simulations_; ++future){
-        sum += futures[future].get();
+        auto future_register = futures[future].get();
+        accumulator = sumRegister(accumulator, future_register);
     }
 
-    cout << sum << endl;
+    long sum {0};
+    for (int j = 0; j < duration_; ++j) {
+        sum += accumulator[j];
+    }
+    std::cout << "Sum of all elements: " << endl;
     std::cout << "Done" << std::endl;
 }
 
@@ -61,6 +68,17 @@ void Simulator::run_single(){
         auto progress = Register(duration_);
         progress();
     }
+}
+
+Simulator::TypeRegister& Simulator::sumRegister(Simulator::TypeRegister &a, Simulator::TypeRegister &b) {
+
+    if (a.size() != b.size())
+        throw out_of_range("Registers are of different length");
+
+    for (int i = 0; i < a.size(); ++i) {
+        a[i] += b[i];
+    }
+    return a;
 }
 
 
