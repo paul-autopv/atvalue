@@ -1,30 +1,66 @@
 //
 // Created by Paul on 2022/01/17.
 //
-
 #include "Simulator.h"
+#include "Register.h"
 
-Simulator::Simulator(int simulations, std::unique_ptr<Facility> facility) :
+
+
+Simulator::Simulator(int simulations, std::unique_ptr<Facility> facility, int duration) :
     simulations_ {simulations < 0 ? 0 : simulations},
-    facility_ {std::move(facility)} {
-
-}
+    facility_ {std::move(facility)},
+    duration_ {duration} {}
 
 void Simulator::run() {
 
+    using Task_type = int();
+
     vector<std::thread> threads;
     threads.reserve(simulations_);
-    for (int i = 0; i < simulations_; ++i) {
-        threads.emplace_back(printProgress,i);
+
+    // define functors
+    vector<Register> printProgress(simulations_);
+    for (auto i = 0; i < simulations_; ++i){
+        printProgress[i] = Register(duration_);
     }
-    for (int i = 0; i < simulations_; ++i) {
-        threads[i].join();
+
+    // define tasks
+    deque<packaged_task<Task_type>> packagedTasks;
+    for (auto i = 0; i < simulations_; ++i){
+        packaged_task<Task_type> task { (printProgress[i]) };
+        packagedTasks.push_back(move(task));
     }
+
+    // define futures
+    vector<future<int>> futures(simulations_);
+    for (auto i = 0; i < simulations_; ++i){
+        futures[i] = packagedTasks[i].get_future();
+    }
+
+    // define threads
+    int i {0};
+    while (!packagedTasks.empty()){
+        auto task = move(packagedTasks.front());
+        packagedTasks.pop_front();
+        thread t {move(task)};
+        t.detach();
+        ++i;
+    }
+
+    for (auto future = 0; future < simulations_; ++future){
+        sum += futures[future].get();
+    }
+
+    cout << sum << endl;
     std::cout << "Done" << std::endl;
 }
 
-void Simulator::printProgress(int id){
-    if (id == 5)
-        std::this_thread::sleep_for(std::chrono::milliseconds(2000));
-    cout << "id: " << id << endl;
+void Simulator::run_single(){
+
+    for (int i = 0; i < simulations_; ++i) {
+        auto progress = Register(duration_);
+        progress();
+    }
 }
+
+

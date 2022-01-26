@@ -8,20 +8,24 @@
 #include <memory>
 #include <thread>
 #include <mutex>
+#include <future>
+#include <deque>
 
 #include "../models/Facility.h"
 
 class Simulator {
     int simulations_;
+    const int duration_;
     std::unique_ptr<Facility> facility_;
-    static void printProgress(int id);
+    inline static mutex cout_mutex;
 
 public:
     Simulator() = delete;
-    Simulator(int simulations, std::unique_ptr <Facility> facility);
+    Simulator(int simulations, std::unique_ptr<Facility> facility, int duration);
 
     void run();
 
+    void run_single();
 };
 
 

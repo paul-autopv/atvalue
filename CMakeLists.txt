@@ -16,7 +16,7 @@ set(HEADER_FILES
         models/CsvMap.h
         probabilities/TriangularProbability.h
         controllers/Simulator.h
-        )
+        controllers/Register.h)
 
 set(SOURCE_FILES
         models/unit.cpp
