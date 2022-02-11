@@ -7,6 +7,7 @@
 
 
 #include <string>
+#include <memory>
 #include "IProbability.h"
 
 using namespace std;
