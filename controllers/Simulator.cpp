@@ -58,7 +58,7 @@ void Simulator::run() const {
     for (int j = 0; j < duration_; ++j) {
         sum += accumulator[j];
     }
-    std::cout << "Sum of all elements: " << endl;
+    std::cout << "Sum of all elements: " << sum << endl;
     std::cout << "Done" << std::endl;
 }
 
