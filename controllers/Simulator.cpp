@@ -11,7 +11,7 @@ Simulator::Simulator(int simulations, std::unique_ptr<Facility> facility, int du
     facility_ {std::move(facility)},
     duration_ {duration} {}
 
-void Simulator::run() {
+void Simulator::run() const {
 
     using Task_type = vector<int>();
 
@@ -62,7 +62,7 @@ void Simulator::run() {
     std::cout << "Done" << std::endl;
 }
 
-void Simulator::run_single(){
+void Simulator::run_single() const{
 
     for (int i = 0; i < simulations_; ++i) {
         auto progress = Register(duration_);

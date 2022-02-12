@@ -28,9 +28,9 @@ public:
     Simulator() = delete;
     Simulator(int simulations, std::unique_ptr<Facility> facility, int duration);
 
-    void run();
+    void run() const;
 
-    void run_single();
+    void run_single() const;
 };
 
 
