@@ -5,12 +5,9 @@
 #ifndef TREE_REGISTER_H
 #define TREE_REGISTER_H
 
-#include <iostream>
-#include <memory>
-
 class  Register{
 public:
-    Register() : size_ {0} {};
+    Register() : Register(0) {};
     explicit Register(int size) : size_ {size} {
         register_.resize(size_);
     };
