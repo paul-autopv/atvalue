@@ -7,7 +7,7 @@
 
 class IProbability{
 protected:
-    virtual double getProbability(int day) = 0;
+    virtual double getProbability(const int &day) = 0;
 };
 
 #endif //TREE_IPROBABILITY_H

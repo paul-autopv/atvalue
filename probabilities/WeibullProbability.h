@@ -10,16 +10,16 @@
 #include "../models/IProbability.h"
 
 class WeibullProbability : public IProbability {
-    double alpha_;
-    double beta_;
+    double alpha_ {0};
+    double beta_ {0};
 public:
     WeibullProbability() = delete;
-    WeibullProbability(double alpha, double beta) : alpha_ {alpha}, beta_ {beta}{};
+    WeibullProbability(const double &alpha, const double &beta) : alpha_ {alpha}, beta_ {beta}{};
 
-    double getProbability(int day) override;
+    double getProbability(const int &day) override;
 };
 
-double WeibullProbability::getProbability(int day) {
+double WeibullProbability::getProbability(const int &day) {
     if (day < 0)
         return 0;
     auto exponent = -std::pow(day/beta_, alpha_);
