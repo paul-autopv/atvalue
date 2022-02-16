@@ -1238,7 +1238,7 @@ static int ExecDeathTestChildMain(void* child_arg) {
   // it was originally invoked.  Therefore we change to the original
   // working directory first.
   const char* const original_dir =
-      UnitWeibull::GetInstance()->original_working_dir();
+          UnitTest::GetInstance()->original_working_dir();
   // We can safely call chdir() as it's a direct system call.
   if (chdir(original_dir) != 0) {
     DeathTestAbort(std::string("chdir(\"") + original_dir + "\") failed: " +
