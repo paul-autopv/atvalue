@@ -22,7 +22,6 @@ set(SOURCE_FILES
         models/unit.cpp
         models/Facility.cpp
         models/FailureMode.cpp
-        probabilities/WeibullProbability.cpp
         utilities/CsvReader.cpp
         models/CsvMap.cpp
         probabilities/TriangularProbability.cpp
