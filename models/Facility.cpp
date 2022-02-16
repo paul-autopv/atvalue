@@ -39,7 +39,7 @@ unique_ptr<IProbability> Facility::getProbability(const vector<string> &failure_
     auto b = stod(failure_mode[fields.b]);
     if (probability_type == "weibull")
         return make_unique<WeibullProbability>(a, b);
-    return make_unique<TriangularProbability>(TriangularProbability((int) a, (int) b));
+    return make_unique<TriangularProbability>(TriangularProbability(0, (int) a, (int) b));
 }
 
 FamilyTree Facility::childCounter(const InputMap& unit_map) {

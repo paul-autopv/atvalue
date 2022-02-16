@@ -24,7 +24,6 @@ set(SOURCE_FILES
         models/FailureMode.cpp
         utilities/CsvReader.cpp
         models/CsvMap.cpp
-        probabilities/TriangularProbability.cpp
         controllers/Simulator.cpp
         )
 
