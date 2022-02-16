@@ -14,7 +14,7 @@ public:
     WeibullProbability() = delete;
     WeibullProbability(double alpha, double beta);
 
-    bool hasOccurred() override;
+    double getProbability(int day) override;
 };
 
 

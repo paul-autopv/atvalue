@@ -8,6 +8,6 @@ WeibullProbability::WeibullProbability(double alpha, double beta) : alpha{alpha}
 
 }
 
-bool WeibullProbability::hasOccurred() {
+double WeibullProbability::getProbability(int day) {
     return alpha < beta;
 }

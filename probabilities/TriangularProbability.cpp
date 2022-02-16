@@ -9,6 +9,6 @@ TriangularProbability::TriangularProbability(unsigned int should_fail, unsigned 
 
 }
 
-bool TriangularProbability::hasOccurred() {
+double TriangularProbability::getProbability(int day) {
     return days_to_will_fail > days_to_should_fail;
 }

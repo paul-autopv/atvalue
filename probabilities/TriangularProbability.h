@@ -15,7 +15,7 @@ public:
     TriangularProbability() = delete;
     TriangularProbability(unsigned should_fail, unsigned will_fail);
 
-    bool hasOccurred() override;
+    double getProbability(int day) override;
 };
 
 
