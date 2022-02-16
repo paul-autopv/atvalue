@@ -9,12 +9,12 @@
 #include "../models/IProbability.h"
 
 class TriangularProbability : public IProbability{
-    double installed_;
-    double should_fail_;
-    double will_fail_;
+    double installed_ {0};
+    double should_fail_ {0};
+    double will_fail_ {0};
 public:
     TriangularProbability() = delete;
-    TriangularProbability(int installed, int should_fail, int will_fail){
+    TriangularProbability(const int &installed, const int &should_fail, const int &will_fail){
         if (will_fail < should_fail || installed > should_fail)
             throw std::invalid_argument("Ensure that will_fail >= should_fail >= installed.");
         installed_ = (double) installed;
@@ -22,12 +22,12 @@ public:
         will_fail_ = (double) will_fail;
     };
 
-    double getProbability(int day) override{
+    double getProbability(const int &day) override{
         if (day < installed_)
             return 0;
         if (day >= will_fail_)
             return 1;
-        auto weight = will_fail_ - installed_; // set height of triangle to same length as base to prevent small fractions
+        auto weight = will_fail_ - installed_; // set height of 'triangle' to same length as base to prevent small fractions
         auto denominator = (weight * (will_fail_ - installed_)) / 2;
         auto pre_should_fail = (weight * (should_fail_ - installed_)) / 2;
         auto post_should_fail = (weight * (will_fail_ - should_fail_)) / 2;
