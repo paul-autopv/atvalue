@@ -8,7 +8,7 @@
 class  ProductionCycle{
 public:
     ProductionCycle() : ProductionCycle(0) {};
-    explicit ProductionCycle(int duration) : duration_ {duration} {
+    explicit ProductionCycle(const int &duration) : duration_ {duration} {
         register_.resize(duration_);
     };
 
