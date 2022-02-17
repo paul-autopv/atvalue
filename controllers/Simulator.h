@@ -20,13 +20,12 @@ class Simulator {
     int simulations_;
     const int duration_;
     std::unique_ptr<Facility> facility_;
-    inline static mutex cout_mutex;
 
     static TypeRegister& sumRegister(TypeRegister& a, TypeRegister& b);
 
 public:
     Simulator() = delete;
-    Simulator(int simulations, std::unique_ptr<Facility> facility, int duration);
+    Simulator(const int &simulations, const int &duration, std::unique_ptr<Facility> facility);
 
     void run() const;
 

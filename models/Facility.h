@@ -22,6 +22,7 @@ using InputMap = std::map<int, std::vector<std::string>>;
 using UnitFailureModes = std::unordered_map<int, std::vector<int>>;
 
 class Facility {
+
     unordered_map<int, shared_ptr<Unit>> unit_map_;
 
     unordered_map<int, shared_ptr<FailureMode>> failure_map_;
@@ -35,8 +36,8 @@ class Facility {
 
     static int childrenCount(const FamilyTree & family_tree, int unit_id);
 
-    static unique_ptr<IProbability> getProbability(const vector<string> &failure_mode,
-                                                   const string &probability_type) ;
+    static unique_ptr<IProbability> getProbabilityDistribution(const vector<string> &failure_mode,
+                                                               const string &probability_type) ;
 
     static std::unique_ptr<UnitFailureModes> unitFailureModes(const InputMap& failure_mode_map);
 
@@ -55,6 +56,7 @@ class Facility {
     bool isInUnitMap(int id) const;
 
 public:
+    Facility() = default;
 
     void buildFacility(const InputMap &unit_map, const InputMap &failure_map);
 

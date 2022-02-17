@@ -5,11 +5,17 @@
 #include "ProductionCycle.h"
 
 
+Simulator::Simulator(const int &simulations, const int &duration, std::unique_ptr<Facility> facility) :
+duration_(duration), simulations_ {simulations}{
 
-Simulator::Simulator(int simulations, std::unique_ptr<Facility> facility, int duration) :
-    simulations_ {simulations < 0 ? 0 : simulations},
-    facility_ {std::move(facility)},
-    duration_ {duration} {}
+    if (simulations_ <= 0) {
+        throw invalid_argument("Simulation duration must be larger than 0.");
+    }
+    if (duration_ <= 0) {
+        throw invalid_argument("Number of simulations must be larger than 0.");
+    }
+    facility_ = std::move(facility);
+}
 
 void Simulator::run() const {
 
@@ -19,15 +25,15 @@ void Simulator::run() const {
     threads.reserve(simulations_);
 
     // define functors
-    vector<ProductionCycle> printProgress(simulations_);
+    vector<ProductionCycle> cycles(simulations_);
     for (auto i = 0; i < simulations_; ++i){
-        printProgress[i] = ProductionCycle(duration_);
+        cycles[i] = ProductionCycle(duration_);
     }
 
     // define tasks
     deque<packaged_task<Task_type>> packagedTasks;
     for (auto i = 0; i < simulations_; ++i){
-        packaged_task<Task_type> task { (printProgress[i]) };
+        packaged_task<Task_type> task { (cycles[i]) };
         packagedTasks.push_back(move(task));
     }
 

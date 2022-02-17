@@ -18,12 +18,12 @@ class FailureMode {
     string name_;
     string description_;
     string tag_;
-    unique_ptr<IProbability> probability_;
+    unique_ptr<IProbability> distribution_;
 
 public:
 
     FailureMode() = delete;
-    FailureMode(int id, int unit_id, string name, string description, string tag, unique_ptr<IProbability> probability);
+    FailureMode(int id, int unit_id, string name, string description, string tag, unique_ptr<IProbability> distribution);
 
     int getId() const;
     int getUnitId() const;
