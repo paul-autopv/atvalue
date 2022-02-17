@@ -9,6 +9,7 @@
 #include <string>
 #include <memory>
 #include "IProbability.h"
+#include "../probabilities/WeibullProbability.h"
 
 using namespace std;
 

@@ -24,9 +24,8 @@ FailureMode::FailureMode(const FailureMode &other) {
     name_ = other.name_;
     description_ = other.description_;
     tag_ = other.tag_;
-    distribution_ = std::unique_ptr<IProbability>();
-    auto dist = *other.distribution_;
-    *distribution_ = *other.distribution_;
+    distribution_ = std::make_unique<IProbability>(*(other.distribution_));
+    *distribution_ = *(other.distribution_);
 }
 
 FailureMode &FailureMode::operator=(const FailureMode &other) {
@@ -38,7 +37,7 @@ FailureMode &FailureMode::operator=(const FailureMode &other) {
     description_ = other.description_;
     tag_ = other.tag_;
     distribution_ = std::unique_ptr<IProbability>();
-    *distribution_ = *other.distribution_;
+    *distribution_ = *(other.distribution_);
     return *this;
 }
 
