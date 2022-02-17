@@ -36,7 +36,7 @@ class Facility {
     static int childrenCount(const FamilyTree & family_tree, int unit_id);
 
     static unique_ptr<IProbability> getProbability(const vector<string> &failure_mode,
-                                                   const basic_string<char, char_traits<char>, allocator<char>> &probability_type) ;
+                                                   const string &probability_type) ;
 
     static std::unique_ptr<UnitFailureModes> unitFailureModes(const InputMap& failure_mode_map);
 
