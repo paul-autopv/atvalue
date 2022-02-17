@@ -14,6 +14,18 @@ class WeibullProbability : public IProbability {
     double beta_ {0};
 public:
     WeibullProbability() = delete;
+    WeibullProbability(const WeibullProbability &other) {
+        alpha_ = other.alpha_;
+        beta_ = other.beta_;
+    }
+    WeibullProbability& operator=(const WeibullProbability& other){
+        if (this == &other)
+            return *this;
+        alpha_ = other.alpha_;
+        beta_ = other.beta_;
+        return *this;
+    };
+
     WeibullProbability(const double &alpha, const double &beta) : alpha_ {alpha}, beta_ {beta}{};
 
     double getProbability(const int &day) override {

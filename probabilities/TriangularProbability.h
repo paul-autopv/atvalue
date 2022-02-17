@@ -14,6 +14,12 @@ class TriangularProbability : public IProbability{
     double will_fail_ {0};
 public:
     TriangularProbability() = delete;
+    TriangularProbability(const TriangularProbability &other) {
+        installed_ = other.installed_;
+        should_fail_ = other.should_fail_;
+        will_fail_ = other.will_fail_;
+    }
+
     TriangularProbability(const int &installed, const int &should_fail, const int &will_fail){
         if (will_fail < should_fail || installed > should_fail)
             throw std::invalid_argument("Ensure that will_fail >= should_fail >= installed.");
