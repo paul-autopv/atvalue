@@ -2,7 +2,7 @@
 // Created by Paul on 2022/01/17.
 //
 #include "Simulator.h"
-#include "Register.h"
+#include "ProductionCycle.h"
 
 
 
@@ -19,9 +19,9 @@ void Simulator::run() const {
     threads.reserve(simulations_);
 
     // define functors
-    vector<Register> printProgress(simulations_);
+    vector<ProductionCycle> printProgress(simulations_);
     for (auto i = 0; i < simulations_; ++i){
-        printProgress[i] = Register(duration_);
+        printProgress[i] = ProductionCycle(duration_);
     }
 
     // define tasks
@@ -65,7 +65,7 @@ void Simulator::run() const {
 void Simulator::run_single() const{
 
     for (int i = 0; i < simulations_; ++i) {
-        auto progress = Register(duration_);
+        auto progress = ProductionCycle(duration_);
         progress();
     }
 }
