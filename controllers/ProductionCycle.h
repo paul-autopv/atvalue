@@ -2,13 +2,13 @@
 // Created by Paul on 2022/01/25.
 //
 
-#ifndef ATVALUE_REGISTER_H
-#define ATVALUE_REGISTER_H
+#ifndef ATVALUE_PRODUCTIONCYCLE_H
+#define ATVALUE_PRODUCTIONCYCLE_H
 
-class  Register{
+class  ProductionCycle{
 public:
-    Register() : Register(0) {};
-    explicit Register(int size) : size_ {size} {
+    ProductionCycle() : ProductionCycle(0) {};
+    explicit ProductionCycle(int size) : size_ {size} {
         register_.resize(size_);
     };
 
@@ -28,4 +28,4 @@ private:
     vector<int> register_;
 };
 
-#endif //ATVALUE_REGISTER_H
+#endif //ATVALUE_PRODUCTIONCYCLE_H
