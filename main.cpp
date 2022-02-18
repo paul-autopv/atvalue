@@ -19,7 +19,7 @@ int main() {
     int simulations {1000};
     int duration {8000};
 
-    auto simulator = Simulator(simulations, duration, move(facility), InputMap());
+    auto simulator = Simulator(simulations, duration, failure_modes, station);
     auto start = chrono::steady_clock::now();
     simulator.run();
     auto end = chrono::steady_clock::now();
