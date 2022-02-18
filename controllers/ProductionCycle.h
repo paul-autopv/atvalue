@@ -8,23 +8,23 @@
 class  ProductionCycle{
 public:
     ProductionCycle() : ProductionCycle(0) {};
-    explicit ProductionCycle(int size) : size_ {size} {
-        register_.resize(size_);
+    explicit ProductionCycle(int duration) : duration_ {duration} {
+        register_.resize(duration_);
     };
 
     vector<int> operator()() {
-        vector<int> temp(size_);
-        for (int i = 0; i < size_; ++i) {
+        vector<int> temp(duration_);
+        for (int i = 0; i < duration_; ++i) {
                 temp[i] = 1;
         }
-        for (int i = 0; i < size_; ++i) {
+        for (int i = 0; i < duration_; ++i) {
             register_[i] += temp[i];
         }
         return register_;
     }
 
 private:
-    int size_;
+    int duration_;
     vector<int> register_;
 };
 

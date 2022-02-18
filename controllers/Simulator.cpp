@@ -22,29 +22,29 @@ void Simulator::run() const {
     threads.reserve(simulations_);
 
     // define functors
-    vector<ProductionCycle> printProgress(simulations_);
+    vector<ProductionCycle> productionCycles(simulations_);
     for (auto i = 0; i < simulations_; ++i){
-        printProgress[i] = ProductionCycle(duration_);
+        productionCycles[i] = ProductionCycle(duration_);
     }
 
     // define tasks
-    deque<packaged_task<Task_type>> packagedTasks;
+    deque<packaged_task<Task_type>> productionCycleTasks;
     for (auto i = 0; i < simulations_; ++i){
-        packaged_task<Task_type> task { (printProgress[i]) };
-        packagedTasks.push_back(move(task));
+        packaged_task<Task_type> productionCyleTask {(productionCycles[i]) };
+        productionCycleTasks.push_back(move(productionCyleTask));
     }
 
     // define futures
     vector<future<TypeRegister>> futures(simulations_);
     for (auto i = 0; i < simulations_; ++i){
-        futures[i] = packagedTasks[i].get_future();
+        futures[i] = productionCycleTasks[i].get_future();
     }
 
     // define threads
     int i {0};
-    while (!packagedTasks.empty()){
-        auto task = move(packagedTasks.front());
-        packagedTasks.pop_front();
+    while (!productionCycleTasks.empty()){
+        auto task = move(productionCycleTasks.front());
+        productionCycleTasks.pop_front();
         thread t {move(task)};
         t.detach();
         ++i;
