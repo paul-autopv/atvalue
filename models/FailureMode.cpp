@@ -8,9 +8,13 @@
 
 
 FailureMode::FailureMode(int id, int unit_id, string name, string description, string tag,
-                         std::unique_ptr<IProbability> probability) :
-id_ {id}, unit_id_ {unit_id}, name_ {std::move(name)}, description_ {std::move(description)},
-tag_ {std::move(tag)}, probability_ {move(probability)}{
+                         std::unique_ptr<IProbability> distribution) :
+        id_ {id},
+        unit_id_ {unit_id},
+        name_ {std::move(name)},
+        description_ {std::move(description)},
+        tag_ {std::move(tag)},
+        distribution_ {move(distribution)}{
 
 }
 

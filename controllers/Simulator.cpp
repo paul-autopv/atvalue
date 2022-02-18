@@ -2,17 +2,26 @@
 // Created by Paul on 2022/01/17.
 //
 #include "Simulator.h"
+#include "ProductionCycle.h"
 
 #include <utility>
 #include "ProductionCycle.h"
 
 
-
-Simulator::Simulator(int simulations, int duration, InputMap failures, InputMap structure) :
+Simulator::Simulator(const int &simulations, const int &duration, InputMap failures, InputMap structure) :
     simulations_ {simulations < 0 ? 0 : simulations},
     duration_ {duration},
     failures_ {std::move(failures)},
-    structure_ {std::move(structure)}{}
+    structure_ {std::move(structure)}{
+
+    if (simulations_ <= 0) {
+        throw invalid_argument("Simulation duration must be larger than 0.");
+    }
+    if (duration_ <= 0) {
+        throw invalid_argument("Number of simulations must be larger than 0.");
+    }
+}
+
 
 void Simulator::run() const {
 
@@ -25,6 +34,7 @@ void Simulator::run() const {
     vector<ProductionCycle> productionCycles(simulations_);
     for (auto i = 0; i < simulations_; ++i){
         productionCycles[i] = ProductionCycle(duration_);
+
     }
 
     // define tasks

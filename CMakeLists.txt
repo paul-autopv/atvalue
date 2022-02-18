@@ -19,7 +19,6 @@ set(HEADER_FILES
         controllers/ProductionCycle.h)
 
 set(SOURCE_FILES
-        main.cpp
         models/unit.cpp
         models/Facility.cpp
         models/FailureMode.cpp
@@ -32,4 +31,5 @@ add_library(models STATIC ${SOURCE_FILES} ${HEADER_FILES})
 
 add_subdirectory(Google_tests)
 add_executable(atvalue ${SOURCE_FILES})
+
 

@@ -22,11 +22,13 @@ class Simulator {
     InputMap failures_;
     InputMap structure_;
 
+
     static TypeRegister& sumRegister(TypeRegister& a, TypeRegister& b);
 
 public:
     Simulator() = delete;
-    Simulator(int simulations, int duration, InputMap failures, InputMap structure);
+    Simulator(const int &simulations, const int &duration, InputMap failures, InputMap structure);
+
 
     void run() const;
 
