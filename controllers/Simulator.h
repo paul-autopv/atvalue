@@ -19,14 +19,14 @@ class Simulator {
 
     int simulations_;
     const int duration_;
-    std::unique_ptr<Facility> facility_;
-    inline static mutex cout_mutex;
+    InputMap failures_;
+    InputMap structure_;
 
     static TypeRegister& sumRegister(TypeRegister& a, TypeRegister& b);
 
 public:
     Simulator() = delete;
-    Simulator(int simulations, std::unique_ptr<Facility> facility, int duration);
+    Simulator(int simulations, int duration, InputMap failures, InputMap structure);
 
     void run() const;
 

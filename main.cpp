@@ -4,6 +4,8 @@
 #include "utilities/CsvReader.h"
 #include "controllers/Simulator.h"
 
+using InputMap = std::map<int, std::vector<std::string>>;
+
 int main() {
 
     std::cout << "Hello, AtValue!" << std::endl;
@@ -17,7 +19,7 @@ int main() {
     int simulations {1000};
     int duration {8000};
 
-    auto simulator = Simulator(simulations, move(facility), duration);
+    auto simulator = Simulator(simulations, duration, move(facility), InputMap());
     auto start = chrono::steady_clock::now();
     simulator.run();
     auto end = chrono::steady_clock::now();

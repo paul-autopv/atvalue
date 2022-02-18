@@ -2,14 +2,17 @@
 // Created by Paul on 2022/01/17.
 //
 #include "Simulator.h"
+
+#include <utility>
 #include "Register.h"
 
 
 
-Simulator::Simulator(int simulations, std::unique_ptr<Facility> facility, int duration) :
+Simulator::Simulator(int simulations, int duration, InputMap failures, InputMap structure) :
     simulations_ {simulations < 0 ? 0 : simulations},
-    facility_ {std::move(facility)},
-    duration_ {duration} {}
+    duration_ {duration},
+    failures_ {std::move(failures)},
+    structure_ {std::move(structure)}{}
 
 void Simulator::run() const {
 
