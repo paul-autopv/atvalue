@@ -24,9 +24,7 @@ class FailureMode {
 public:
 
     FailureMode() = delete;
-    FailureMode(const FailureMode &other);
     FailureMode(int id, int unit_id, string name, string description, string tag, unique_ptr<IProbability> distribution);
-    FailureMode& operator=(const FailureMode& other);
 
     int getId() const;
     int getUnitId() const;
