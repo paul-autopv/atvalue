@@ -2,8 +2,8 @@
 // Created by Paul on 2022/01/25.
 //
 
-#ifndef TREE_REGISTER_H
-#define TREE_REGISTER_H
+#ifndef ATVALUE_REGISTER_H
+#define ATVALUE_REGISTER_H
 
 class  Register{
 public:
@@ -28,4 +28,4 @@ private:
     vector<int> register_;
 };
 
-#endif //TREE_REGISTER_H
+#endif //ATVALUE_REGISTER_H

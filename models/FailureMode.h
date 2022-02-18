@@ -2,8 +2,8 @@
 // Created by Paul on 2022/01/01.
 //
 
-#ifndef TREE_FAILUREMODE_H
-#define TREE_FAILUREMODE_H
+#ifndef ATVALUE_FAILUREMODE_H
+#define ATVALUE_FAILUREMODE_H
 
 
 #include <string>
@@ -31,4 +31,4 @@ public:
 };
 
 
-#endif //TREE_FAILUREMODE_H
+#endif //ATVALUE_FAILUREMODE_H

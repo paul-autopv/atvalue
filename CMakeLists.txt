@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.21)
-project(tree)
+project(atvalue)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -31,5 +31,5 @@ set(SOURCE_FILES
 add_library(models STATIC ${SOURCE_FILES} ${HEADER_FILES})
 
 add_subdirectory(Google_tests)
-add_executable(tree ${SOURCE_FILES})
+add_executable(atvalue ${SOURCE_FILES})
 

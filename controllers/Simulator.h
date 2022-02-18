@@ -2,8 +2,8 @@
 // Created by Paul on 2022/01/17.
 //
 
-#ifndef TREE_SIMULATOR_H
-#define TREE_SIMULATOR_H
+#ifndef ATVALUE_SIMULATOR_H
+#define ATVALUE_SIMULATOR_H
 
 #include <memory>
 #include <thread>
@@ -34,4 +34,4 @@ public:
 };
 
 
-#endif //TREE_SIMULATOR_H
+#endif //ATVALUE_SIMULATOR_H
