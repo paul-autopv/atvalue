@@ -18,29 +18,6 @@ FailureMode::FailureMode(int id, int unit_id, string name, string description, s
 
 }
 
-FailureMode::FailureMode(const FailureMode &other) {
-    id_ = other.id_;
-    unit_id_ = other.unit_id_;
-    name_ = other.name_;
-    description_ = other.description_;
-    tag_ = other.tag_;
-    distribution_ = std::make_unique<IProbability>(make_shared<IP>()*(other.distribution_));
-    *distribution_ = *(other.distribution_);
-}
-
-FailureMode &FailureMode::operator=(const FailureMode &other) {
-    if (this == &other)
-        return *this;
-    id_ = other.id_;
-    unit_id_ = other.unit_id_;
-    name_ = other.name_;
-    description_ = other.description_;
-    tag_ = other.tag_;
-    distribution_ = std::unique_ptr<IProbability>();
-    *distribution_ = *(other.distribution_);
-    return *this;
-}
-
 int FailureMode::getId() const {
     return id_;
 }
