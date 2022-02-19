@@ -19,6 +19,7 @@ set(HEADER_FILES
         controllers/ProductionCycle.h)
 
 set(SOURCE_FILES
+        main.cpp
         models/unit.cpp
         models/Facility.cpp
         models/FailureMode.cpp

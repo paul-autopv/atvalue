@@ -10,9 +10,9 @@ class TestSimulator : public ::testing::Test{
 };
 
 TEST_F(TestSimulator, ExceptionWhenDurationLessThanZero){
-    ASSERT_THROW(auto sim = Simulator(1, -1, unique_ptr<Facility>()), std::invalid_argument);
+    ASSERT_THROW(auto sim = Simulator(1, -1, InputMap(), InputMap()), std::invalid_argument);
 }
 
 TEST_F(TestSimulator, ExceptionWhenSimulationsLessThanZero){
-    ASSERT_THROW(auto sim = Simulator(-1, 1, unique_ptr<Facility>()), std::invalid_argument);
+    ASSERT_THROW(auto sim = Simulator(-1, 1, InputMap(), InputMap()), std::invalid_argument);
 }
