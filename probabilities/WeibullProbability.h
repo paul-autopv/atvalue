@@ -16,11 +16,13 @@ public:
     WeibullProbability() = delete;
     WeibullProbability(const double &alpha, const double &beta) : alpha_ {alpha}, beta_ {beta}{};
 
+
     double getProbability(const int &day) override {
         if (day < 0)
             return 0;
         auto exponent = -std::pow(day/beta_, alpha_);
         return 1 - std::exp(exponent);
+
     };
 };
 
