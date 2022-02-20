@@ -18,21 +18,21 @@ vector<shared_ptr<FailureMode>> Facility::getFailureModes(const InputMap &failur
     for (auto failure : unit_failures){
         FailureModeFields fields;
         auto failure_parameters = failure_map.at(failure);
-        auto probability = getProbability(failure_parameters, failure_parameters[fields.probability]);
+        auto probability_distribution = getProbabilityDistribution(failure_parameters, failure_parameters[fields.probability]);
         auto failure_mode = make_shared<FailureMode>(
                 FailureMode(stoi(failure_parameters[fields.id]),
                             stoi(failure_parameters[fields.unit_id]),
                             failure_parameters[fields.name],
                             failure_parameters[fields.description],
                             failure_parameters[fields.tag],
-                            move(probability)));
+                            move(probability_distribution)));
         failures.push_back(failure_mode);
     }
     return failures;
 }
 
 
-unique_ptr<IProbability> Facility::getProbability(const vector<string> &failure_mode, const string &probability_type) {
+unique_ptr<IProbability> Facility::getProbabilityDistribution(const vector<string> &failure_mode, const string &probability_type) {
     FailureModeFields fields;
     auto a = stod(failure_mode[fields.a]);
     auto b = stod(failure_mode[fields.b]);
@@ -151,5 +151,6 @@ void Facility::registerFailureModes(const vector<shared_ptr<FailureMode>>& failu
     for (const auto& failure : failure_modes) {
         failure_map_.emplace(failure->getId(), failure);
     }
+    cout << "test" << endl;
 
 }

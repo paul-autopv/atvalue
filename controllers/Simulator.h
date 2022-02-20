@@ -2,8 +2,8 @@
 // Created by Paul on 2022/01/17.
 //
 
-#ifndef TREE_SIMULATOR_H
-#define TREE_SIMULATOR_H
+#ifndef ATVALUE_SIMULATOR_H
+#define ATVALUE_SIMULATOR_H
 
 #include <memory>
 #include <thread>
@@ -19,14 +19,16 @@ class Simulator {
 
     int simulations_;
     const int duration_;
-    std::unique_ptr<Facility> facility_;
-    inline static mutex cout_mutex;
+    InputMap failures_;
+    InputMap structure_;
+
 
     static TypeRegister& sumRegister(TypeRegister& a, TypeRegister& b);
 
 public:
     Simulator() = delete;
-    Simulator(int simulations, std::unique_ptr<Facility> facility, int duration);
+    Simulator(const int &simulations, const int &duration, InputMap failures, InputMap structure);
+
 
     void run() const;
 
@@ -34,4 +36,4 @@ public:
 };
 
 
-#endif //TREE_SIMULATOR_H
+#endif //ATVALUE_SIMULATOR_H

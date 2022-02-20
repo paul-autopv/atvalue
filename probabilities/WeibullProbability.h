@@ -2,8 +2,8 @@
 // Created by Paul on 2022/01/01.
 //
 
-#ifndef TREE_WEIBULLPROBABILITY_H
-#define TREE_WEIBULLPROBABILITY_H
+#ifndef ATVALUE_WEIBULLPROBABILITY_H
+#define ATVALUE_WEIBULLPROBABILITY_H
 
 #include <cmath>
 
@@ -26,4 +26,4 @@ public:
     };
 };
 
-#endif //TREE_WEIBULLPROBABILITY_H
+#endif //ATVALUE_WEIBULLPROBABILITY_H

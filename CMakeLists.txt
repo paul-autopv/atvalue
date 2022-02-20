@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.21)
-project(tree)
+project(atvalue)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -16,20 +16,21 @@ set(HEADER_FILES
         models/CsvMap.h
         probabilities/TriangularProbability.h
         controllers/Simulator.h
-        controllers/Register.h)
+        controllers/ProductionCycle.h)
 
 set(SOURCE_FILES
-        main.cpp
         models/unit.cpp
         models/Facility.cpp
         models/FailureMode.cpp
         utilities/CsvReader.cpp
         models/CsvMap.cpp
         controllers/Simulator.cpp
+        controllers/ProductionCycle.cpp
         )
 
 add_library(models STATIC ${SOURCE_FILES} ${HEADER_FILES})
 
 add_subdirectory(Google_tests)
-add_executable(tree ${SOURCE_FILES})
+add_executable(atvalue main.cpp ${SOURCE_FILES})
+
 

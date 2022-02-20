@@ -2,8 +2,8 @@
 // Created by paul on 2021-12-18.
 //
 
-#ifndef CSVREADER_H
-#define CSVREADER_H
+#ifndef ATVALUE_CSVREADER_H
+#define ATVALUE_CSVREADER_H
 
 
 #include <vector>
@@ -30,4 +30,4 @@ private:
 };
 
 
-#endif //ATVALUE_CPP_CSVREADER_H
+#endif //ATVALUE_CSVREADER_H
