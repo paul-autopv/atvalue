@@ -10,12 +10,15 @@ ProductionCycle::ProductionCycle() : ProductionCycle(0, InputMap(), InputMap()) 
 
 ProductionCycle::ProductionCycle(const int &duration, const InputMap &structure,const InputMap &failures) :
         duration_ {duration}, structure_ {structure}, failures_ {failures}{
-    facility_ = make_unique<Facility>();
+    facility_ = make_shared<Facility>();
     facility_->buildFacility(structure_, failures_);
 };
 
 
-void ProductionCycle::operator()() {
+int ProductionCycle::operator()() {
+    auto count = facility_->failureCount();
+    cout << count << endl;
+    return count;
 
 }
 #pragma clang diagnostic pop

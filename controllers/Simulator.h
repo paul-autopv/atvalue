@@ -15,15 +15,13 @@
 
 class Simulator {
 
-    using TypeRegister = vector<int>;
+    using TypeRegister = int;
 
     int simulations_;
     const int duration_;
     InputMap failures_;
     InputMap structure_;
 
-
-    static TypeRegister& sumRegister(TypeRegister& a, TypeRegister& b);
 
 public:
     Simulator() = delete;

@@ -25,7 +25,7 @@ Simulator::Simulator(const int &simulations, const int &duration, InputMap failu
 
 void Simulator::run() const {
 
-    using Task_type = vector<int>();
+    using Task_type = int();
 
     vector<std::thread> threads;
     threads.reserve(simulations_);
@@ -60,19 +60,6 @@ void Simulator::run() const {
         ++i;
     }
 
-    TypeRegister accumulator;
-    accumulator.resize(duration_);
-    for (auto future = 0; future < simulations_; ++future){
-        auto future_register = futures[future].get();
-        accumulator = sumRegister(accumulator, future_register);
-    }
-
-    long sum {0};
-    for (int j = 0; j < duration_; ++j) {
-        sum += accumulator[j];
-    }
-    std::cout << "Sum of all elements: " << sum << endl;
-    std::cout << "Done" << std::endl;
 }
 
 void Simulator::run_single() const{
@@ -83,15 +70,5 @@ void Simulator::run_single() const{
     }
 }
 
-Simulator::TypeRegister& Simulator::sumRegister(Simulator::TypeRegister &a, Simulator::TypeRegister &b) {
-
-    if (a.size() != b.size())
-        throw out_of_range("Registers are of different length");
-
-    for (int i = 0; i < a.size(); ++i) {
-        a[i] += b[i];
-    }
-    return a;
-}
 
 

@@ -17,13 +17,13 @@ public:
 
     ProductionCycle(const int &duration, const InputMap &structure,const InputMap &failures);
 
-    void operator()();
+    int operator()();
 
 private:
     int duration_;
     InputMap structure_;
     InputMap failures_;
-    unique_ptr<Facility> facility_;
+    shared_ptr<Facility> facility_;
 };
 
 
