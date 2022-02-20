@@ -33,7 +33,7 @@ void Simulator::run() const {
     // define functors
     vector<ProductionCycle> productionCycles(simulations_);
     for (auto i = 0; i < simulations_; ++i){
-        productionCycles[i] = ProductionCycle(duration_);
+        productionCycles[i] = ProductionCycle(duration_, InputMap(), InputMap());
 
     }
 
@@ -78,7 +78,7 @@ void Simulator::run() const {
 void Simulator::run_single() const{
 
     for (int i = 0; i < simulations_; ++i) {
-        auto progress = ProductionCycle(duration_);
+        auto progress = ProductionCycle(duration_, InputMap(), InputMap());
         progress();
     }
 }

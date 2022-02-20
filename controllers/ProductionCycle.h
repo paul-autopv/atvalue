@@ -1,3 +1,6 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "performance-unnecessary-value-param"
+#pragma ide diagnostic ignored "modernize-pass-by-value"
 //
 // Created by Paul on 2022/01/25.
 //
@@ -9,9 +12,10 @@
 
 class  ProductionCycle{
 public:
-    ProductionCycle() : ProductionCycle(0) {};
+    ProductionCycle() : ProductionCycle(0, InputMap(), InputMap()) {};
 
-    explicit ProductionCycle(const int &duration) : duration_ {duration} {
+    ProductionCycle(const int &duration, const InputMap &structure,const InputMap &failures) :
+    duration_ {duration}, structure_ {structure}, failures_ {failures}{
         register_.resize(duration_);
     };
 
@@ -28,9 +32,13 @@ public:
 
 private:
     int duration_;
+    InputMap structure_;
+    InputMap failures_;
     vector<int> register_;
 };
 
 
 #endif //ATVALUE_PRODUCTIONCYCLE_H
 
+
+#pragma clang diagnostic pop
