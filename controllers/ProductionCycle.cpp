@@ -16,9 +16,10 @@ ProductionCycle::ProductionCycle(const int &duration, const InputMap &structure,
 
 
 int ProductionCycle::operator()() {
+    const int max {100'000};
     default_random_engine engine {};
-    uniform_int_distribution distribution {0, 1000};
-    auto likelihood = [&distribution, &engine](){ return (double)distribution(engine)/1000; };
+    uniform_int_distribution distribution {0, max};
+    auto likelihood = [&distribution, &engine](){ return (double)distribution(engine)/max; };
 
     for (int day = 0; day < duration_; ++day) {
         auto risksForToday = facility_->getShuffledFailureModes();
@@ -27,7 +28,8 @@ int ProductionCycle::operator()() {
             cout <<
             "Facility: " << facility_->getFailureProbability(risk, day) <<
             " probability: " <<  probability <<
-            " occurred: " << hasOccurredFailure(day, risk, probability) << endl;
+            " occurred: " << hasOccurredFailure(day, risk, probability)
+            << endl;
         }
     }
 
@@ -35,7 +37,7 @@ int ProductionCycle::operator()() {
 
 }
 
-bool ProductionCycle::hasOccurredFailure(int day, const int &risk, double probability) {
+bool ProductionCycle::hasOccurredFailure(const int &day, const int &risk, const double &probability) {
     return facility_->getFailureProbability(risk, day) > probability;
 }
 

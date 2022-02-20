@@ -27,7 +27,7 @@ private:
     InputMap failures_;
     shared_ptr<Facility> facility_;
 
-    bool hasOccurredFailure(int day, const int &risk, double probability);
+    bool hasOccurredFailure(const int &day, const int &risk, const double &probability);
 };
 
 
