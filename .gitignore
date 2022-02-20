@@ -38,4 +38,4 @@ cmake-build-debug*
 /Google_tests/lib/
 
 # app
-output/*
+output/incidents.csv
