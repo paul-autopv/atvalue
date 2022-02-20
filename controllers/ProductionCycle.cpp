@@ -15,7 +15,7 @@ ProductionCycle::ProductionCycle(const int &duration, const InputMap &structure,
 };
 
 
-int ProductionCycle::operator()() {
+IncidentRegister ProductionCycle::operator()() {
     const int max {1'000'000};
     default_random_engine engine {};
     uniform_int_distribution distribution {0, max};
@@ -32,7 +32,7 @@ int ProductionCycle::operator()() {
         }
     }
 
-    return 0;
+    return incidentRegister_;
 
 }
 

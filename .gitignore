@@ -36,3 +36,6 @@
 .idea/*
 cmake-build-debug*
 /Google_tests/lib/
+
+# app
+output/*

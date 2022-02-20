@@ -22,6 +22,7 @@ using FamilyTree = std::shared_ptr<std::map<int, int>>;
 using InputMap = std::map<int, std::vector<std::string>>;
 using FailureMap = unordered_map<int, shared_ptr<FailureMode>>;
 using UnitFailureModes = std::unordered_map<int, std::vector<int>>;
+using IncidentRegister = map<int, vector<string>>;
 
 class Facility {
 

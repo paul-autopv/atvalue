@@ -9,11 +9,11 @@
 #ifndef ATVALUE_PRODUCTIONCYCLE_H
 #define ATVALUE_PRODUCTIONCYCLE_H
 
-#include "../models/Facility.h"
+#include "../controllers/Simulator.h"
 
 #include <random>
 
-using IncidentRegister = map<int, vector<string>>;
+
 
 class  ProductionCycle{
 public:
@@ -21,7 +21,7 @@ public:
 
     ProductionCycle(const int &duration, const InputMap &structure,const InputMap &failures);
 
-    int operator()();
+    IncidentRegister operator()();
 
 private:
     int duration_;

@@ -14,9 +14,8 @@ int main() {
     auto station = CsvReader::readCsv(R"(/Users/paul/Repos/atvalue/data/model_1.csv)", true);
 
 
-    int simulations {1000};
+    int simulations {20};
     int duration {8000};
-
 
     auto simulator = Simulator(simulations, duration, failure_modes, station);
     auto start = chrono::steady_clock::now();
