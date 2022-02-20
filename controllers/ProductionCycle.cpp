@@ -16,7 +16,7 @@ ProductionCycle::ProductionCycle(const int &duration, const InputMap &structure,
 
 
 int ProductionCycle::operator()() {
-    const int max {100'000};
+    const int max {1'000'000};
     default_random_engine engine {};
     uniform_int_distribution distribution {0, max};
     auto likelihood = [&distribution, &engine](){ return (double)distribution(engine)/max; };
@@ -25,11 +25,10 @@ int ProductionCycle::operator()() {
         auto risksForToday = facility_->getShuffledFailureModes();
         for (auto &risk : risksForToday){
             auto probability = likelihood();
-            cout <<
-            "Facility: " << facility_->getFailureProbability(risk, day) <<
-            " probability: " <<  probability <<
-            " occurred: " << hasOccurredFailure(day, risk, probability)
-            << endl;
+            if (hasOccurredFailure(day, risk, probability)){
+                auto event = facility_->getFailureModeDetail(risk);
+                incidentRegister_.insert(pair<int, vector<string>>(day, event));
+            }
         }
     }
 
@@ -38,7 +37,7 @@ int ProductionCycle::operator()() {
 }
 
 bool ProductionCycle::hasOccurredFailure(const int &day, const int &risk, const double &probability) {
-    return facility_->getFailureProbability(risk, day) > probability;
+    return facility_->getFailureModeProbability(risk, day) > probability;
 }
 
 #pragma clang diagnostic pop

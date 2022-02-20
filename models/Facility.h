@@ -57,9 +57,9 @@ public:
     Facility() = default;
 
     void buildFacility(const InputMap &unit_map, const InputMap &failure_map);
-
     vector<int> getShuffledFailureModes();
-    double getFailureProbability(const int &failureId, const int &day);
+    double getFailureModeProbability(const int &failureId, const int &day);
+    vector<string> getFailureModeDetail(const int &failureId);
 
     int unitCount() const;
 

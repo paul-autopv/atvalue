@@ -29,3 +29,15 @@ int FailureMode::getUnitId() const {
 double FailureMode::getFailureProbability(const int &day) const {
     return distribution_->getProbability(day);
 }
+
+string FailureMode::getDescription() const {
+    return description_;
+}
+
+string FailureMode::getName() const {
+    return name_;
+}
+
+string FailureMode::getTag() const {
+    return tag_;
+}

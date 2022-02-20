@@ -13,6 +13,8 @@
 
 #include <random>
 
+using IncidentRegister = map<int, vector<string>>;
+
 class  ProductionCycle{
 public:
     ProductionCycle();
@@ -26,6 +28,7 @@ private:
     InputMap structure_;
     InputMap failures_;
     shared_ptr<Facility> facility_;
+    IncidentRegister incidentRegister_;
 
     bool hasOccurredFailure(const int &day, const int &risk, const double &probability);
 };

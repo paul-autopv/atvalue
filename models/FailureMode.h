@@ -27,6 +27,9 @@ public:
 
     int getId() const;
     int getUnitId() const;
+    string getDescription() const;
+    string getName() const;
+    string getTag() const;
     double getFailureProbability(const int &day) const;
 
 };

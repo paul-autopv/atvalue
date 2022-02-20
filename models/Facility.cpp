@@ -153,6 +153,15 @@ vector<int> Facility::getShuffledFailureModes() {
     return failureIds;
 }
 
-double Facility::getFailureProbability(const int &failureId, const int &day) {
+double Facility::getFailureModeProbability(const int &failureId, const int &day) {
     return failure_map_.at(failureId)->getFailureProbability(day);
+}
+
+vector<string> Facility::getFailureModeDetail(const int &failureId) {
+    auto id = to_string(failureId);
+    auto unit = to_string(failure_map_.at(failureId)->getUnitId());
+    auto name = failure_map_.at(failureId)->getName();
+    auto description = failure_map_.at(failureId)->getDescription();
+    auto tag = failure_map_.at(failureId)->getTag();
+    return {id, unit, name, description, tag};
 }
