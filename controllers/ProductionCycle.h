@@ -15,6 +15,7 @@ public:
         register_.resize(duration_);
     };
 
+
     vector<int> operator()() {
         vector<int> temp(duration_);
         for (int i = 0; i < duration_; ++i) {
