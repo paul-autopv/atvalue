@@ -23,7 +23,7 @@ private:
     int duration_;
     InputMap structure_;
     InputMap failures_;
-    vector<int> register_;
+    unique_ptr<Facility> facility_;
 };
 
 

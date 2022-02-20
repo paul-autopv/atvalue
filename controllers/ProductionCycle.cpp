@@ -10,11 +10,8 @@ ProductionCycle::ProductionCycle() : ProductionCycle(0, InputMap(), InputMap()) 
 
 ProductionCycle::ProductionCycle(const int &duration, const InputMap &structure,const InputMap &failures) :
         duration_ {duration}, structure_ {structure}, failures_ {failures}{
-    register_.resize(duration_);
-    cout << "Building Facility...";
-    auto facility = make_unique<Facility>();
-    facility->buildFacility(structure_, failures_);
-    cout << "done." << endl;
+    facility_ = make_unique<Facility>();
+    facility_->buildFacility(structure_, failures_);
 };
 
 
