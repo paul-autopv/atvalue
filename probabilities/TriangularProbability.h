@@ -27,7 +27,7 @@ public:
             return 0;
         if (day >= will_fail_)
             return 1;
-        auto weight = will_fail_ - installed_; // set height of 'triangle' to same length as base to prevent small fractions
+        auto weight = will_fail_ - installed_; // set height of 'triangle' to same as base to prevent small fractions
         auto denominator = (weight * (will_fail_ - installed_)) / 2;
         auto pre_should_fail = (weight * (should_fail_ - installed_)) / 2;
         auto post_should_fail = (weight * (will_fail_ - should_fail_)) / 2;

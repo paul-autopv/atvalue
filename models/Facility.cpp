@@ -32,8 +32,7 @@ vector<shared_ptr<FailureMode>> Facility::getFailureModes(const InputMap &failur
 }
 
 
-unique_ptr<IProbability> Facility::getProbability(const vector<string> &failure_mode,
-                                                  const basic_string<char, char_traits<char>, allocator<char>> &probability_type) {
+unique_ptr<IProbability> Facility::getProbability(const vector<string> &failure_mode, const string &probability_type) {
     FailureModeFields fields;
     auto a = stod(failure_mode[fields.a]);
     auto b = stod(failure_mode[fields.b]);
