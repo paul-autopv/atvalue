@@ -9,6 +9,7 @@
 #include <map>
 #include <unordered_map>
 #include <iostream>
+#include <random>
 
 #include "Unit.h"
 #include "CsvMap.h"
@@ -19,13 +20,14 @@ using namespace std;
 
 using FamilyTree = std::shared_ptr<std::map<int, int>>;
 using InputMap = std::map<int, std::vector<std::string>>;
+using FailureMap = unordered_map<int, shared_ptr<FailureMode>>;
 using UnitFailureModes = std::unordered_map<int, std::vector<int>>;
 
 class Facility {
 
     unordered_map<int, shared_ptr<Unit>> unit_map_;
 
-    unordered_map<int, shared_ptr<FailureMode>> failure_map_;
+    FailureMap failure_map_;
 
     void addUnit(unique_ptr<Unit> unit, int parent_id);
 
@@ -41,10 +43,6 @@ class Facility {
 
     static std::unique_ptr<UnitFailureModes> unitFailureModes(const InputMap& failure_mode_map);
 
-    int getParentIdOfUnit(int unit_id) const;
-
-    int getChildrenCountForUnit(int unit_id) const;
-
     shared_ptr<Unit> registerUnit(unique_ptr<Unit> &unit);
 
     shared_ptr<Unit> getParent(int parent_id);
@@ -59,6 +57,8 @@ public:
     Facility() = default;
 
     void buildFacility(const InputMap &unit_map, const InputMap &failure_map);
+
+    vector<int> getShuffledFailureModes();
 
     int unitCount() const;
 

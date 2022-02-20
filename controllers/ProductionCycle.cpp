@@ -16,9 +16,12 @@ ProductionCycle::ProductionCycle(const int &duration, const InputMap &structure,
 
 
 int ProductionCycle::operator()() {
-    auto count = facility_->failureCount();
-    cout << count << endl;
-    return count;
+
+    for (int day = 0; day < duration_; ++day) {
+
+    }
+
+    return 0;
 
 }
 #pragma clang diagnostic pop
