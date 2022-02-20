@@ -2,8 +2,8 @@
 // Created by Paul on 2022/01/01.
 //
 
-#ifndef TREE_FAILUREMODE_H
-#define TREE_FAILUREMODE_H
+#ifndef ATVALUE_FAILUREMODE_H
+#define ATVALUE_FAILUREMODE_H
 
 
 #include <string>
@@ -18,12 +18,12 @@ class FailureMode {
     string name_;
     string description_;
     string tag_;
-    unique_ptr<IProbability> probability_;
+    unique_ptr<IProbability> distribution_;
 
 public:
 
     FailureMode() = delete;
-    FailureMode(int id, int unit_id, string name, string description, string tag, unique_ptr<IProbability> probability);
+    FailureMode(int id, int unit_id, string name, string description, string tag, unique_ptr<IProbability> distribution);
 
     int getId() const;
     int getUnitId() const;
@@ -31,4 +31,4 @@ public:
 };
 
 
-#endif //TREE_FAILUREMODE_H
+#endif //ATVALUE_FAILUREMODE_H

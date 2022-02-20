@@ -4,6 +4,8 @@
 #include "utilities/CsvReader.h"
 #include "controllers/Simulator.h"
 
+using InputMap = std::map<int, std::vector<std::string>>;
+
 int main() {
 
     std::cout << "Hello, AtValue!" << std::endl;
@@ -11,13 +13,12 @@ int main() {
     auto failure_modes = CsvReader::readCsv(R"(/Users/paul/Repos/atvalue/data/failure_modes.csv)", true);
     auto station = CsvReader::readCsv(R"(/Users/paul/Repos/atvalue/data/model_1.csv)", true);
 
-    auto facility = make_unique<Facility>();
-    facility->buildFacility(station, failure_modes);
 
     int simulations {1000};
     int duration {8000};
 
-    auto simulator = Simulator(simulations, move(facility), duration);
+
+    auto simulator = Simulator(simulations, duration, failure_modes, station);
     auto start = chrono::steady_clock::now();
     simulator.run();
     auto end = chrono::steady_clock::now();

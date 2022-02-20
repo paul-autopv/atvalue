@@ -257,7 +257,7 @@ TYPED_TEST_SUITE_P(MyFixture);
 TYPED_TEST_P(MyFixture, HasPropertyA) { ... }
 TYPED_TEST_P(MyFixture, HasPropertyB) { ... }
 
-// Register the tests in the test suite.
+// ProductionCycle the tests in the test suite.
 REGISTER_TYPED_TEST_SUITE_P(MyFixture, HasPropertyA, HasPropertyB);
 ```
 

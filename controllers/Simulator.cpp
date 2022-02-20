@@ -2,14 +2,26 @@
 // Created by Paul on 2022/01/17.
 //
 #include "Simulator.h"
-#include "Register.h"
+#include "ProductionCycle.h"
+
+#include <utility>
+#include "ProductionCycle.h"
 
 
-
-Simulator::Simulator(int simulations, std::unique_ptr<Facility> facility, int duration) :
+Simulator::Simulator(const int &simulations, const int &duration, InputMap failures, InputMap structure) :
     simulations_ {simulations < 0 ? 0 : simulations},
-    facility_ {std::move(facility)},
-    duration_ {duration} {}
+    duration_ {duration},
+    failures_ {std::move(failures)},
+    structure_ {std::move(structure)}{
+
+    if (simulations_ <= 0) {
+        throw invalid_argument("Simulation duration must be larger than 0.");
+    }
+    if (duration_ <= 0) {
+        throw invalid_argument("Number of simulations must be larger than 0.");
+    }
+}
+
 
 void Simulator::run() const {
 
@@ -19,29 +31,30 @@ void Simulator::run() const {
     threads.reserve(simulations_);
 
     // define functors
-    vector<Register> printProgress(simulations_);
+    vector<ProductionCycle> productionCycles(simulations_);
     for (auto i = 0; i < simulations_; ++i){
-        printProgress[i] = Register(duration_);
+        productionCycles[i] = ProductionCycle(duration_, structure_, failures_);
+
     }
 
     // define tasks
-    deque<packaged_task<Task_type>> packagedTasks;
+    deque<packaged_task<Task_type>> productionCycleTasks;
     for (auto i = 0; i < simulations_; ++i){
-        packaged_task<Task_type> task { (printProgress[i]) };
-        packagedTasks.push_back(move(task));
+        packaged_task<Task_type> productionCycleTask {(productionCycles[i]) };
+        productionCycleTasks.push_back(move(productionCycleTask));
     }
 
     // define futures
     vector<future<TypeRegister>> futures(simulations_);
     for (auto i = 0; i < simulations_; ++i){
-        futures[i] = packagedTasks[i].get_future();
+        futures[i] = productionCycleTasks[i].get_future();
     }
 
     // define threads
     int i {0};
-    while (!packagedTasks.empty()){
-        auto task = move(packagedTasks.front());
-        packagedTasks.pop_front();
+    while (!productionCycleTasks.empty()){
+        auto task = move(productionCycleTasks.front());
+        productionCycleTasks.pop_front();
         thread t {move(task)};
         t.detach();
         ++i;
@@ -65,7 +78,7 @@ void Simulator::run() const {
 void Simulator::run_single() const{
 
     for (int i = 0; i < simulations_; ++i) {
-        auto progress = Register(duration_);
+        auto progress = ProductionCycle(duration_, structure_, failures_);
         progress();
     }
 }
