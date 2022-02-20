@@ -27,6 +27,7 @@ public:
 
     int getId() const;
     int getUnitId() const;
+    double getFailureProbability(const int &day) const;
 
 };
 

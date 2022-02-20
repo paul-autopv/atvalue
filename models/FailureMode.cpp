@@ -25,3 +25,7 @@ int FailureMode::getId() const {
 int FailureMode::getUnitId() const {
     return unit_id_;
 }
+
+double FailureMode::getFailureProbability(const int &day) const {
+    return distribution_->getProbability(day);
+}

@@ -18,7 +18,10 @@ ProductionCycle::ProductionCycle(const int &duration, const InputMap &structure,
 int ProductionCycle::operator()() {
 
     for (int day = 0; day < duration_; ++day) {
-
+        auto risksForToday = facility_->getShuffledFailureModes();
+        for (auto &risk : risksForToday){
+            cout << facility_->getFailureProbability(risk, day) <<endl;
+        }
     }
 
     return 0;

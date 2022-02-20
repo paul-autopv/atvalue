@@ -25,17 +25,17 @@ int main() {
     chrono::duration<double> concurrent_elapsed = end - start;
     std::cout << "Concurrent elapsed time: " << concurrent_elapsed.count() << "s\n";
     std::cout << "Concurrent elapsed time: " << concurrent_elapsed.count() / simulations << "s/simulation\n";
-
-    start = chrono::steady_clock::now();
-    simulator.run_single();
-    end = chrono::steady_clock::now();
-
-    chrono::duration<double> single_elapsed = end - start;
-    std::cout << "Single elapsed time: " << single_elapsed.count() << "s\n";
-    std::cout << "Single elapsed time: " << single_elapsed.count() / simulations << "s/simulation\n";
-
-    auto ratio = 100 * (1 - concurrent_elapsed/single_elapsed);
-    std::cout << "Concurrent is " <<  ratio  << "% faster than Single." << endl;
+//
+//    start = chrono::steady_clock::now();
+//    simulator.run_single();
+//    end = chrono::steady_clock::now();
+//
+//    chrono::duration<double> single_elapsed = end - start;
+//    std::cout << "Single elapsed time: " << single_elapsed.count() << "s\n";
+//    std::cout << "Single elapsed time: " << single_elapsed.count() / simulations << "s/simulation\n";
+//
+//    auto ratio = 100 * (1 - concurrent_elapsed/single_elapsed);
+//    std::cout << "Concurrent is " <<  ratio  << "% faster than Single." << endl;
 
     return 0;
 }

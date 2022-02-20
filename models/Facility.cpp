@@ -152,3 +152,7 @@ vector<int> Facility::getShuffledFailureModes() {
     shuffle(failureIds.begin(), failureIds.end(), randomEngine);
     return failureIds;
 }
+
+double Facility::getFailureProbability(const int &failureId, const int &day) {
+    return failure_map_.at(failureId)->getFailureProbability(day);
+}
