@@ -11,6 +11,8 @@
 
 #include "../models/Facility.h"
 
+#include <random>
+
 class  ProductionCycle{
 public:
     ProductionCycle();
@@ -24,6 +26,8 @@ private:
     InputMap structure_;
     InputMap failures_;
     shared_ptr<Facility> facility_;
+
+    bool hasOccurredFailure(int day, const int &risk, double probability);
 };
 
 
