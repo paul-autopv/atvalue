@@ -33,15 +33,15 @@ void Simulator::run() const {
     // define functors
     vector<ProductionCycle> productionCycles(simulations_);
     for (auto i = 0; i < simulations_; ++i){
-        productionCycles[i] = ProductionCycle(duration_, InputMap(), InputMap());
+        productionCycles[i] = ProductionCycle(duration_, structure_, failures_);
 
     }
 
     // define tasks
     deque<packaged_task<Task_type>> productionCycleTasks;
     for (auto i = 0; i < simulations_; ++i){
-        packaged_task<Task_type> productionCyleTask {(productionCycles[i]) };
-        productionCycleTasks.push_back(move(productionCyleTask));
+        packaged_task<Task_type> productionCycleTask {(productionCycles[i]) };
+        productionCycleTasks.push_back(move(productionCycleTask));
     }
 
     // define futures
@@ -78,7 +78,7 @@ void Simulator::run() const {
 void Simulator::run_single() const{
 
     for (int i = 0; i < simulations_; ++i) {
-        auto progress = ProductionCycle(duration_, InputMap(), InputMap());
+        auto progress = ProductionCycle(duration_, structure_, failures_);
         progress();
     }
 }

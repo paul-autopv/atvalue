@@ -25,6 +25,7 @@ set(SOURCE_FILES
         utilities/CsvReader.cpp
         models/CsvMap.cpp
         controllers/Simulator.cpp
+        controllers/ProductionCycle.cpp
         )
 
 add_library(models STATIC ${SOURCE_FILES} ${HEADER_FILES})
