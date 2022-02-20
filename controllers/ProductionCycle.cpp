@@ -18,14 +18,7 @@ ProductionCycle::ProductionCycle(const int &duration, const InputMap &structure,
 };
 
 
-vector<int> ProductionCycle::operator()() {
-    vector<int> temp(duration_);
-    for (int i = 0; i < duration_; ++i) {
-        temp[i] = 1;
-    }
-    for (int i = 0; i < duration_; ++i) {
-        register_[i] += temp[i];
-    }
-    return register_;
+void ProductionCycle::operator()() {
+
 }
 #pragma clang diagnostic pop

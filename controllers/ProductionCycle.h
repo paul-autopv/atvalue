@@ -17,7 +17,7 @@ public:
 
     ProductionCycle(const int &duration, const InputMap &structure,const InputMap &failures);
 
-    vector<int> operator()();
+    void operator()();
 
 private:
     int duration_;
