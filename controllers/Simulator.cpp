@@ -60,6 +60,21 @@ void Simulator::run() const {
         ++i;
     }
 
+// Code commented out below is an example of how to work with output of futures.
+//
+//        TypeRegister accumulator;
+//        accumulator.resize(duration_);
+//        for (auto future = 0; future < simulations_; ++future){
+//        auto future_register = futures[future].get();
+//        accumulator = sumRegister(accumulator, future_register);
+//        }
+//
+//        long sum {0};
+//        for (int j = 0; j < duration_; ++j) {
+//        sum += accumulator[j];
+//        }
+//        std::cout << "Sum of all elements: " << sum << endl;
+//        std::cout << "Done" << std::endl;
 }
 
 void Simulator::run_single() const{
