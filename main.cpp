@@ -13,8 +13,6 @@ int main() {
     auto failure_modes = CsvReader::readCsv(R"(/Users/paul/Repos/atvalue/data/failure_modes.csv)", true);
     auto station = CsvReader::readCsv(R"(/Users/paul/Repos/atvalue/data/model_1.csv)", true);
 
-    auto facility = make_unique<Facility>();
-    facility->buildFacility(station, failure_modes);
 
     int simulations {1000};
     int duration {8000};
