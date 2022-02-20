@@ -9,7 +9,11 @@
 #ifndef ATVALUE_PRODUCTIONCYCLE_H
 #define ATVALUE_PRODUCTIONCYCLE_H
 
-#include "../models/Facility.h"
+#include "../controllers/Simulator.h"
+
+#include <random>
+
+
 
 class  ProductionCycle{
 public:
@@ -17,13 +21,16 @@ public:
 
     ProductionCycle(const int &duration, const InputMap &structure,const InputMap &failures);
 
-    vector<int> operator()();
+    IncidentRegister operator()();
 
 private:
     int duration_;
     InputMap structure_;
     InputMap failures_;
-    vector<int> register_;
+    shared_ptr<Facility> facility_;
+    IncidentRegister incidentRegister_;
+
+    bool hasOccurredFailure(const int &day, const int &risk, const double &probability);
 };
 
 

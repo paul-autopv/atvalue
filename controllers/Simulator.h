@@ -5,34 +5,37 @@
 #ifndef ATVALUE_SIMULATOR_H
 #define ATVALUE_SIMULATOR_H
 
+#include "../models/Facility.h"
+#include "../controllers/ProductionCycle.h"
+
 #include <memory>
 #include <thread>
 #include <mutex>
 #include <future>
 #include <deque>
+#include <utility>
+#include <fstream>
 
-#include "../models/Facility.h"
+using Task_type = IncidentRegister();
+using Register = IncidentRegister;
 
 class Simulator {
-
-    using TypeRegister = vector<int>;
-
-    int simulations_;
-    const int duration_;
-    InputMap failures_;
-    InputMap structure_;
-
-
-    static TypeRegister& sumRegister(TypeRegister& a, TypeRegister& b);
 
 public:
     Simulator() = delete;
     Simulator(const int &simulations, const int &duration, InputMap failures, InputMap structure);
-
-
     void run() const;
-
     void run_single() const;
+
+private:
+    int simulations_;
+    const int duration_;
+    InputMap failures_;
+    InputMap structure_;
+    static constexpr auto incident_register_path_ = "../output/incidents.csv";
+
+    static void prepareOutputFiles();
+    static void writeRegisterToCsv(const Register& the_register) ;
 };
 
 

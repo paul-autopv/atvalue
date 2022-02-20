@@ -117,21 +117,6 @@ int Facility::unitCount() const {
 }
 
 
-int Facility::getParentIdOfUnit(int unit_id) const {
-    if(!isInUnitMap(unit_id)){
-        std::string message = "Current unit map does not contain unit with provided id ";
-        throw std::invalid_argument(message);
-    }
-    return unit_map_.at(unit_id)->getParentId();
-}
-
-int Facility::getChildrenCountForUnit(int unit_id) const {
-    if(!isInUnitMap(unit_id)){
-        std::string message = "Current unit map does not contain unit with provided id";
-        throw std::invalid_argument(message);
-    }    return unit_map_.at(unit_id)->countOfChildren();
-}
-
 bool Facility::isInUnitMap(int id) const{
     return unit_map_.find(id) != unit_map_.end();
 }
@@ -153,4 +138,30 @@ void Facility::registerFailureModes(const vector<shared_ptr<FailureMode>>& failu
     }
     cout << "test" << endl;
 
+}
+
+vector<int> Facility::getShuffledFailureModes() {
+    vector<int> failureIds;
+
+    for (auto & it : failure_map_) {
+        failureIds.push_back(it.first);
+    }
+
+    std::random_device randomDevice;
+    std::default_random_engine randomEngine(randomDevice());
+    shuffle(failureIds.begin(), failureIds.end(), randomEngine);
+    return failureIds;
+}
+
+double Facility::getFailureModeProbability(const int &failureId, const int &day) {
+    return failure_map_.at(failureId)->getFailureProbability(day);
+}
+
+vector<string> Facility::getFailureModeDetail(const int &failureId) {
+    auto id = to_string(failureId);
+    auto unit = to_string(failure_map_.at(failureId)->getUnitId());
+    auto name = failure_map_.at(failureId)->getName();
+    auto description = failure_map_.at(failureId)->getDescription();
+    auto tag = failure_map_.at(failureId)->getTag();
+    return {id, unit, name, description, tag};
 }

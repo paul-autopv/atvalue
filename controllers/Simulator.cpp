@@ -2,10 +2,6 @@
 // Created by Paul on 2022/01/17.
 //
 #include "Simulator.h"
-#include "ProductionCycle.h"
-
-#include <utility>
-#include "ProductionCycle.h"
 
 
 Simulator::Simulator(const int &simulations, const int &duration, InputMap failures, InputMap structure) :
@@ -20,12 +16,12 @@ Simulator::Simulator(const int &simulations, const int &duration, InputMap failu
     if (duration_ <= 0) {
         throw invalid_argument("Number of simulations must be larger than 0.");
     }
+
+    prepareOutputFiles();
 }
 
 
 void Simulator::run() const {
-
-    using Task_type = vector<int>();
 
     vector<std::thread> threads;
     threads.reserve(simulations_);
@@ -45,7 +41,7 @@ void Simulator::run() const {
     }
 
     // define futures
-    vector<future<TypeRegister>> futures(simulations_);
+    vector<future<Register>> futures(simulations_);
     for (auto i = 0; i < simulations_; ++i){
         futures[i] = productionCycleTasks[i].get_future();
     }
@@ -60,19 +56,46 @@ void Simulator::run() const {
         ++i;
     }
 
-    TypeRegister accumulator;
-    accumulator.resize(duration_);
+
     for (auto future = 0; future < simulations_; ++future){
-        auto future_register = futures[future].get();
-        accumulator = sumRegister(accumulator, future_register);
+        auto the_register = futures[future].get();
+        cout << "Writing register for simulation " << future  << endl;
+        writeRegisterToCsv(the_register);
     }
 
-    long sum {0};
-    for (int j = 0; j < duration_; ++j) {
-        sum += accumulator[j];
+
+// Code commented out below is an example of how to work with output of futures.
+//
+//        TypeRegister accumulator;
+//        accumulator.resize(duration_);
+//        for (auto future = 0; future < simulations_; ++future){
+//        auto future_register = futures[future].get();
+//        accumulator = sumRegister(accumulator, future_register);
+//        }
+//
+//        long sum {0};
+//        for (int j = 0; j < duration_; ++j) {
+//        sum += accumulator[j];
+//        }
+//        std::cout << "Sum of all elements: " << sum << endl;
+//        std::cout << "Done" << std::endl;
+}
+
+void Simulator::writeRegisterToCsv(const Register& the_register) {
+    const auto file_name = "../register.csv";
+    mutex mtx;
+    fstream out_file;
+    lock_guard lck (mtx);
+
+    out_file.open(incident_register_path_, ios_base::out | ios_base::app);
+
+    for (auto & it : the_register){
+        out_file << it.first << ",";
+        for (auto & item : it.second){
+            out_file << item << ",";
+        }
+        out_file << endl;
     }
-    std::cout << "Sum of all elements: " << sum << endl;
-    std::cout << "Done" << std::endl;
 }
 
 void Simulator::run_single() const{
@@ -83,15 +106,10 @@ void Simulator::run_single() const{
     }
 }
 
-Simulator::TypeRegister& Simulator::sumRegister(Simulator::TypeRegister &a, Simulator::TypeRegister &b) {
-
-    if (a.size() != b.size())
-        throw out_of_range("Registers are of different length");
-
-    for (int i = 0; i < a.size(); ++i) {
-        a[i] += b[i];
-    }
-    return a;
+void Simulator::prepareOutputFiles() {
+    auto status = remove(incident_register_path_);
 }
+
+
 
 

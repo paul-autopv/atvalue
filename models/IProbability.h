@@ -6,7 +6,7 @@
 #define ATVALUE_IPROBABILITY_H
 
 class IProbability{
-protected:
+public:
     virtual double getProbability(const int &day) = 0;
 };
 
