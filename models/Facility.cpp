@@ -35,11 +35,15 @@ vector<shared_ptr<FailureMode>> Facility::getFailureModes(const InputMap &failur
 
 unique_ptr<IProbability> Facility::getProbabilityDistribution(const vector<string> &failure_mode, const string &probability_type) {
     FailureModeFields fields;
-    auto a = stod(failure_mode[fields.a]);
-    auto b = stod(failure_mode[fields.b]);
-    if (probability_type == "weibull")
+    if (probability_type == "weibull"){
+        auto a = stod(failure_mode[fields.a]);
+        auto b = stod(failure_mode[fields.b]);
         return make_unique<WeibullProbability>(a, b);
-    return make_unique<TriangularProbability>(TriangularProbability(0, (int) a, (int) b));
+    }
+    auto a = stoi(failure_mode[fields.a]);
+    auto b = stoi(failure_mode[fields.b]);
+    auto c = stoi(failure_mode[fields.c]);
+    return make_unique<TriangularProbability>(TriangularProbability(a,b, c));
 }
 
 FamilyTree Facility::childCounter(const InputMap& unit_map) {
