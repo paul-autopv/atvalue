@@ -82,9 +82,7 @@ void Simulator::run() const {
 }
 
 void Simulator::writeRegisterToCsv(const Register& the_register) {
-    mutex mtx;
     fstream out_file;
-    lock_guard lck (mtx);
 
     out_file.open(incident_register_path_, ios_base::out | ios_base::app);
 
