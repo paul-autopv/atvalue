@@ -1,22 +1,22 @@
 #include <algorithm>
 #include "Facility.h"
 
-void Facility::buildFacility(const InputMap &unit_map, const InputMap &failure_map) {
-    auto family_tree= childCounter(unit_map);
-    auto failure_modes = unitFailureModes(failure_map);
+void Facility::buildFacility(const InputMap &component_map, const InputMap &failure_map) {
+    auto family_tree= childCounter(component_map);
+    auto failure_modes = componentFailureModes(failure_map);
 
-    for (auto iter {cbegin(unit_map)}; iter != cend(unit_map); ++iter) {
-        auto is_root = (iter == cbegin(unit_map));
+    for (auto iter {cbegin(component_map)}; iter != cend(component_map); ++iter) {
+        auto is_root = (iter == cbegin(component_map));
         auto unit_record = iter->second;
         auto failures = getFailureModes(failure_map, (*failure_modes)[iter->first]);
         registerFailureModes(failures);
-        loadUnit(unit_record, unit_map, family_tree, move(failures), is_root);
+        loadComponent(unit_record, component_map, family_tree, move(failures), is_root);
     }
 }
 
-vector<shared_ptr<FailureMode>> Facility::getFailureModes(const InputMap &failure_map, vector<int> &unit_failures) {
+vector<shared_ptr<FailureMode>> Facility::getFailureModes(const InputMap &failure_map, vector<int> &component_failures) {
     vector<shared_ptr<FailureMode>> failures;
-    for (auto failure : unit_failures){
+    for (auto failure : component_failures){
         FailureModeFields fields;
         auto failure_parameters = failure_map.at(failure);
         auto probability_distribution = getProbabilityDistribution(failure_parameters, failure_parameters[fields.probability]);
@@ -46,13 +46,13 @@ unique_ptr<IProbability> Facility::getProbabilityDistribution(const vector<strin
     return make_unique<TriangularProbability>(TriangularProbability(a,b, c));
 }
 
-FamilyTree Facility::childCounter(const InputMap& unit_map) {
+FamilyTree Facility::childCounter(const InputMap& component_map) {
 
     StationFields fields;
     auto children = std::make_unique<std::map<int, int>>();
 
-    if (!unit_map.empty()) {
-        for (auto iter{cbegin(unit_map)}; iter != cend(unit_map); ++iter) {
+    if (!component_map.empty()) {
+        for (auto iter{cbegin(component_map)}; iter != cend(component_map); ++iter) {
             auto parent_id = stoi(iter->second[fields.parent_id]);
             if (children == nullptr || children->find(parent_id) == children->end())
                 (*children)[parent_id] = 0;
@@ -62,7 +62,7 @@ FamilyTree Facility::childCounter(const InputMap& unit_map) {
     return children;
 }
 
-std::unique_ptr<UnitFailureModes> Facility::unitFailureModes(const InputMap& failure_mode_map) {
+std::unique_ptr<ComponentFailureModes> Facility::componentFailureModes(const InputMap& failure_mode_map) {
 
     FailureModeFields fields;
     auto failures = std::make_unique<std::unordered_map<int, std::vector<int>>>();
@@ -77,24 +77,24 @@ std::unique_ptr<UnitFailureModes> Facility::unitFailureModes(const InputMap& fai
     return failures;
 }
 
-void Facility::loadUnit(const vector<string> &unit, const InputMap &unit_map, FamilyTree &family_tree,
-                        vector<shared_ptr<FailureMode>> failures, bool isRoot) {
+void Facility::loadComponent(const vector<string> &component, const InputMap &component_map, FamilyTree &family_tree,
+                             vector<shared_ptr<FailureMode>> failures, bool isRoot) {
 
     StationFields fields;
 
-    auto id = stoi(unit[fields.id]);
-    auto name = unit[fields.name];
-    auto capacity = stod(unit[fields.capacity]);
-    auto days_installed = stoi(unit[fields.days_installed]);
+    auto id = stoi(component[fields.id]);
+    auto name = component[fields.name];
+    auto capacity = stod(component[fields.capacity]);
+    auto days_installed = stoi(component[fields.days_installed]);
     auto children = childrenCount(family_tree, id);
-    auto parent_id = (isRoot) ? -1 : stoi(unit[fields.parent_id]);
-    addUnit(make_unique<Component>(id, name, days_installed, move(failures), capacity, children), parent_id);
+    auto parent_id = (isRoot) ? -1 : stoi(component[fields.parent_id]);
+    addComponent(make_unique<Component>(id, name, days_installed, move(failures), capacity, children), parent_id);
 
     cout << "Added " << name << " (id: " << id << ")" << endl;
 }
 
-void Facility::addUnit(std::unique_ptr<Component> unit, int parent_id) {
-    auto unit_ptr = registerUnit(unit);
+void Facility::addComponent(std::unique_ptr<Component> component, int parent_id) {
+    auto unit_ptr = registerComponent(component);
 
     if (parent_id > 0){
         auto parent_ptr = getParent(parent_id);
@@ -103,32 +103,32 @@ void Facility::addUnit(std::unique_ptr<Component> unit, int parent_id) {
     }
 }
 
-shared_ptr<Component> Facility::registerUnit(unique_ptr<Component> &unit) {
-    auto  unit_ptr = shared_ptr<Component>(move(unit));
-    unit_map_.emplace(unit_ptr->getId(), unit_ptr);
+shared_ptr<Component> Facility::registerComponent(unique_ptr<Component> &component) {
+    auto  unit_ptr = shared_ptr<Component>(move(component));
+    component_map_.emplace(unit_ptr->getId(), unit_ptr);
     return unit_ptr;
 }
 
 shared_ptr<Component> Facility::getParent(int parent_id) {
-    if (!isInUnitMap(parent_id)) {
+    if (!isInComponentMap(parent_id)) {
         std::string message = "Current unit map does not contain unit with parent_id";
         throw std::invalid_argument( message );
     }
-    return {unit_map_.at(parent_id)};
+    return {component_map_.at(parent_id)};
 }
 
-int Facility::unitCount() const {
-    return unit_map_.size();
+int Facility::componentCount() const {
+    return component_map_.size();
 }
 
 
-bool Facility::isInUnitMap(int id) const{
-    return unit_map_.find(id) != unit_map_.end();
+bool Facility::isInComponentMap(int id) const{
+    return component_map_.find(id) != component_map_.end();
 }
 
-int Facility::childrenCount(const FamilyTree& family_tree, int unit_id) {
-    if (!family_tree->empty() && (*family_tree)[unit_id]){
-        return family_tree->find(unit_id)->second;
+int Facility::childrenCount(const FamilyTree& family_tree, int component_id) {
+    if (!family_tree->empty() && (*family_tree)[component_id]){
+        return family_tree->find(component_id)->second;
     }
     return 0;
 }
