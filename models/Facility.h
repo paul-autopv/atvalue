@@ -11,7 +11,7 @@
 #include <iostream>
 #include <random>
 
-#include "Unit.h"
+#include "Component.h"
 #include "CsvMap.h"
 #include "../probabilities/WeibullProbability.h"
 #include "../probabilities/TriangularProbability.h"
@@ -26,11 +26,11 @@ using IncidentRegister = map<int, vector<string>>;
 
 class Facility {
 
-    unordered_map<int, shared_ptr<Unit>> unit_map_;
+    unordered_map<int, shared_ptr<Component>> unit_map_;
 
     FailureMap failure_map_;
 
-    void addUnit(unique_ptr<Unit> unit, int parent_id);
+    void addUnit(unique_ptr<Component> unit, int parent_id);
 
     void loadUnit(const vector<string> &unit, const InputMap &unit_map, FamilyTree &family_tree,
                   vector<shared_ptr<FailureMode>> failures, bool isRoot);
@@ -44,9 +44,9 @@ class Facility {
 
     static std::unique_ptr<UnitFailureModes> unitFailureModes(const InputMap& failure_mode_map);
 
-    shared_ptr<Unit> registerUnit(unique_ptr<Unit> &unit);
+    shared_ptr<Component> registerUnit(unique_ptr<Component> &unit);
 
-    shared_ptr<Unit> getParent(int parent_id);
+    shared_ptr<Component> getParent(int parent_id);
 
     static vector<shared_ptr<FailureMode>> getFailureModes(const InputMap &failure_map, vector<int> &unit_failures);
 

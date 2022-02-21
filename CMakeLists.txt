@@ -7,7 +7,7 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 
 # Define header and source files
 set(HEADER_FILES
-        models/unit.h
+        models/Component.h
         models/Facility.h
         models/FailureMode.h
         models/IProbability.h
@@ -19,7 +19,7 @@ set(HEADER_FILES
         controllers/ProductionCycle.h)
 
 set(SOURCE_FILES
-        models/unit.cpp
+        models/Component.cpp
         models/Facility.cpp
         models/FailureMode.cpp
         utilities/CsvReader.cpp

@@ -88,28 +88,28 @@ void Facility::loadUnit(const vector<string> &unit, const InputMap &unit_map, Fa
     auto days_installed = stoi(unit[fields.days_installed]);
     auto children = childrenCount(family_tree, id);
     auto parent_id = (isRoot) ? -1 : stoi(unit[fields.parent_id]);
-    addUnit(make_unique<Unit>(id, name, days_installed, move(failures), capacity, children), parent_id);
+    addUnit(make_unique<Component>(id, name, days_installed, move(failures), capacity, children), parent_id);
 
     cout << "Added " << name << " (id: " << id << ")" << endl;
 }
 
-void Facility::addUnit(std::unique_ptr<Unit> unit, int parent_id) {
+void Facility::addUnit(std::unique_ptr<Component> unit, int parent_id) {
     auto unit_ptr = registerUnit(unit);
 
     if (parent_id > 0){
         auto parent_ptr = getParent(parent_id);
-        unit_ptr->setParent(weak_ptr<Unit>(parent_ptr));
+        unit_ptr->setParent(weak_ptr<Component>(parent_ptr));
         parent_ptr->addChild(unit_ptr);
     }
 }
 
-shared_ptr<Unit> Facility::registerUnit(unique_ptr<Unit> &unit) {
-    auto  unit_ptr = shared_ptr<Unit>(move(unit));
+shared_ptr<Component> Facility::registerUnit(unique_ptr<Component> &unit) {
+    auto  unit_ptr = shared_ptr<Component>(move(unit));
     unit_map_.emplace(unit_ptr->getId(), unit_ptr);
     return unit_ptr;
 }
 
-shared_ptr<Unit> Facility::getParent(int parent_id) {
+shared_ptr<Component> Facility::getParent(int parent_id) {
     if (!isInUnitMap(parent_id)) {
         std::string message = "Current unit map does not contain unit with parent_id";
         throw std::invalid_argument( message );

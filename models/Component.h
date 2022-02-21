@@ -2,8 +2,8 @@
 // Created by Paul on 2021/12/28.
 //
 
-#ifndef ATVALUE_UNIT_H
-#define ATVALUE_UNIT_H
+#ifndef ATVALUE_COMPONENT_H
+#define ATVALUE_COMPONENT_H
 
 
 #include <string>
@@ -12,24 +12,24 @@
 
 using namespace std;
 
-class Unit {
+class Component {
     int id_;
     string name_;
-    weak_ptr<Unit> parent_;
-    vector<shared_ptr<Unit>> children_;
+    weak_ptr<Component> parent_;
+    vector<shared_ptr<Component>> children_;
     vector<shared_ptr<FailureMode>> failure_modes_;
     int days_installed_;
     double capacity_;
 
 public:
-    friend ostream& operator<<(ostream& os, const Unit& unit);
+    friend ostream& operator<<(ostream& os, const Component& unit);
 
-    Unit() = delete;
-    Unit(int id, string name, int days_installed, vector<shared_ptr<FailureMode>> failure_modes, double capacity= 0, int children= 0);
+    Component() = delete;
+    Component(int id, string name, int days_installed, vector<shared_ptr<FailureMode>> failure_modes, double capacity= 0, int children= 0);
 
-    void setParent(weak_ptr<Unit> parent_ptr);
+    void setParent(weak_ptr<Component> parent_ptr);
     int getParentId() const;
-    void addChild(const shared_ptr<Unit>& child);
+    void addChild(const shared_ptr<Component>& child);
     void addFailureMode(unique_ptr<FailureMode> mode);
     bool isRoot() const;
     int getId() const;
@@ -40,4 +40,4 @@ public:
 };
 
 
-#endif //ATVALUE_UNIT_H
+#endif //ATVALUE_COMPONENT_H
