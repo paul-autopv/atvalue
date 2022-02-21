@@ -141,8 +141,6 @@ void Facility::registerFailureModes(const vector<shared_ptr<FailureMode>>& failu
     for (const auto& failure : failure_modes) {
         failure_map_.emplace(failure->getId(), failure);
     }
-    cout << "test" << endl;
-
 }
 
 vector<int> Facility::getShuffledFailureModes() {

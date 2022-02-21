@@ -107,7 +107,7 @@ void Simulator::prepareOutputFiles() {
     fstream out_file;
     remove(incident_register_path_);
     out_file.open(incident_register_path_, ios_base::out);
-    out_file << "day,failure_id,unit_id,name,description, tag" << endl;
+    out_file << "event,failure_id,unit_id,name,description,tag,day" << endl;
 }
 
 

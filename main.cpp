@@ -14,7 +14,7 @@ int main() {
     auto station = CsvReader::readCsv(R"(C:\Users\paul.nel\Documents\repos\atvalue_cpp\data\model_1.csv)", true);
 
 
-    int simulations {10};
+    int simulations {1};
     int duration {8000};
 
     auto simulator = Simulator(simulations, duration, failure_modes, station);
