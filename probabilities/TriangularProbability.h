@@ -9,17 +9,17 @@
 #include "../models/IProbability.h"
 
 class TriangularProbability : public IProbability{
-    double installed_ {0};
-    double should_fail_ {0};
-    double will_fail_ {0};
+    int installed_ {0};
+    int should_fail_ {0};
+    int will_fail_ {0};
 public:
     TriangularProbability() = delete;
     TriangularProbability(const int &installed, const int &should_fail, const int &will_fail){
         if (will_fail < should_fail || installed > should_fail)
             throw std::invalid_argument("Ensure that will_fail >= should_fail >= installed.");
-        installed_ = (double) installed;
-        should_fail_ = (double) should_fail;
-        will_fail_ = (double) will_fail;
+        installed_ = installed;
+        should_fail_ = should_fail;
+        will_fail_ = will_fail;
     };
 
     double getProbability(const int &day) override{
@@ -32,9 +32,9 @@ public:
         auto pre_should_fail = (weight * (should_fail_ - installed_)) / 2;
         auto post_should_fail = (weight * (will_fail_ - should_fail_)) / 2;
         if (day <= should_fail_){
-            return (((day - installed_)/(should_fail_ - installed_)) * pre_should_fail) / denominator;
+            return (((day - (double)installed_)/((double)should_fail_ - (double)installed_)) * pre_should_fail) / denominator;
         }
-        return ((pre_should_fail + ((day - should_fail_) / (will_fail_ - should_fail_)) * post_should_fail )) / denominator;
+        return ((pre_should_fail + ((day - (double)should_fail_) / ((double)will_fail_ - (double)should_fail_)) * post_should_fail )) / denominator;
     };
 };
 
