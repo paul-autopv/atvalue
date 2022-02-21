@@ -82,7 +82,6 @@ void Simulator::run() const {
 }
 
 void Simulator::writeRegisterToCsv(const Register& the_register) {
-    const auto file_name = "../register.csv";
     mutex mtx;
     fstream out_file;
     lock_guard lck (mtx);
@@ -90,9 +89,9 @@ void Simulator::writeRegisterToCsv(const Register& the_register) {
     out_file.open(incident_register_path_, ios_base::out | ios_base::app);
 
     for (auto & it : the_register){
-        out_file << it.first << ",";
+        out_file << it.first;
         for (auto & item : it.second){
-            out_file << item << ",";
+            out_file << "," << item ;
         }
         out_file << endl;
     }
@@ -107,7 +106,10 @@ void Simulator::run_single() const{
 }
 
 void Simulator::prepareOutputFiles() {
-    auto status = remove(incident_register_path_);
+    fstream out_file;
+    remove(incident_register_path_);
+    out_file.open(incident_register_path_, ios_base::out);
+    out_file << "day,failure_id,unit_id,name,description, tag" << endl;
 }
 
 
