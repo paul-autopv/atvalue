@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "Facility.h"
 
 void Facility::buildFacility(const InputMap &unit_map, const InputMap &failure_map) {
