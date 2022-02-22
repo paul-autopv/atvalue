@@ -18,7 +18,7 @@ set(HEADER_FILES
         controllers/Simulator.h
         controllers/ProductionCycle.h
         models/Outage.h
-        models/OutageCost.h models/OutageSchedule.h)
+        models/OutageCost.h models/OutageSchedule.h models/OutageType.h)
 
 set(SOURCE_FILES
         models/Component.cpp
