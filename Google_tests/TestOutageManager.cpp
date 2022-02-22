@@ -33,3 +33,4 @@ TEST_F(TestOutageManager, ScheduleAddsOutageCorrectlyToOutageList){
     EXPECT_EQ(size, 3);
     EXPECT_EQ(total_cost, 33000);
 }
+

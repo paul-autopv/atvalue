@@ -38,3 +38,7 @@ double Outage::daily_cost() const{
 OutageType Outage::type() const{
     return type_;
 }
+
+int Outage::id() const {
+    return id_;
+}

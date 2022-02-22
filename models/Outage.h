@@ -24,6 +24,7 @@ public:
     int start() const;
     int end() const;
     int duration() const;
+    int id() const;
     double capex_cost() const;
     double opex_cost() const;
     double total_cost() const;
@@ -36,7 +37,6 @@ private:
     OutageType type_;
     OutageSchedule schedule_;
     OutageCost cost_;
-
 };
 
 
