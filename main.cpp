@@ -13,7 +13,6 @@ int main() {
     auto failure_modes = CsvReader::readCsv(R"(/Users/paul/Repos/atvalue/data/failure_modes.csv)", true);
     auto station = CsvReader::readCsv(R"(/Users/paul/Repos/atvalue/data/model_1.csv)", true);
 
-
     int simulations {2};
     int duration {8000};
 
