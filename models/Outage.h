@@ -46,7 +46,10 @@ public:
     }
 
     double daily_cost() const{
-        return total_cost() / duration();
+        auto outage_duration = duration();
+        if (outage_duration <= 0)
+            return 0;
+        return total_cost() / outage_duration;
     }
 
     OutageType type() const{
