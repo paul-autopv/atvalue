@@ -9,16 +9,19 @@
 #include <vector>
 #include "Outage.h"
 
+using Outagelist = std::vector<Outage>;
+
 class OutageManager {
 
-
-
 public:
+    static int outage_count_;
     void scheduleOutage(OutageSchedule schedule, OutageType type, OutageCost cost, int unit_id);
+    Outagelist getAllOutages();
 
 private:
-    static int outage_count_;
-    std::vector<Outage> outages_;
+    Outagelist outages_;
+
+    static int nextId();
 };
 
 
