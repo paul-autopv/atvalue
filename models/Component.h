@@ -13,13 +13,6 @@
 using namespace std;
 
 class Component {
-    int id_;
-    string name_;
-    weak_ptr<Component> parent_;
-    vector<shared_ptr<Component>> children_;
-    vector<shared_ptr<FailureMode>> failure_modes_;
-    int days_installed_;
-    double capacity_;
 
 public:
     friend ostream& operator<<(ostream& os, const Component& unit);
@@ -37,6 +30,15 @@ public:
     string getName() const;
     double getCapacity() const;
     int getDaysInstalled() const;
+
+private:
+    int id_;
+    string name_;
+    weak_ptr<Component> parent_;
+    vector<shared_ptr<Component>> children_;
+    vector<shared_ptr<FailureMode>> failure_modes_;
+    int days_installed_;
+    double capacity_;
 };
 
 

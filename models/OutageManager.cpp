@@ -6,9 +6,9 @@
 
 int OutageManager::outage_count_ = 0;
 
-void OutageManager::scheduleOutage(OutageSchedule schedule, OutageType type, OutageCost cost, int unit_id) {
+void OutageManager::scheduleOutage(OutageSchedule schedule, OutageType type, OutageCost cost, int component_id) {
     auto outage_id = nextId();
-    outages_.emplace_back(outage_id, unit_id, type, schedule, cost);
+    outages_.emplace_back(outage_id, component_id, type, schedule, cost);
 }
 
 Outagelist OutageManager::getAllOutages() {

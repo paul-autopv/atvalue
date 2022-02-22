@@ -30,6 +30,7 @@ IncidentRegister ProductionCycle::operator()() {
                 auto event = facility_->getFailureModeDetail(risk);
                 event.push_back(to_string(day));
                 incidentRegister_.insert(pair<int, vector<string>>(incident, event));
+
                 ++incident;
             }
         }
