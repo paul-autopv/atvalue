@@ -21,40 +21,14 @@ public:
         schedule_ {schedule},
         cost_ {cost}{}
 
-    int start() const{
-        return schedule_.start();
-    }
-
-    int end() const{
-        return schedule_.end();
-    }
-
-    int duration() const{
-        return schedule_.duration();
-    }
-
-    double capex_cost() const{
-        return cost_.capex();
-    }
-
-    double opex_cost() const{
-        return cost_.opex();
-    }
-
-    double total_cost() const{
-        return cost_.total();
-    }
-
-    double daily_cost() const{
-        auto outage_duration = duration();
-        if (outage_duration <= 0)
-            return 0;
-        return total_cost() / outage_duration;
-    }
-
-    OutageType type() const{
-        return type_;
-    }
+    int start() const;
+    int end() const;
+    int duration() const;
+    double capex_cost() const;
+    double opex_cost() const;
+    double total_cost() const;
+    double daily_cost() const;
+    OutageType type() const;
 
 private:
     int id_;
