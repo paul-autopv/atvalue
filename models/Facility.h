@@ -42,16 +42,16 @@ private:
 
     FailureMap failure_map_;
 
-    void addComponent(unique_ptr<Component> component, int parent_id);
+    void linkParentChildNodes(const std::shared_ptr<Component>& component_ptr, int parent_id);
 
-    void loadComponent(const vector<string> &component, const InputMap &component_map, FamilyTree &family_tree,
-                       vector<shared_ptr<FailureMode>> failures, bool isRoot);
+    void registerComponentWithFacility(const vector<string> &component_detail, const InputMap &component_map, FamilyTree &structure,
+                                       vector<shared_ptr<FailureMode>> failures, bool isRoot);
 
     shared_ptr<Component> registerComponent(unique_ptr<Component> &component);
 
     bool isInComponentMap(int id) const;
 
-    void registerFailureModes(const vector<shared_ptr<FailureMode>>& failure_modes);
+    void registerFailureModesWithFacility(const vector<shared_ptr<FailureMode>>& failure_modes);
 
     static vector<shared_ptr<FailureMode>> getFailureModesForComponent(const InputMap &failure_map, vector<int> &component_failures);
 
