@@ -6,16 +6,13 @@
 
 #include <utility>
 
-
-FailureMode::FailureMode(int id, int unit_id, string name, string description, string tag,
-                         std::unique_ptr<IProbability> distribution) :
-        id_ {id},
-        unit_id_ {unit_id},
-        name_ {std::move(name)},
-        description_ {std::move(description)},
-        tag_ {std::move(tag)},
-        distribution_ {move(distribution)}{
-
+FailureMode::FailureMode(const FailureModeDetail& detail, unique_ptr<IProbability> distribution):
+    id_ {detail.id},
+    unit_id_ {detail.unit_id},
+    name_ {detail.name},
+    description_ {detail.description},
+    tag_ {detail.tag},
+    distribution_ {move(distribution)}  {
 }
 
 int FailureMode::getId() const {

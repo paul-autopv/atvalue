@@ -7,7 +7,7 @@ set(CMAKE_VERBOSE_MAKEFILE ON)
 
 # Define header and source files
 set(HEADER_FILES
-        models/unit.h
+        models/Component.h
         models/Facility.h
         models/FailureMode.h
         models/IProbability.h
@@ -16,17 +16,20 @@ set(HEADER_FILES
         models/CsvMap.h
         probabilities/TriangularProbability.h
         controllers/Simulator.h
-        controllers/ProductionCycle.h)
+        controllers/ProductionCycle.h
+        models/Outage.h
+        models/OutageCost.h models/OutageSchedule.h models/OutageType.h models/OutageManager.cpp models/OutageManager.h models/FailureModeDetail.h)
 
 set(SOURCE_FILES
-        models/unit.cpp
+        models/Component.cpp
         models/Facility.cpp
         models/FailureMode.cpp
         utilities/CsvReader.cpp
         models/CsvMap.cpp
         controllers/Simulator.cpp
         controllers/ProductionCycle.cpp
-        )
+        models/Outage.cpp
+        models/OutageManager.cpp models/OutageManager.h)
 
 add_library(models STATIC ${SOURCE_FILES} ${HEADER_FILES})
 

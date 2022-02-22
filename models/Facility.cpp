@@ -1,32 +1,39 @@
 #include <algorithm>
 #include "Facility.h"
 
-void Facility::buildFacility(const InputMap &unit_map, const InputMap &failure_map) {
-    auto family_tree= childCounter(unit_map);
-    auto failure_modes = unitFailureModes(failure_map);
+void Facility::buildFacility(const InputMap &component_map, const InputMap &failure_map) {
+    auto structure= childCounter(component_map);
+    auto failure_modes = getAllComponentFailureModes(failure_map);
 
-    for (auto iter {cbegin(unit_map)}; iter != cend(unit_map); ++iter) {
-        auto is_root = (iter == cbegin(unit_map));
-        auto unit_record = iter->second;
-        auto failures = getFailureModes(failure_map, (*failure_modes)[iter->first]);
-        registerFailureModes(failures);
-        loadUnit(unit_record, unit_map, family_tree, move(failures), is_root);
+    for (auto iter = component_map.begin(); iter != component_map.end(); ++iter) {
+        auto component = iter->first;
+        auto component_record = iter->second;
+        auto is_root = (iter == component_map.begin());
+        auto failures = getFailureModesForComponent(failure_map, (*failure_modes)[component]);
+        registerFailureModesWithFacility(failures);
+        registerComponentWithFacility(component_record, component_map, structure, move(failures), is_root);
     }
 }
 
-vector<shared_ptr<FailureMode>> Facility::getFailureModes(const InputMap &failure_map, vector<int> &unit_failures) {
+vector<shared_ptr<FailureMode>> Facility::getFailureModesForComponent(const InputMap &failure_map, vector<int> &component_failures) {
+
+    FailureModeFields fields;
     vector<shared_ptr<FailureMode>> failures;
-    for (auto failure : unit_failures){
-        FailureModeFields fields;
+
+    for (auto failure : component_failures){
         auto failure_parameters = failure_map.at(failure);
-        auto probability_distribution = getProbabilityDistribution(failure_parameters, failure_parameters[fields.probability]);
-        auto failure_mode = make_shared<FailureMode>(
-                FailureMode(stoi(failure_parameters[fields.id]),
-                            stoi(failure_parameters[fields.unit_id]),
-                            failure_parameters[fields.name],
-                            failure_parameters[fields.description],
-                            failure_parameters[fields.tag],
-                            move(probability_distribution)));
+        auto probability_distribution = getProbabilityDistribution(
+                failure_parameters,
+                failure_parameters[fields.probability]);
+        auto failure_mode_detail = FailureModeDetail(
+                stoi(failure_parameters[fields.id]),
+                stoi(failure_parameters[fields.unit_id]),
+                failure_parameters[fields.name],
+                failure_parameters[fields.description],
+                failure_parameters[fields.tag]);
+        auto failure_mode = make_shared<FailureMode>(FailureMode(
+                failure_mode_detail,
+                move(probability_distribution)));
         failures.push_back(failure_mode);
     }
     return failures;
@@ -35,20 +42,24 @@ vector<shared_ptr<FailureMode>> Facility::getFailureModes(const InputMap &failur
 
 unique_ptr<IProbability> Facility::getProbabilityDistribution(const vector<string> &failure_mode, const string &probability_type) {
     FailureModeFields fields;
-    auto a = stod(failure_mode[fields.a]);
-    auto b = stod(failure_mode[fields.b]);
-    if (probability_type == "weibull")
-        return make_unique<WeibullProbability>(a, b);
-    return make_unique<TriangularProbability>(TriangularProbability(0, (int) a, (int) b));
+    if (probability_type == "weibull"){
+        return make_unique<WeibullProbability>(
+                stod(failure_mode[fields.a]),
+                stod(failure_mode[fields.b]));
+    }
+    return make_unique<TriangularProbability>(TriangularProbability(
+            stoi(failure_mode[fields.a]),
+            stoi(failure_mode[fields.b]),
+            stoi(failure_mode[fields.c])));
 }
 
-FamilyTree Facility::childCounter(const InputMap& unit_map) {
+FamilyTree Facility::childCounter(const InputMap& component_map) {
 
     StationFields fields;
     auto children = std::make_unique<std::map<int, int>>();
 
-    if (!unit_map.empty()) {
-        for (auto iter{cbegin(unit_map)}; iter != cend(unit_map); ++iter) {
+    if (!component_map.empty()) {
+        for (auto iter{cbegin(component_map)}; iter != cend(component_map); ++iter) {
             auto parent_id = stoi(iter->second[fields.parent_id]);
             if (children == nullptr || children->find(parent_id) == children->end())
                 (*children)[parent_id] = 0;
@@ -58,7 +69,7 @@ FamilyTree Facility::childCounter(const InputMap& unit_map) {
     return children;
 }
 
-std::unique_ptr<UnitFailureModes> Facility::unitFailureModes(const InputMap& failure_mode_map) {
+std::unique_ptr<ComponentFailureModes> Facility::getAllComponentFailureModes(const InputMap& failure_mode_map) {
 
     FailureModeFields fields;
     auto failures = std::make_unique<std::unordered_map<int, std::vector<int>>>();
@@ -73,58 +84,59 @@ std::unique_ptr<UnitFailureModes> Facility::unitFailureModes(const InputMap& fai
     return failures;
 }
 
-void Facility::loadUnit(const vector<string> &unit, const InputMap &unit_map, FamilyTree &family_tree,
-                        vector<shared_ptr<FailureMode>> failures, bool isRoot) {
+void Facility::registerComponentWithFacility(const vector<string> &component_detail, const InputMap &component_map, FamilyTree &structure,
+                                             vector<shared_ptr<FailureMode>> failures, bool isRoot) {
 
     StationFields fields;
 
-    auto id = stoi(unit[fields.id]);
-    auto name = unit[fields.name];
-    auto capacity = stod(unit[fields.capacity]);
-    auto days_installed = stoi(unit[fields.days_installed]);
-    auto children = childrenCount(family_tree, id);
-    auto parent_id = (isRoot) ? -1 : stoi(unit[fields.parent_id]);
-    addUnit(make_unique<Unit>(id, name, days_installed, move(failures), capacity, children), parent_id);
+    auto id = stoi(component_detail[fields.id]);
+    auto name = component_detail[fields.name];
+    auto capacity = stod(component_detail[fields.capacity]);
+    auto days_installed = stoi(component_detail[fields.days_installed]);
+    auto children = childrenCount(structure, id);
+    auto parent_id = (isRoot) ? -1 : stoi(component_detail[fields.parent_id]);
+    auto component = make_unique<Component>(id, name, days_installed, move(failures), capacity, children);
+    auto component_ptr = registerComponent(component);
+    linkParentChildNodes(component_ptr, parent_id);
 
     cout << "Added " << name << " (id: " << id << ")" << endl;
 }
 
-void Facility::addUnit(std::unique_ptr<Unit> unit, int parent_id) {
-    auto unit_ptr = registerUnit(unit);
+void Facility::linkParentChildNodes(const std::shared_ptr<Component>& component_ptr, int parent_id) {
 
     if (parent_id > 0){
         auto parent_ptr = getParent(parent_id);
-        unit_ptr->setParent(weak_ptr<Unit>(parent_ptr));
-        parent_ptr->addChild(unit_ptr);
+        component_ptr->setParent(weak_ptr<Component>(parent_ptr));
+        parent_ptr->addChild(component_ptr);
     }
 }
 
-shared_ptr<Unit> Facility::registerUnit(unique_ptr<Unit> &unit) {
-    auto  unit_ptr = shared_ptr<Unit>(move(unit));
-    unit_map_.emplace(unit_ptr->getId(), unit_ptr);
+shared_ptr<Component> Facility::registerComponent(unique_ptr<Component> &component) {
+    auto  unit_ptr = shared_ptr<Component>(move(component));
+    component_map_.emplace(unit_ptr->getId(), unit_ptr);
     return unit_ptr;
 }
 
-shared_ptr<Unit> Facility::getParent(int parent_id) {
-    if (!isInUnitMap(parent_id)) {
+shared_ptr<Component> Facility::getParent(int parent_id) {
+    if (!isInComponentMap(parent_id)) {
         std::string message = "Current unit map does not contain unit with parent_id";
         throw std::invalid_argument( message );
     }
-    return {unit_map_.at(parent_id)};
+    return {component_map_.at(parent_id)};
 }
 
-int Facility::unitCount() const {
-    return unit_map_.size();
+int Facility::componentCount() const {
+    return component_map_.size();
 }
 
 
-bool Facility::isInUnitMap(int id) const{
-    return unit_map_.find(id) != unit_map_.end();
+bool Facility::isInComponentMap(int id) const{
+    return component_map_.find(id) != component_map_.end();
 }
 
-int Facility::childrenCount(const FamilyTree& family_tree, int unit_id) {
-    if (!family_tree->empty() && (*family_tree)[unit_id]){
-        return family_tree->find(unit_id)->second;
+int Facility::childrenCount(const FamilyTree& family_tree, int component_id) {
+    if (!family_tree->empty() && (*family_tree)[component_id]){
+        return family_tree->find(component_id)->second;
     }
     return 0;
 }
@@ -133,12 +145,10 @@ int Facility::failureCount() const {
     return failure_map_.size();
 }
 
-void Facility::registerFailureModes(const vector<shared_ptr<FailureMode>>& failure_modes) {
+void Facility::registerFailureModesWithFacility(const vector<shared_ptr<FailureMode>>& failure_modes) {
     for (const auto& failure : failure_modes) {
         failure_map_.emplace(failure->getId(), failure);
     }
-    cout << "test" << endl;
-
 }
 
 vector<int> Facility::getShuffledFailureModes() {

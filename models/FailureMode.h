@@ -9,6 +9,7 @@
 #include <string>
 #include <memory>
 #include "IProbability.h"
+#include "FailureModeDetail.h"
 
 using namespace std;
 
@@ -18,12 +19,13 @@ class FailureMode {
     string name_;
     string description_;
     string tag_;
+    FailureModeDetail failureModeDetail;
     unique_ptr<IProbability> distribution_;
 
 public:
 
     FailureMode() = delete;
-    FailureMode(int id, int unit_id, string name, string description, string tag, unique_ptr<IProbability> distribution);
+    FailureMode(const FailureModeDetail& detail, unique_ptr<IProbability> distribution);
 
     int getId() const;
     int getUnitId() const;

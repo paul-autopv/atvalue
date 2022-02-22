@@ -30,7 +30,6 @@ void Simulator::run() const {
     vector<ProductionCycle> productionCycles(simulations_);
     for (auto i = 0; i < simulations_; ++i){
         productionCycles[i] = ProductionCycle(duration_, structure_, failures_);
-
     }
 
     // define tasks
@@ -55,7 +54,6 @@ void Simulator::run() const {
         t.detach();
         ++i;
     }
-
 
     for (auto future = 0; future < simulations_; ++future){
         auto the_register = futures[future].get();
@@ -82,9 +80,7 @@ void Simulator::run() const {
 }
 
 void Simulator::writeRegisterToCsv(const Register& the_register) {
-    mutex mtx;
     fstream out_file;
-    lock_guard lck (mtx);
 
     out_file.open(incident_register_path_, ios_base::out | ios_base::app);
 
@@ -109,9 +105,5 @@ void Simulator::prepareOutputFiles() {
     fstream out_file;
     remove(incident_register_path_);
     out_file.open(incident_register_path_, ios_base::out);
-    out_file << "day,failure_id,unit_id,name,description, tag" << endl;
+    out_file << "event,failure_id,unit_id,name,description,tag,day" << endl;
 }
-
-
-
-

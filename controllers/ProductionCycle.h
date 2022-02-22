@@ -10,6 +10,7 @@
 #define ATVALUE_PRODUCTIONCYCLE_H
 
 #include "../controllers/Simulator.h"
+#include "../models/OutageManager.h"
 
 #include <random>
 
@@ -28,6 +29,7 @@ private:
     InputMap structure_;
     InputMap failures_;
     shared_ptr<Facility> facility_;
+    OutageManager outageManager_ = OutageManager();
     IncidentRegister incidentRegister_;
 
     bool hasOccurredFailure(const int &day, const int &risk, const double &probability);

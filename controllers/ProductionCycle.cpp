@@ -21,23 +21,27 @@ IncidentRegister ProductionCycle::operator()() {
     uniform_int_distribution distribution {0, max};
     auto likelihood = [&distribution, &engine](){ return (double)distribution(engine)/max; };
 
+    auto incident {1};
     for (int day = 0; day < duration_; ++day) {
-        auto risksForToday = facility_->getShuffledFailureModes();
-        for (auto &risk : risksForToday){
+        auto failuresForToday = facility_->getShuffledFailureModes();
+        for (auto &failureId : failuresForToday){
             auto probability = likelihood();
-            if (hasOccurredFailure(day, risk, probability)){
-                auto event = facility_->getFailureModeDetail(risk);
-                incidentRegister_.insert(pair<int, vector<string>>(day, event));
+            if (hasOccurredFailure(day, failureId, probability)){
+                auto event = facility_->getFailureModeDetail(failureId);
+                event.push_back(to_string(day));
+                incidentRegister_.insert(pair<int, vector<string>>(incident, event));
+
+                ++incident;
             }
         }
     }
-
     return incidentRegister_;
-
 }
 
 bool ProductionCycle::hasOccurredFailure(const int &day, const int &risk, const double &probability) {
-    return facility_->getFailureModeProbability(risk, day) > probability;
+    auto cumulativeProbability = facility_->getFailureModeProbability(risk, day);
+    auto hasOccurred = cumulativeProbability  > probability;
+    return hasOccurred;
 }
 
 #pragma clang diagnostic pop

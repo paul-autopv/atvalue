@@ -88,3 +88,11 @@ TEST_F(TestTriangular, DayEqualToAllReturnOne){
 
     EXPECT_EQ(probability, 1);
 }
+
+TEST_F(TestTriangular, UniqueValuesReturnCorrectValue){
+    auto triangular = TriangularProbability(-15123, 730, 1095);
+
+    auto probability = triangular.getProbability(1);
+
+    EXPECT_EQ((int)(probability*100'000), 93254);
+}
