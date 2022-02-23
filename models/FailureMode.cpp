@@ -15,26 +15,28 @@ int FailureMode::getId() const {
     return failureModeDetail_.id;
 }
 
-int FailureMode::getUnitId() const {
-    return failureModeDetail_.unit_id;
+double FailureMode::getCapex() const {
+    return failureModeDetail_.capex;
 }
 
-double FailureMode::getFailureProbability(const int &day) const {
-    return distribution_->getProbability(day);
+double FailureMode::getOpex() const {
+    return failureModeDetail_.opex;
 }
 
-string FailureMode::getDescription() const {
-    return failureModeDetail_.description;
+int FailureMode::getDaysToInvestigate() const {
+    return failureModeDetail_.days_to_investigate;
 }
-
-string FailureMode::getName() const {
-    return failureModeDetail_.name;
+int FailureMode::getDaysToProcure() const {
+    return failureModeDetail_.days_to_procure;
 }
-
-string FailureMode::getTag() const {
-    return failureModeDetail_.tag;
+int FailureMode::getDaysToRepair() const {
+    return failureModeDetail_.days_to_repair;
 }
 
 FailureModeDetail FailureMode::getFailureModeDetail() {
     return failureModeDetail_;
+}
+
+double FailureMode::getFailureProbability(const int &day) const {
+    return distribution_->getProbability(day);
 }

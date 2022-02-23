@@ -27,9 +27,10 @@ IncidentRegister ProductionCycle::operator()() {
         for (auto &failureId : failuresForToday){
             auto probability = likelihood();
             if (hasOccurredFailure(day, failureId, probability)){
-                auto event = facility_->getFailureModeDetail(failureId).toString();
-                event.push_back(to_string(day));
-                incidentRegister_.insert(pair<int, vector<string>>(incident, event));
+                auto event = facility_->getFailureModeDetail(failureId);
+                auto event_record = event.toString();
+                event_record.push_back(to_string(day));
+                incidentRegister_.insert(pair<int, vector<string>>(incident, event_record));
                 ++incident;
             }
         }

@@ -14,8 +14,6 @@
 using namespace std;
 
 class FailureMode {
-    FailureModeDetail failureModeDetail_;
-    unique_ptr<IProbability> distribution_;
 
 public:
 
@@ -23,13 +21,18 @@ public:
     FailureMode(FailureModeDetail  detail, unique_ptr<IProbability> distribution);
 
     int getId() const;
-    int getUnitId() const;
-    string getDescription() const;
-    string getName() const;
-    string getTag() const;
+    double getCapex() const;
+    double getOpex() const;
+    int getDaysToInvestigate() const;
+    int getDaysToProcure() const;
+    int getDaysToRepair() const;
 
     FailureModeDetail getFailureModeDetail();
     double getFailureProbability(const int &day) const;
+
+private:
+    FailureModeDetail failureModeDetail_;
+    unique_ptr<IProbability> distribution_;
 
 };
 
