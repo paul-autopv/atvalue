@@ -33,7 +33,7 @@ public:
     void buildFacility(const InputMap &component_map, const InputMap &failure_map);
     vector<int> getShuffledFailureModes();
     double getFailureModeProbability(const int &failureId, const int &day);
-    vector<string> getFailureModeDetail(const int &failureId);
+    FailureModeDetail getFailureModeDetail(const int &failureId);
     int componentCount() const;
     int failureCount() const;
 

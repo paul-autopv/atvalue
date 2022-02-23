@@ -15,7 +15,7 @@ class OutageManager {
 
 public:
     static int outage_count_;
-    void scheduleOutage(OutageSchedule schedule, OutageType type, OutageCost cost, int component_id);
+    void scheduleOutage(int component_id, OutageType type, OutageSchedule schedule, OutageCost cost);
     Outagelist getAllOutages();
 
 private:

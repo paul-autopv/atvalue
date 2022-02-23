@@ -30,7 +30,12 @@ vector<shared_ptr<FailureMode>> Facility::getFailureModesForComponent(const Inpu
                 stoi(failure_parameters[fields.unit_id]),
                 failure_parameters[fields.name],
                 failure_parameters[fields.description],
-                failure_parameters[fields.tag]);
+                failure_parameters[fields.tag],
+                stod(failure_parameters[fields.capex]),
+                stod(failure_parameters[fields.opex]),
+                stoi(failure_parameters[fields.days_to_investigate]),
+                stoi(failure_parameters[fields.days_to_procure]),
+                stoi(failure_parameters[fields.days_to_repair]));
         auto failure_mode = make_shared<FailureMode>(FailureMode(
                 failure_mode_detail,
                 move(probability_distribution)));
@@ -75,7 +80,7 @@ std::unique_ptr<ComponentFailureModes> Facility::getAllComponentFailureModes(con
     auto failures = std::make_unique<std::unordered_map<int, std::vector<int>>>();
 
     if(!failure_mode_map.empty()){
-        for (auto iter{cbegin(failure_mode_map)}; iter != cend(failure_mode_map); ++iter) {
+        for (auto iter{failure_mode_map.begin()}; iter != failure_mode_map.end(); ++iter) {
             auto unit_id = stoi(iter->second[fields.unit_id]);
             auto failure_id = stoi(iter->second[fields.id]);
             (*failures)[unit_id].push_back(failure_id);
@@ -168,11 +173,8 @@ double Facility::getFailureModeProbability(const int &failureId, const int &day)
     return failure_map_.at(failureId)->getFailureProbability(day);
 }
 
-vector<string> Facility::getFailureModeDetail(const int &failureId) {
+FailureModeDetail Facility::getFailureModeDetail(const int &failureId) {
     auto id = to_string(failureId);
-    auto unit = to_string(failure_map_.at(failureId)->getUnitId());
-    auto name = failure_map_.at(failureId)->getName();
-    auto description = failure_map_.at(failureId)->getDescription();
-    auto tag = failure_map_.at(failureId)->getTag();
-    return {id, unit, name, description, tag};
+    return failure_map_.at(failureId)->getFailureModeDetail();
+
 }

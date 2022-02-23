@@ -23,14 +23,13 @@ IncidentRegister ProductionCycle::operator()() {
 
     auto incident {1};
     for (int day = 0; day < duration_; ++day) {
-        auto failuresForToday = facility_->getShuffledFailureModes();
-        for (auto &failureId : failuresForToday){
+        auto failuresForDay = facility_->getShuffledFailureModes();
+        for (auto &failureId : failuresForDay){
             auto probability = likelihood();
             if (hasOccurredFailure(day, failureId, probability)){
-                auto event = facility_->getFailureModeDetail(failureId);
-                event.push_back(to_string(day));
-                incidentRegister_.insert(pair<int, vector<string>>(incident, event));
-
+                auto failure_detail = facility_->getFailureModeDetail(failureId);
+                recordFailure(incident, day, failure_detail);
+                resolveFailure(failure_detail, day);
                 ++incident;
             }
         }
@@ -38,10 +37,39 @@ IncidentRegister ProductionCycle::operator()() {
     return incidentRegister_;
 }
 
-bool ProductionCycle::hasOccurredFailure(const int &day, const int &risk, const double &probability) {
-    auto cumulativeProbability = facility_->getFailureModeProbability(risk, day);
-    auto hasOccurred = cumulativeProbability  > probability;
-    return hasOccurred;
+bool ProductionCycle::hasOccurredFailure(const int &day, const int &failureId, const double &probability) {
+//    Verify component is available
+    auto cumulativeProbability = facility_->getFailureModeProbability(failureId, day);
+    return cumulativeProbability  > probability;
 }
+
+void ProductionCycle::recordFailure(const int &incident, const int &day, FailureModeDetail &event) {
+    auto event_record = event.toString();
+    event_record.push_back(to_string(day));
+    incidentRegister_.insert(pair<int, vector<string>>(incident, event_record));
+}
+
+void ProductionCycle::resolveFailure(const FailureModeDetail &failureModeDetail, const int &day) {
+
+    int start = day;
+    auto cost = OutageCost(0,0);
+    start = scheduleOutageType(failureModeDetail, start, failureModeDetail.days_to_investigate, OutageType::investigation, cost);
+    start = scheduleOutageType(failureModeDetail, start, failureModeDetail.days_to_procure, OutageType::procurement, cost);
+
+    //    Repair outages are always captured to register cost even if no dates are provided
+    cost = OutageCost(failureModeDetail.capex, failureModeDetail.opex);
+    scheduleOutageType(failureModeDetail, start, failureModeDetail.days_to_repair, OutageType::repair, cost);
+}
+
+int ProductionCycle::scheduleOutageType(const FailureModeDetail &failureModeDetail, int start, int duration,
+                                        OutageType type, OutageCost cost) {
+    if (duration | cost.hasCost()){
+        auto schedule = OutageSchedule(start, duration);
+        outageManager_.scheduleOutage(failureModeDetail.component_id, type, schedule, cost);
+        start += duration;
+    }
+    return start;
+}
+
 
 #pragma clang diagnostic pop

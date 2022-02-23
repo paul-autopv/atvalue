@@ -9,7 +9,6 @@ enum class OutageType{
     investigation,
     procurement,
     repair,
-    planned
 };
 
 #endif //ATVALUE_OUTAGETYPE_H

@@ -32,7 +32,11 @@ private:
     OutageManager outageManager_ = OutageManager();
     IncidentRegister incidentRegister_;
 
-    bool hasOccurredFailure(const int &day, const int &risk, const double &probability);
+    bool hasOccurredFailure(const int &day, const int &failureId, const double &probability);
+    void resolveFailure(const FailureModeDetail &failureModeDetail, const int &day);
+    void recordFailure(const int &incident, const int &day, FailureModeDetail &event);
+    int scheduleOutageType(const FailureModeDetail &failureModeDetail, int start, int duration,
+                           OutageType type, OutageCost cost);
 };
 
 
