@@ -13,6 +13,7 @@
 using namespace std;
 
 class Component {
+
 private:
     int id_;
     string name_;
@@ -22,6 +23,7 @@ private:
     int days_installed_;
     double capacity_;
     bool is_available_ {false};
+
 
 public:
     friend ostream& operator<<(ostream& os, const Component& unit);
@@ -39,7 +41,7 @@ public:
     string getName() const;
     double getCapacity() const;
     int getDaysInstalled() const;
-    bool isAvailable
+
 };
 
 

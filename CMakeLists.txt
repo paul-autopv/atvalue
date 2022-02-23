@@ -16,7 +16,13 @@ set(HEADER_FILES
         models/CsvMap.h
         probabilities/TriangularProbability.h
         controllers/Simulator.h
-        controllers/ProductionCycle.h)
+        controllers/ProductionCycle.h
+        models/Outage.h
+        models/OutageCost.h
+        models/OutageSchedule.h
+        models/OutageType.h
+        models/OutageManager.h
+        models/FailureModeDetail.h)
 
 set(SOURCE_FILES
         models/Component.cpp
@@ -26,7 +32,8 @@ set(SOURCE_FILES
         models/CsvMap.cpp
         controllers/Simulator.cpp
         controllers/ProductionCycle.cpp
-        )
+        models/Outage.cpp
+        models/OutageManager.cpp)
 
 add_library(models STATIC ${SOURCE_FILES} ${HEADER_FILES})
 

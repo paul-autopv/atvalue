@@ -19,11 +19,18 @@ struct FailureModeFields {
     unsigned name {2};
     unsigned description {3};
     unsigned tag {4};
-    unsigned probability {5};
-    unsigned a {6};
-    unsigned b {7};
-    unsigned c {8};
+    unsigned days_to_investigate {5};
+    unsigned days_to_procure {6};
+    unsigned days_to_repair {7};
+    unsigned capex {8};
+    unsigned opex {9};
+    unsigned probability {10};
+    unsigned a {11};
+    unsigned b {12};
+    unsigned c {13};
 
 };
+
+
 
 #endif //ATVALUE_CSVMAP_H

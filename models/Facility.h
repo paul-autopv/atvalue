@@ -21,19 +21,41 @@ using namespace std;
 using FamilyTree = std::shared_ptr<std::map<int, int>>;
 using InputMap = std::map<int, std::vector<std::string>>;
 using FailureMap = unordered_map<int, shared_ptr<FailureMode>>;
+using ComponentMap = unordered_map<int, shared_ptr<Component>>;
 using ComponentFailureModes = std::unordered_map<int, std::vector<int>>;
 using IncidentRegister = map<int, vector<string>>;
 
 class Facility {
 
-    unordered_map<int, shared_ptr<Component>> component_map_;
+public:
+    Facility() = default;
+
+    void buildFacility(const InputMap &component_map, const InputMap &failure_map);
+    vector<int> getShuffledFailureModes();
+    double getFailureModeProbability(const int &failureId, const int &day);
+    FailureModeDetail getFailureModeDetail(const int &failureId);
+    int componentCount() const;
+    int failureCount() const;
+
+private:
+    ComponentMap component_map_;
 
     FailureMap failure_map_;
 
-    void addComponent(unique_ptr<Component> component, int parent_id);
+    void linkParentChildNodes(const std::shared_ptr<Component>& component_ptr, int parent_id);
 
-    void loadComponent(const vector<string> &component, const InputMap &component_map, FamilyTree &family_tree,
-                       vector<shared_ptr<FailureMode>> failures, bool isRoot);
+    void registerComponentWithFacility(const vector<string> &component_detail, const InputMap &component_map, FamilyTree &structure,
+                                       vector<shared_ptr<FailureMode>> failures, bool isRoot);
+
+    shared_ptr<Component> registerComponent(unique_ptr<Component> &component);
+
+    bool isInComponentMap(int id) const;
+
+    void registerFailureModesWithFacility(const vector<shared_ptr<FailureMode>>& failure_modes);
+
+    static vector<shared_ptr<FailureMode>> getFailureModesForComponent(const InputMap &failure_map, vector<int> &component_failures);
+
+    static std::unique_ptr<ComponentFailureModes> getAllComponentFailureModes(const InputMap& failure_mode_map);
 
     static FamilyTree childCounter(const InputMap& component_map);
 
@@ -42,29 +64,7 @@ class Facility {
     static unique_ptr<IProbability> getProbabilityDistribution(const vector<string> &failure_mode,
                                                                const string &probability_type) ;
 
-    static std::unique_ptr<ComponentFailureModes> componentFailureModes(const InputMap& failure_mode_map);
-
-    shared_ptr<Component> registerComponent(unique_ptr<Component> &component);
-
     shared_ptr<Component> getParent(int parent_id);
-
-    static vector<shared_ptr<FailureMode>> getFailureModes(const InputMap &failure_map, vector<int> &component_failures);
-
-    void registerFailureModes(const vector<shared_ptr<FailureMode>>& failure_modes);
-
-    bool isInComponentMap(int id) const;
-
-public:
-    Facility() = default;
-
-    void buildFacility(const InputMap &component_map, const InputMap &failure_map);
-    vector<int> getShuffledFailureModes();
-    double getFailureModeProbability(const int &failureId, const int &day);
-    vector<string> getFailureModeDetail(const int &failureId);
-
-    int componentCount() const;
-
-    int failureCount() const;
 
 };
 
