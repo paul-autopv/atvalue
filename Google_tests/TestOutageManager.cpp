@@ -20,9 +20,9 @@ protected:
 
 TEST_F(TestOutageManager, ScheduleAddsOutageCorrectlyToOutageList){
     auto manager = OutageManager();
-    manager.scheduleOutage(schedule_, type_, cost_, 1);
-    manager.scheduleOutage(schedule_, type_, cost_, 2);
-    manager.scheduleOutage(schedule_, type_, cost_, 3);
+    manager.scheduleOutage(1, type_, schedule_, cost_);
+    manager.scheduleOutage(2, type_, schedule_, cost_);
+    manager.scheduleOutage(3, type_, schedule_, cost_);
 
     auto size = manager.getAllOutages().size();
     double total_cost {0};

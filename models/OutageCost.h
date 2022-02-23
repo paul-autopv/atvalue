@@ -15,6 +15,7 @@ public:
     double capex() const{ return capex_;}
     double opex() const{ return opex_;}
     double total() const{ return opex() + capex();}
+    bool hasCost() const { return total() > 0; }
 
 private:
     double capex_ {0};

@@ -29,7 +29,7 @@ IncidentRegister ProductionCycle::operator()() {
             if (hasOccurredFailure(day, failureId, probability)){
                 auto failure_detail = facility_->getFailureModeDetail(failureId);
                 recordFailure(incident, day, failure_detail);
-                resolveFailure(failure_detail);
+                resolveFailure(failure_detail, day);
                 ++incident;
             }
         }
@@ -43,17 +43,33 @@ bool ProductionCycle::hasOccurredFailure(const int &day, const int &failureId, c
     return cumulativeProbability  > probability;
 }
 
-void ProductionCycle::recordFailure(int incident, int day, FailureModeDetail &event) {
+void ProductionCycle::recordFailure(const int &incident, const int &day, FailureModeDetail &event) {
     auto event_record = event.toString();
     event_record.push_back(to_string(day));
     incidentRegister_.insert(pair<int, vector<string>>(incident, event_record));
 }
 
-void ProductionCycle::resolveFailure(const FailureModeDetail& failureModeDetail) {
-//    schedule outage
-//    repair components
+void ProductionCycle::resolveFailure(const FailureModeDetail &failureModeDetail, const int &day) {
+
+    int start = day;
+    auto cost = OutageCost(0,0);
+    start = scheduleOutageType(failureModeDetail, start, failureModeDetail.days_to_investigate, OutageType::investigation, cost);
+    start = scheduleOutageType(failureModeDetail, start, failureModeDetail.days_to_procure, OutageType::procurement, cost);
+
+    //    Repair outages are always captured to register cost even if no dates are provided
+    cost = OutageCost(failureModeDetail.capex, failureModeDetail.opex);
+    scheduleOutageType(failureModeDetail, start, failureModeDetail.days_to_repair, OutageType::repair, cost);
 }
 
+int ProductionCycle::scheduleOutageType(const FailureModeDetail &failureModeDetail, int start, int duration,
+                                        OutageType type, OutageCost cost) {
+    if (duration | cost.hasCost()){
+        auto schedule = OutageSchedule(start, duration);
+        outageManager_.scheduleOutage(failureModeDetail.component_id, type, schedule, cost);
+        start += duration;
+    }
+    return start;
+}
 
 
 #pragma clang diagnostic pop
