@@ -33,6 +33,9 @@ private:
     IncidentRegister incidentRegister_;
 
     bool hasOccurredFailure(const int &day, const int &failureId, const double &probability);
+    void resolveFailure(const FailureModeDetail& failureModeDetail);
+
+    void recordFailure(int incident, int day, FailureModeDetail &event);
 };
 
 
