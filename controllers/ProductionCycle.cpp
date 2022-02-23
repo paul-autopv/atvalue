@@ -38,6 +38,7 @@ IncidentRegister ProductionCycle::operator()() {
 }
 
 bool ProductionCycle::hasOccurredFailure(const int &day, const int &failureId, const double &probability) {
+//    Verify component is available
     auto cumulativeProbability = facility_->getFailureModeProbability(failureId, day);
     return cumulativeProbability  > probability;
 }
