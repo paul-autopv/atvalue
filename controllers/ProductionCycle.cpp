@@ -27,10 +27,9 @@ IncidentRegister ProductionCycle::operator()() {
         for (auto &failureId : failuresForToday){
             auto probability = likelihood();
             if (hasOccurredFailure(day, failureId, probability)){
-                auto event = facility_->getFailureModeDetail(failureId);
+                auto event = facility_->getFailureModeDetail(failureId).toString();
                 event.push_back(to_string(day));
                 incidentRegister_.insert(pair<int, vector<string>>(incident, event));
-
                 ++incident;
             }
         }
@@ -38,10 +37,9 @@ IncidentRegister ProductionCycle::operator()() {
     return incidentRegister_;
 }
 
-bool ProductionCycle::hasOccurredFailure(const int &day, const int &risk, const double &probability) {
-    auto cumulativeProbability = facility_->getFailureModeProbability(risk, day);
-    auto hasOccurred = cumulativeProbability  > probability;
-    return hasOccurred;
+bool ProductionCycle::hasOccurredFailure(const int &day, const int &failureId, const double &probability) {
+    auto cumulativeProbability = facility_->getFailureModeProbability(failureId, day);
+    return cumulativeProbability  > probability;
 }
 
 #pragma clang diagnostic pop

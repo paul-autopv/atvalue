@@ -6,21 +6,17 @@
 
 #include <utility>
 
-FailureMode::FailureMode(const FailureModeDetail& detail, unique_ptr<IProbability> distribution):
-    id_ {detail.id},
-    unit_id_ {detail.unit_id},
-    name_ {detail.name},
-    description_ {detail.description},
-    tag_ {detail.tag},
+FailureMode::FailureMode(FailureModeDetail  detail, unique_ptr<IProbability> distribution):
+    failureModeDetail_ {std::move(detail)},
     distribution_ {move(distribution)}  {
 }
 
 int FailureMode::getId() const {
-    return id_;
+    return failureModeDetail_.id;
 }
 
 int FailureMode::getUnitId() const {
-    return unit_id_;
+    return failureModeDetail_.unit_id;
 }
 
 double FailureMode::getFailureProbability(const int &day) const {
@@ -28,13 +24,17 @@ double FailureMode::getFailureProbability(const int &day) const {
 }
 
 string FailureMode::getDescription() const {
-    return description_;
+    return failureModeDetail_.description;
 }
 
 string FailureMode::getName() const {
-    return name_;
+    return failureModeDetail_.name;
 }
 
 string FailureMode::getTag() const {
-    return tag_;
+    return failureModeDetail_.tag;
+}
+
+FailureModeDetail FailureMode::getFailureModeDetail() {
+    return failureModeDetail_;
 }
