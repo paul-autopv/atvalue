@@ -51,25 +51,35 @@ void ProductionCycle::recordFailure(const int &incident, const int &day, Failure
 
 void ProductionCycle::resolveFailure(const FailureModeDetail &failureModeDetail, const int &day) {
 
+    scheduleOutage(failureModeDetail, day);
+    repairComponent();
+}
+
+void ProductionCycle::scheduleOutage(const FailureModeDetail &failureModeDetail, const int &day) {
     int start = day;
     auto cost = OutageCost(0,0);
     start = scheduleOutageType(failureModeDetail, start, failureModeDetail.days_to_investigate, OutageType::investigation, cost);
     start = scheduleOutageType(failureModeDetail, start, failureModeDetail.days_to_procure, OutageType::procurement, cost);
-
-    //    Repair outages are always captured to register cost even if no dates are provided
     cost = OutageCost(failureModeDetail.capex, failureModeDetail.opex);
-    scheduleOutageType(failureModeDetail, start, failureModeDetail.days_to_repair, OutageType::repair, cost);
+    auto end = scheduleOutageType(failureModeDetail, start, failureModeDetail.days_to_repair, OutageType::repair, cost) - 1;
 }
+
+void ProductionCycle::repairComponent() {
+
+}
+
 
 int ProductionCycle::scheduleOutageType(const FailureModeDetail &failureModeDetail, int start, int duration,
                                         OutageType type, OutageCost cost) {
-    if (duration | cost.hasCost()){
+    if (duration | cost.isNotZero()){
         auto schedule = OutageSchedule(start, duration);
         outageManager_.scheduleOutage(failureModeDetail.component_id, type, schedule, cost);
         start += duration;
     }
     return start;
 }
+
+
 
 
 #pragma clang diagnostic pop
