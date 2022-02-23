@@ -23,8 +23,8 @@ IncidentRegister ProductionCycle::operator()() {
 
     auto incident {1};
     for (int day = 0; day < duration_; ++day) {
-        auto failuresForToday = facility_->getShuffledFailureModes();
-        for (auto &failureId : failuresForToday){
+        auto failuresForDay = facility_->getShuffledFailureModes();
+        for (auto &failureId : failuresForDay){
             auto probability = likelihood();
             if (hasOccurredFailure(day, failureId, probability)){
                 auto failure_detail = facility_->getFailureModeDetail(failureId);
