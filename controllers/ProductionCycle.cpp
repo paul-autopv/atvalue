@@ -55,13 +55,13 @@ void ProductionCycle::resolveFailure(const FailureModeDetail &failureModeDetail,
     repairComponent();
 }
 
-void ProductionCycle::scheduleOutage(const FailureModeDetail &failureModeDetail, const int &day) {
+void ProductionCycle::scheduleOutage(const FailureModeDetail &detail, const int &day) {
     int start = day;
     auto cost = OutageCost(0,0);
-    start = scheduleOutageType(failureModeDetail, start, failureModeDetail.days_to_investigate, OutageType::investigation, cost);
-    start = scheduleOutageType(failureModeDetail, start, failureModeDetail.days_to_procure, OutageType::procurement, cost);
-    cost = OutageCost(failureModeDetail.capex, failureModeDetail.opex);
-    auto end = scheduleOutageType(failureModeDetail, start, failureModeDetail.days_to_repair, OutageType::repair, cost) - 1;
+    start = scheduleOutageType(detail, start, detail.days_to_investigate, OutageType::investigation, cost);
+    start = scheduleOutageType(detail, start, detail.days_to_procure, OutageType::procurement, cost);
+    cost = OutageCost(detail.capex, detail.opex);
+    scheduleOutageType(detail, start, detail.days_to_repair, OutageType::repair, cost) ;
 }
 
 void ProductionCycle::repairComponent() {
