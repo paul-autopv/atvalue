@@ -16,13 +16,13 @@ using namespace std;
 class Component {
 
 private:
-    int id_;
+    int id_{};
     string name_;
     weak_ptr<Component> parent_;
     vector<shared_ptr<Component>> children_;
     vector<shared_ptr<FailureMode>> failure_modes_;
-    int days_installed_;
-    double capacity_;
+    int days_installed_{};
+    double capacity_{};
     bool is_online_ {true};
     bool is_available_ {true};
 
@@ -31,6 +31,7 @@ public:
     friend ostream& operator<<(ostream& os, const Component& unit);
 
     Component() = delete;
+    Component(const Component&) = delete;
     Component(int id, string name, int days_installed, vector<shared_ptr<FailureMode>> failure_modes, double capacity= 0, int children= 0);
 
     bool isAvailable() const;
@@ -47,6 +48,7 @@ public:
     int getDaysInstalled() const;
 
     void shutdown(ShutdownCode code = ShutdownCode::unplanned);
+    void startup();
 
 };
 

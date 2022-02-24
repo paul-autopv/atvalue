@@ -1,3 +1,5 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "misc-no-recursion"
 //
 // Created by Paul on 2021/12/28.
 //
@@ -10,6 +12,7 @@ Component::Component(int id, string name, int days_installed, vector<shared_ptr<
         : id_ {id}, name_ {std::move(name)}, failure_modes_ {move(failure_modes)}, capacity_ {capacity}, days_installed_ {days_installed}{
     children_.reserve(children);
 };
+
 
 std::ostream &operator<<(std::ostream &os, const Component &unit) {
     os << "Component id_: " << unit.id_ << " (" << unit.name_ << ")";
@@ -66,6 +69,14 @@ void Component::shutdown(ShutdownCode code) {
     }
 }
 
+void Component::startup() {
+    is_online_ = true;
+    is_available_ = true;
+    for (const auto &child : children_){
+        child->startup();
+    }
+}
+
 bool Component::isAvailable() const {
     return is_available_;
 }
@@ -73,3 +84,7 @@ bool Component::isAvailable() const {
 bool Component::isOnline() const {
     return is_online_;
 }
+
+
+
+#pragma clang diagnostic pop
