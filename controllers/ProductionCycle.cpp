@@ -58,10 +58,10 @@ void ProductionCycle::resolveFailure(const FailureModeDetail &failureModeDetail,
 void ProductionCycle::scheduleOutage(const FailureModeDetail &detail, const int &day) {
     int start = day;
     auto cost = OutageCost(0,0);
-    start = scheduleOutageType(detail, start, detail.days_to_investigate, OutageType::investigation, cost);
-    start = scheduleOutageType(detail, start, detail.days_to_procure, OutageType::procurement, cost);
+    start = scheduleOutageOfType(detail, start, detail.days_to_investigate, OutageType::investigation, cost);
+    start = scheduleOutageOfType(detail, start, detail.days_to_procure, OutageType::procurement, cost);
     cost = OutageCost(detail.capex, detail.opex);
-    scheduleOutageType(detail, start, detail.days_to_repair, OutageType::repair, cost) ;
+    scheduleOutageOfType(detail, start, detail.days_to_repair, OutageType::repair, cost) ;
 }
 
 void ProductionCycle::repairComponent() {
@@ -69,8 +69,8 @@ void ProductionCycle::repairComponent() {
 }
 
 
-int ProductionCycle::scheduleOutageType(const FailureModeDetail &failureModeDetail, int start, int duration,
-                                        OutageType type, OutageCost cost) {
+int ProductionCycle::scheduleOutageOfType(const FailureModeDetail &failureModeDetail, int start, int duration,
+                                          OutageType type, OutageCost cost) {
     if (duration | cost.isNotZero()){
         auto schedule = OutageSchedule(start, duration);
         outageManager_.scheduleOutage(failureModeDetail.component_id, type, schedule, cost);
@@ -78,8 +78,6 @@ int ProductionCycle::scheduleOutageType(const FailureModeDetail &failureModeDeta
     }
     return start;
 }
-
-
 
 
 #pragma clang diagnostic pop

@@ -8,7 +8,7 @@
 
 #include "OutageSchedule.h"
 #include "OutageCost.h"
-#include "OutageType.h"
+#include "enums/OutageType.h"
 
 class Outage {
 

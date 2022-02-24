@@ -57,3 +57,7 @@ int Component::getDaysInstalled() const {
     return days_installed_;
 }
 
+int Component::stop() {
+    return 0;
+}
+

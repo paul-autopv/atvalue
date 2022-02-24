@@ -22,6 +22,7 @@ private:
     vector<shared_ptr<FailureMode>> failure_modes_;
     int days_installed_;
     double capacity_;
+    bool is_online_ {false};
     bool is_available_ {false};
 
 
@@ -41,6 +42,8 @@ public:
     string getName() const;
     double getCapacity() const;
     int getDaysInstalled() const;
+
+    int shutdown();
 
 };
 
