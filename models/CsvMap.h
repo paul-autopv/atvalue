@@ -28,7 +28,7 @@ struct FailureModeFields {
     unsigned probability {11};
     unsigned a {12};
     unsigned b {13};
-    unsigned c {14};
+
 
 };
 

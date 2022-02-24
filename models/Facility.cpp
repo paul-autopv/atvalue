@@ -48,7 +48,6 @@ Facility::getFailureModesForComponent(const InputMap &failure_map, vector<int> &
     return failures;
 }
 
-
 unique_ptr<IProbability>
 Facility::getProbabilityDistribution(const vector<string> &failure_mode, const string &probability_type,
                                      int component_installed) {
@@ -60,8 +59,8 @@ Facility::getProbabilityDistribution(const vector<string> &failure_mode, const s
     }
     return make_unique<TriangularProbability>(TriangularProbability(
             -component_installed,
-            stoi(failure_mode[fields.b]),
-            stoi(failure_mode[fields.c])));
+            stoi(failure_mode[fields.a]),
+            stoi(failure_mode[fields.b])));
 }
 
 FamilyTree Facility::childCounter(const InputMap& component_map) {
