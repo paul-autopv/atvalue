@@ -15,7 +15,7 @@ struct StationFields {
 
 struct FailureModeFields {
     unsigned id {0};
-    unsigned unit_id {1};
+    unsigned component_id {1};
     unsigned name {2};
     unsigned description {3};
     unsigned tag {4};

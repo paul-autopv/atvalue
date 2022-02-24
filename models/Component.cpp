@@ -23,16 +23,8 @@ int Component::getId() const{
     return this->id_;
 }
 
-std::string Component::getName() const {
-    return this->name_;
-}
-
 void Component::addChild(const shared_ptr<Component>& child) {
     children_.push_back(child);
-}
-
-bool Component::isRoot() const {
-    return parent_.use_count() == 0;
 }
 
 void Component::setParent(weak_ptr<Component> parent_ptr) {
@@ -41,19 +33,6 @@ void Component::setParent(weak_ptr<Component> parent_ptr) {
 
 int Component::getParentId() const {
     return parent_.lock()->getId();
-}
-
-int Component::countOfChildren() const{
-    return children_.size();
-}
-
-void Component::addFailureMode(unique_ptr<FailureMode> mode) {
-    failure_modes_.push_back(move(mode));
-
-}
-
-double Component::getCapacity() const {
-    return capacity_;
 }
 
 int Component::getDaysInstalled() const {

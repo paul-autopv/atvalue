@@ -13,10 +13,10 @@ class FailureModeDetail{
 
 public:
     FailureModeDetail() = default;
-    FailureModeDetail(int id, int unit_id, std::string name, std::string description, std::string tag, double capex,
+    FailureModeDetail(int id, int component_id, std::string name, std::string description, std::string tag, double capex,
                       double opex, int days_to_investigate, int days_to_procure, int days_to_repair) :
             id {id},
-            component_id {unit_id},
+            component_id {component_id},
             name {std::move(name)},
             description {std::move(description)},
             tag {std::move(tag)},

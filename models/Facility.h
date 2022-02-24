@@ -53,7 +53,9 @@ private:
 
     void registerFailureModesWithFacility(const vector<shared_ptr<FailureMode>>& failure_modes);
 
-    static vector<shared_ptr<FailureMode>> getFailureModesForComponent(const InputMap &failure_map, vector<int> &component_failures);
+    vector<shared_ptr<FailureMode>>
+    getFailureModesForComponent(const InputMap &failure_map, vector<int> &component_failures,
+                                int component_installed);
 
     static std::unique_ptr<ComponentFailureModes> getAllComponentFailureModes(const InputMap& failure_mode_map);
 
@@ -61,8 +63,9 @@ private:
 
     static int childrenCount(const FamilyTree & family_tree, int component_id);
 
-    static unique_ptr<IProbability> getProbabilityDistribution(const vector<string> &failure_mode,
-                                                               const string &probability_type) ;
+    unique_ptr<IProbability>
+    getProbabilityDistribution(const vector<string> &failure_mode, const string &probability_type,
+                               int component_installed);
 
     shared_ptr<Component> getParent(int parent_id);
 

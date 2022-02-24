@@ -1,134 +1,134 @@
 id,name,has_spare,installed
-1,Emergency Drainage & Dewatering pumps,0,-15123
-2,Valves, pressure gauges differential pressure on Turbine,0,-7087
-3,Athlone Monitoring,0,-3435
-4,System Controllers,0,-7452
-5,MLCP (Machine Local Control Panel),0,-15123
-6,Anaflex System,0,-15123
-7,Control Cards,0,-15123
-8,Breaker,0,-15123
-9,Thyristors,0,-15123
-10,Relay,0,-5991
-11,Relay,0,-5991
-12,Brake Pads,0,-15123
-13,Limit Switches and Temperature,0,-3069
-14,Heat Exchanger,0,-3069
-15,Fans,0,-15123
-16,Temperatures,0,-15123
-17,Shaft speed and creep detection,0,-7452
-18,Lower Guide Bearing Pads,0,-1608
-19,Bearing Temperature,0,-5261
-20,Windings ,0,-12566
-21,Pole Endplate,0,-15123
-22,Yoke,0,-15123
-23,Sliprings & Brushgear,0,-15123
-24,Frame,0,-15123
-25,Core,0,-15123
-26,RTDs,0,-15123
-27,Windings ,0,-15123
-28,Winding Temperatures,0,-15123
-29,RTDs,0,-15123
-30,Thrust Runner,0,-15123
-31,Thrust Pads,0,-1608
-32,Bearing Temperature,0,-15123
-33,Hydraulics,0,-15123
-34,Sliding and link arm bushes,0,-15123
-35,Servo Motors,0,-15123
-36,Penstock side isolating valve,0,-8913
-37,Bypass line,0,-8913
-38,Hydraulics,0,-8913
-39,Maintenance Seal,0,-8913
-40,Service Seal,0,-8913
-41,Limit Switches,0,-4896
-42,Servo Motors,0,-5261
-43,Trunnions,0,-8913
-44,Trunnion seals,0,-4896
-45,Encoder Limit Switches,0,-8913
-46,Rotork Valves,0,-2339
-47,Fans,0,-15123
-48,Guide Bearing Pads,0,-1608
-49,Temperatures and Oil levels,0,-8913
-50,Liquid Starter,0,-15123
-51,Protection Relay,0,-5991
-52,Protection,0,-5991
-53,Rotor,0,-15123
-54,Slip Rings & Brushgear,0,-15123
-55,Frame,0,-15123
-56,Core,0,-15123
-57,Windings ,0,-15123
-58,Temperatures,0,-8913
-59,RTDs,0,-15123
-60,Compressor,0,-7087
-61,Internal Instrumentation to Compressor (package plant),0,-7087
-62,Valves & Piping,0,-15123
-63,Valves pressure gauges",0,-7087
-64,Cables and Terminations,0,-15123
-65,Breakers,0,-15123
-66,Fused Isolators,0,-15123
-67,Protection Relay,0,-15123
-68,12kV Reverse Isolators & earthing switch,0,-15123
-69,3.3kV Switchgear breakers,0,-15123
-70,3.3kV Switchgear protection relays,0,-15123
-71,HV Breaker,0,-15123
-72,Synchronising Relay,0,-15123
-73,Control System,0,-15123
-74,Unit Transformers,0,-3435
-75,Transformer Protection,0,-5991
-76,Transformer,0,-15123
-77,Heat Exchanger,0,-15123
-78,Draft Tube,0,-15123
-79,Guide Vanes,0,-15123
-80,Bushes,0,-5261
-81,Pump/Turbine Bearing,0,-1608
-82,Runner,0,-15123
-83,Sealing and Runner Water,0,-15123
-84,Spiral Casing,0,-15123
-85,Stay Vanes,0,-15123
-86,Turbine Shaft,0,-15123
-87,Heat Exchanger,0,-4165
-88,Winch System,0,-15123
-89,HP Oil System,0,-15123
-90,Oil Cooler,0,-2704
-91,Lower Guide Oil Cooler,0,-2339
-92,Bearing Temperature,0,-15123
-93,Oil Cooler,0,-1608
-94,Oil Vapour Extraction,0,-5261
-95,Oil Vapour Extraction,0,-5261
-96,Upper Guide Bearing Pads,0,-15123
-97,Sealing Air,0,-15123
-98,Sealing Air,0,-15123
-99,Pumps,0,-15123
-100,Pump,0,-4165
-101,Strainers,0,-15123
-102,Rotork Valves,0,-15123
-103,Compressor Instrumentation Pressure sensors Valves,0,-15123
-104,Control Room (Mimic Panels annunciator and station controls),0,-15123
-105,Differential Pressure Sensors to old Anaflex cards,0,-15123
-106,Differential Pressure Sensors to old Anaflex cards,0,-15123
-107,Entire Board,0,-15123
-108,Pressure Sensors and Actuated Valves,0,-5261
-109,Joint Controller,0,-7452
-110,Emergency Gate Winch System,0,-15123
-111,Control Gate Winch System,0,-15123
-112,Upper Control/Emergency Gates,0,-15123
-113,Screens,0,-15123
-114,Screens,0,-15123
-115,Lower Control Gates,0,-15123
-116,Common Service Transformers,0,-15123
-117,Transformer,0,-8913
-118,Transformer,0,-15123
-119,Station Transformers,0,-15123
-120,24VDC System (Control Panel - Charger Panel & Battery),0,-3435
-121,50VDC SF6 System (Control Panel - Charger Panel),0,-1974
-122,50VDC Alarm System (Control Panel - Charger Panel),0,-7087
-123,110VDC System (Control Panel - Charger Panel),0,-1608
-124,Control System,0,-15123
-125,Drainage of Main Shafts (Instrumentation i.e. float switches and valves),0,-15123
+1,Emergency Drainage & Dewatering pumps,0,15123
+2,Valves,0,7087
+3,Athlone Monitoring,0,3435
+4,System Controllers,0,7452
+5,MLCP (Machine Local Control Panel),0,15123
+6,Anaflex System,0,15123
+7,Control Cards,0,15123
+8,Breaker,0,15123
+9,Thyristors,0,15123
+10,Relay,0,5991
+11,Relay,0,5991
+12,Brake Pads,0,15123
+13,Limit Switches and Temperature,0,3069
+14,Heat Exchanger,0,3069
+15,Fans,0,15123
+16,Temperatures,0,15123
+17,Shaft speed and creep detection,0,7452
+18,Lower Guide Bearing Pads,0,1608
+19,Bearing Temperature,0,5261
+20,Windings ,0,12566
+21,Pole Endplate,0,15123
+22,Yoke,0,15123
+23,Sliprings & Brushgear,0,15123
+24,Frame,0,15123
+25,Core,0,15123
+26,RTDs,0,15123
+27,Windings ,0,15123
+28,Winding Temperatures,0,15123
+29,RTDs,0,15123
+30,Thrust Runner,0,15123
+31,Thrust Pads,0,1608
+32,Bearing Temperature,0,15123
+33,Hydraulics,0,15123
+34,Sliding and link arm bushes,0,15123
+35,Servo Motors,0,15123
+36,Penstock side isolating valve,0,8913
+37,Bypass line,0,8913
+38,Hydraulics,0,8913
+39,Maintenance Seal,0,8913
+40,Service Seal,0,8913
+41,Limit Switches,0,4896
+42,Servo Motors,0,5261
+43,Trunnions,0,8913
+44,Trunnion seals,0,4896
+45,Encoder Limit Switches,0,8913
+46,Rotork Valves,0,2339
+47,Fans,0,15123
+48,Guide Bearing Pads,0,1608
+49,Temperatures and Oil levels,0,8913
+50,Liquid Starter,0,15123
+51,Protection Relay,0,5991
+52,Protection,0,5991
+53,Rotor,0,15123
+54,Slip Rings & Brushgear,0,15123
+55,Frame,0,15123
+56,Core,0,15123
+57,Windings ,0,15123
+58,Temperatures,0,8913
+59,RTDs,0,15123
+60,Compressor,0,7087
+61,Internal Instrumentation to Compressor (package plant),0,7087
+62,Valves & Piping,0,15123
+63,"Valves pressure gauges""",0,7087
+64,Cables and Terminations,0,15123
+65,Breakers,0,15123
+66,Fused Isolators,0,15123
+67,Protection Relay,0,15123
+68,12kV Reverse Isolators & earthing switch,0,15123
+69,3.3kV Switchgear breakers,0,15123
+70,3.3kV Switchgear protection relays,0,15123
+71,HV Breaker,0,15123
+72,Synchronising Relay,0,15123
+73,Control System,0,15123
+74,Unit Transformers,0,3435
+75,Transformer Protection,0,5991
+76,Transformer,0,15123
+77,Heat Exchanger,0,15123
+78,Draft Tube,0,15123
+79,Guide Vanes,0,15123
+80,Bushes,0,5261
+81,Pump/Turbine Bearing,0,1608
+82,Runner,0,15123
+83,Sealing and Runner Water,0,15123
+84,Spiral Casing,0,15123
+85,Stay Vanes,0,15123
+86,Turbine Shaft,0,15123
+87,Heat Exchanger,0,4165
+88,Winch System,0,15123
+89,HP Oil System,0,15123
+90,Oil Cooler,0,2704
+91,Lower Guide Oil Cooler,0,2339
+92,Bearing Temperature,0,15123
+93,Oil Cooler,0,1608
+94,Oil Vapour Extraction,0,5261
+95,Oil Vapour Extraction,0,5261
+96,Upper Guide Bearing Pads,0,15123
+97,Sealing Air,0,15123
+98,Sealing Air,0,15123
+99,Pumps,0,15123
+100,Pump,0,4165
+101,Strainers,0,15123
+102,Rotork Valves,0,15123
+103,Compressor Instrumentation Pressure sensors Valves,0,15123
+104,Control Room (Mimic Panels annunciator and station controls),0,15123
+105,Differential Pressure Sensors to old Anaflex cards,0,15123
+106,Differential Pressure Sensors to old Anaflex cards,0,15123
+107,Entire Board,0,15123
+108,Pressure Sensors and Actuated Valves,0,5261
+109,Joint Controller,0,7452
+110,Emergency Gate Winch System,0,15123
+111,Control Gate Winch System,0,15123
+112,Upper Control/Emergency Gates,0,15123
+113,Screens,0,15123
+114,Screens,0,15123
+115,Lower Control Gates,0,15123
+116,Common Service Transformers,0,15123
+117,Transformer,0,8913
+118,Transformer,0,15123
+119,Station Transformers,0,15123
+120,24VDC System (Control Panel - Charger Panel & Battery),0,3435
+121,50VDC SF6 System (Control Panel - Charger Panel),0,1974
+122,50VDC Alarm System (Control Panel - Charger Panel),0,7087
+123,110VDC System (Control Panel - Charger Panel),0,1608
+124,Control System,0,15123
+125,Drainage of Main Shafts (Instrumentation i.e. float switches and valves),0,15123
 126,Diesel Generator,0,0
-127,Compressor,0,-7087
-128,Internal Instrumentation to Compressor (package plant),0,-5261
-129,Pressure Vessels Valves & Piping,0,-15123
-130,Anchor block,0,-15123
-131,Turbine foundation,0,-15123
-132,CW Pump house,0,-15123
-133,Governer unloader valves,0,-15123
+127,Compressor,0,7087
+128,Internal Instrumentation to Compressor (package plant),0,5261
+129,Pressure Vessels Valves & Piping,0,15123
+130,Anchor block,0,15123
+131,Turbine foundation,0,15123
+132,CW Pump house,0,15123
+133,Governer unloader valves,0,15123

@@ -2,20 +2,24 @@
 #include "Facility.h"
 
 void Facility::buildFacility(const InputMap &component_map, const InputMap &failure_map) {
+    StationFields fields;
     auto structure= childCounter(component_map);
     auto failure_modes = getAllComponentFailureModes(failure_map);
 
     for (auto iter = component_map.begin(); iter != component_map.end(); ++iter) {
         auto component = iter->first;
         auto component_record = iter->second;
+        auto component_installed = stoi(component_record[fields.days_installed]);
         auto is_root = (iter == component_map.begin());
-        auto failures = getFailureModesForComponent(failure_map, (*failure_modes)[component]);
+        auto failures = getFailureModesForComponent(failure_map, (*failure_modes)[component], component_installed);
+        registerComponentWithFacility(component_record, component_map, structure, failures, is_root);
         registerFailureModesWithFacility(failures);
-        registerComponentWithFacility(component_record, component_map, structure, move(failures), is_root);
     }
 }
 
-vector<shared_ptr<FailureMode>> Facility::getFailureModesForComponent(const InputMap &failure_map, vector<int> &component_failures) {
+vector<shared_ptr<FailureMode>>
+Facility::getFailureModesForComponent(const InputMap &failure_map, vector<int> &component_failures,
+                                      int component_installed) {
 
     FailureModeFields fields;
     vector<shared_ptr<FailureMode>> failures;
@@ -24,10 +28,10 @@ vector<shared_ptr<FailureMode>> Facility::getFailureModesForComponent(const Inpu
         auto failure_parameters = failure_map.at(failure);
         auto probability_distribution = getProbabilityDistribution(
                 failure_parameters,
-                failure_parameters[fields.probability]);
+                failure_parameters[fields.probability], component_installed);
         auto failure_mode_detail = FailureModeDetail(
                 stoi(failure_parameters[fields.id]),
-                stoi(failure_parameters[fields.unit_id]),
+                stoi(failure_parameters[fields.component_id]),
                 failure_parameters[fields.name],
                 failure_parameters[fields.description],
                 failure_parameters[fields.tag],
@@ -45,7 +49,9 @@ vector<shared_ptr<FailureMode>> Facility::getFailureModesForComponent(const Inpu
 }
 
 
-unique_ptr<IProbability> Facility::getProbabilityDistribution(const vector<string> &failure_mode, const string &probability_type) {
+unique_ptr<IProbability>
+Facility::getProbabilityDistribution(const vector<string> &failure_mode, const string &probability_type,
+                                     int component_installed) {
     FailureModeFields fields;
     if (probability_type == "weibull"){
         return make_unique<WeibullProbability>(
@@ -53,7 +59,7 @@ unique_ptr<IProbability> Facility::getProbabilityDistribution(const vector<strin
                 stod(failure_mode[fields.b]));
     }
     return make_unique<TriangularProbability>(TriangularProbability(
-            stoi(failure_mode[fields.a]),
+            -component_installed,
             stoi(failure_mode[fields.b]),
             stoi(failure_mode[fields.c])));
 }
@@ -81,7 +87,7 @@ std::unique_ptr<ComponentFailureModes> Facility::getAllComponentFailureModes(con
 
     if(!failure_mode_map.empty()){
         for (auto iter{failure_mode_map.begin()}; iter != failure_mode_map.end(); ++iter) {
-            auto unit_id = stoi(iter->second[fields.unit_id]);
+            auto unit_id = stoi(iter->second[fields.component_id]);
             auto failure_id = stoi(iter->second[fields.id]);
             (*failures)[unit_id].push_back(failure_id);
         }

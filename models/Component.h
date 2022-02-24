@@ -39,12 +39,7 @@ public:
     void setParent(weak_ptr<Component> parent_ptr);
     int getParentId() const;
     void addChild(const shared_ptr<Component>& child);
-    void addFailureMode(unique_ptr<FailureMode> mode);
-    bool isRoot() const;
     int getId() const;
-    int countOfChildren() const;
-    string getName() const;
-    double getCapacity() const;
     int getDaysInstalled() const;
 
     void shutdown(ShutdownCode code = ShutdownCode::unplanned);
