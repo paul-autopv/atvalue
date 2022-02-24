@@ -33,6 +33,8 @@ public:
     Component() = delete;
     Component(int id, string name, int days_installed, vector<shared_ptr<FailureMode>> failure_modes, double capacity= 0, int children= 0);
 
+    bool isAvailable() const;
+    bool isOnline() const;
     void setParent(weak_ptr<Component> parent_ptr);
     int getParentId() const;
     void addChild(const shared_ptr<Component>& child);

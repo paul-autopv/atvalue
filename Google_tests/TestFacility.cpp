@@ -2,6 +2,7 @@
 // Created by Paul on 2/20/22.
 //
 
+
 #include "gtest/gtest.h"
 #include "../models/Facility.h"
 
@@ -11,9 +12,9 @@ class TestFacility : public ::testing::Test{
 protected:
     void SetUp() override {
         failures_ = {
-            {1, {"1", "2", "Component Failure", "Component Failure Description", "tag_name", "weibull", "200", "3000"}},
-            {2, {"2", "2", "Component Failure", "Component Failure Description", "tag_name", "weibull", "200", "45"}},
-            {3, {"3", "2", "Component Failure", "Component Failure Description", "tag_name", "weibull", "1000", "2345"}},
+            {1, {"1", "2", "Component Failure", "Component Failure Description", "tag_name", "all", "0", "0", "0", "0", "0", "weibull", "200", "3000"}},
+            {2, {"2", "2", "Component Failure", "Component Failure Description", "tag_name", "all", "0", "0", "0", "0", "0", "weibull", "200", "45"}},
+            {3, {"3", "2", "Component Failure", "Component Failure Description", "tag_name", "all", "0", "0", "0", "0", "0", "weibull", "1000", "2345"}},
         };
         structure_ = {
             {1, {"1", "0", "Facility", "100", "345"}},

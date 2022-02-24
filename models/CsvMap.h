@@ -19,15 +19,16 @@ struct FailureModeFields {
     unsigned name {2};
     unsigned description {3};
     unsigned tag {4};
-    unsigned days_to_investigate {5};
-    unsigned days_to_procure {6};
-    unsigned days_to_repair {7};
-    unsigned capex {8};
-    unsigned opex {9};
-    unsigned probability {10};
-    unsigned a {11};
-    unsigned b {12};
-    unsigned c {13};
+    unsigned scope {5};
+    unsigned days_to_investigate {6};
+    unsigned days_to_procure {7};
+    unsigned days_to_repair {8};
+    unsigned capex {9};
+    unsigned opex {10};
+    unsigned probability {11};
+    unsigned a {12};
+    unsigned b {13};
+    unsigned c {14};
 
 };
 

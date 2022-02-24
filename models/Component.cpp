@@ -66,4 +66,10 @@ void Component::shutdown(ShutdownCode code) {
     }
 }
 
+bool Component::isAvailable() const {
+    return is_available_;
+}
 
+bool Component::isOnline() const {
+    return is_online_;
+}
