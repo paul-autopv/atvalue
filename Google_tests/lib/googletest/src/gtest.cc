@@ -5624,7 +5624,7 @@ void UnitTestImpl::PostFlagParsingInit() {
     post_flag_parse_init_performed_ = true;
 
 #if defined(GTEST_CUSTOM_TEST_EVENT_LISTENER_)
-    // ProductionCycle to send notifications about key process state changes.
+    // ProductionManager to send notifications about key process state changes.
     listeners()->Append(new GTEST_CUSTOM_TEST_EVENT_LISTENER_());
 #endif  // defined(GTEST_CUSTOM_TEST_EVENT_LISTENER_)
 

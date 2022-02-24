@@ -6,7 +6,7 @@
 #define ATVALUE_SIMULATOR_H
 
 #include "../models/Facility.h"
-#include "../controllers/ProductionCycle.h"
+#include "../controllers/ProductionManager.h"
 
 #include <memory>
 #include <thread>

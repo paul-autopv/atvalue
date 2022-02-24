@@ -1,4 +1,0 @@
-﻿id,component_id,name,description,tag,probability,a,b
-1,2,Component failure,Component failure description,tag_name,weibull,2,3
-2,2,Component failure,Component failure description,tag_name,weibull,300,45
-3,1,Component failure,Component failure description,tag_name,weibull,1000,2345

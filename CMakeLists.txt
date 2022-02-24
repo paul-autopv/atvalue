@@ -16,7 +16,7 @@ set(HEADER_FILES
         models/CsvMap.h
         probabilities/TriangularProbability.h
         controllers/Simulator.h
-        controllers/ProductionCycle.h
+        controllers/ProductionManager.h
         models/Outage.h
         models/OutageCost.h
         models/OutageSchedule.h
@@ -31,7 +31,7 @@ set(SOURCE_FILES
         utilities/CsvReader.cpp
         models/CsvMap.cpp
         controllers/Simulator.cpp
-        controllers/ProductionCycle.cpp
+        controllers/ProductionManager.cpp
         models/Outage.cpp
         models/OutageManager.cpp)
 

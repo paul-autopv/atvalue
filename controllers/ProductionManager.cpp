@@ -4,18 +4,18 @@
 // Created by Paul on 2/20/22.
 //
 
-#include "ProductionCycle.h"
+#include "ProductionManager.h"
 
-ProductionCycle::ProductionCycle() : ProductionCycle(0, InputMap(), InputMap()) {}
+ProductionManager::ProductionManager() : ProductionManager(0, InputMap(), InputMap()) {}
 
-ProductionCycle::ProductionCycle(const int &duration, const InputMap &structure,const InputMap &failures) :
+ProductionManager::ProductionManager(const int &duration, const InputMap &structure, const InputMap &failures) :
         duration_ {duration}, structure_ {structure}, failures_ {failures}{
     facility_ = make_shared<Facility>();
     facility_->buildFacility(structure_, failures_);
 };
 
 
-IncidentRegister ProductionCycle::operator()() {
+IncidentRegister ProductionManager::operator()() {
     const int max {1'000'000};
     default_random_engine engine {};
     uniform_int_distribution distribution {0, max};
@@ -37,25 +37,25 @@ IncidentRegister ProductionCycle::operator()() {
     return incidentRegister_;
 }
 
-bool ProductionCycle::hasOccurredFailure(const int &day, const int &failureId, const double &probability) {
+bool ProductionManager::hasOccurredFailure(const int &day, const int &failureId, const double &probability) {
 //    Verify component is available
     auto cumulativeProbability = facility_->getFailureModeProbability(failureId, day);
     return cumulativeProbability  > probability;
 }
 
-void ProductionCycle::recordFailure(const int &incident, const int &day, FailureModeDetail &event) {
+void ProductionManager::recordFailure(const int &incident, const int &day, FailureModeDetail &event) {
     auto event_record = event.toString();
     event_record.push_back(to_string(day));
     incidentRegister_.insert(pair<int, vector<string>>(incident, event_record));
 }
 
-void ProductionCycle::resolveFailure(const FailureModeDetail &failureModeDetail, const int &day) {
+void ProductionManager::resolveFailure(const FailureModeDetail &failureModeDetail, const int &day) {
 
     scheduleOutage(failureModeDetail, day);
     repairComponent();
 }
 
-void ProductionCycle::scheduleOutage(const FailureModeDetail &detail, const int &day) {
+void ProductionManager::scheduleOutage(const FailureModeDetail &detail, const int &day) {
     int start = day;
     auto cost = OutageCost(0,0);
     start = scheduleOutageOfType(detail, start, detail.days_to_investigate, OutageType::investigation, cost);
@@ -64,13 +64,13 @@ void ProductionCycle::scheduleOutage(const FailureModeDetail &detail, const int 
     scheduleOutageOfType(detail, start, detail.days_to_repair, OutageType::repair, cost) ;
 }
 
-void ProductionCycle::repairComponent() {
+void ProductionManager::repairComponent() {
 
 }
 
 
-int ProductionCycle::scheduleOutageOfType(const FailureModeDetail &failureModeDetail, int start, int duration,
-                                          OutageType type, OutageCost cost) {
+int ProductionManager::scheduleOutageOfType(const FailureModeDetail &failureModeDetail, int start, int duration,
+                                            OutageType type, OutageCost cost) {
     if (duration | cost.isNotZero()){
         auto schedule = OutageSchedule(start, duration);
         outageManager_.scheduleOutage(failureModeDetail.component_id, type, schedule, cost);

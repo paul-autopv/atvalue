@@ -27,29 +27,29 @@ void Simulator::run() const {
     threads.reserve(simulations_);
 
     // define functors
-    vector<ProductionCycle> productionCycles(simulations_);
+    vector<ProductionManager> productionManagers(simulations_);
     for (auto i = 0; i < simulations_; ++i){
-        productionCycles[i] = ProductionCycle(duration_, structure_, failures_);
+        productionManagers[i] = ProductionManager(duration_, structure_, failures_);
     }
 
     // define tasks
-    deque<packaged_task<Task_type>> productionCycleTasks;
+    deque<packaged_task<Task_type>> productionManagerTasks;
     for (auto i = 0; i < simulations_; ++i){
-        packaged_task<Task_type> productionCycleTask {(productionCycles[i]) };
-        productionCycleTasks.push_back(move(productionCycleTask));
+        packaged_task<Task_type> productionManagerTask {(productionManagers[i]) };
+        productionManagerTasks.push_back(move(productionManagerTask));
     }
 
     // define futures
     vector<future<Register>> futures(simulations_);
     for (auto i = 0; i < simulations_; ++i){
-        futures[i] = productionCycleTasks[i].get_future();
+        futures[i] = productionManagerTasks[i].get_future();
     }
 
     // define threads
     int i {0};
-    while (!productionCycleTasks.empty()){
-        auto task = move(productionCycleTasks.front());
-        productionCycleTasks.pop_front();
+    while (!productionManagerTasks.empty()){
+        auto task = move(productionManagerTasks.front());
+        productionManagerTasks.pop_front();
         thread t {move(task)};
         t.detach();
         ++i;
@@ -96,7 +96,7 @@ void Simulator::writeRegisterToCsv(const Register& the_register) {
 void Simulator::run_single() const{
 
     for (int i = 0; i < simulations_; ++i) {
-        auto progress = ProductionCycle(duration_, structure_, failures_);
+        auto progress = ProductionManager(duration_, structure_, failures_);
         progress();
     }
 }

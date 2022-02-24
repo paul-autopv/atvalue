@@ -6,8 +6,8 @@
 //
 
 
-#ifndef ATVALUE_PRODUCTIONCYCLE_H
-#define ATVALUE_PRODUCTIONCYCLE_H
+#ifndef ATVALUE_PRODUCTIONMANAGER_H
+#define ATVALUE_PRODUCTIONMANAGER_H
 
 #include "../controllers/Simulator.h"
 #include "../models/OutageManager.h"
@@ -16,11 +16,11 @@
 
 
 
-class  ProductionCycle{
+class  ProductionManager{
 public:
-    ProductionCycle();
+    ProductionManager();
 
-    ProductionCycle(const int &duration, const InputMap &structure,const InputMap &failures);
+    ProductionManager(const int &duration, const InputMap &structure, const InputMap &failures);
 
     IncidentRegister operator()();
 
@@ -42,7 +42,7 @@ private:
 };
 
 
-#endif //ATVALUE_PRODUCTIONCYCLE_H
+#endif //ATVALUE_PRODUCTIONMANAGER_H
 
 
 #pragma clang diagnostic pop
