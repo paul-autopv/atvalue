@@ -57,7 +57,13 @@ int Component::getDaysInstalled() const {
     return days_installed_;
 }
 
-int Component::stop() {
-    return 0;
+void Component::shutdown(ShutdownCode code) {
+    is_online_ = false;
+    if (code != ShutdownCode::constrained)
+        is_available_ = false;
+    for (const auto& child : children_) {
+        child->shutdown(code);
+    }
 }
+
 

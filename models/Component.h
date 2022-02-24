@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 #include "FailureMode.h"
+#include "enums/ShutdownCode.h"
 
 using namespace std;
 
@@ -22,8 +23,8 @@ private:
     vector<shared_ptr<FailureMode>> failure_modes_;
     int days_installed_;
     double capacity_;
-    bool is_online_ {false};
-    bool is_available_ {false};
+    bool is_online_ {true};
+    bool is_available_ {true};
 
 
 public:
@@ -43,7 +44,7 @@ public:
     double getCapacity() const;
     int getDaysInstalled() const;
 
-    int shutdown();
+    void shutdown(ShutdownCode code = ShutdownCode::unplanned);
 
 };
 
