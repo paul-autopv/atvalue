@@ -42,8 +42,10 @@ public:
     int days_to_repair {};
 
     std::vector<std::string> toString(){
+        auto scope_string = getScopeString();
         return {std::to_string(id),
                 std::to_string(component_id), name, description, tag,
+                scope_string,
                 std::to_string(capex),
                 std::to_string(opex),
                 std::to_string(days_to_investigate),
@@ -52,7 +54,19 @@ public:
 
     }
 
-
+    std::string getScopeString() const {
+        std::string scope_string;
+        if (scope == FailureScope::cascade) {
+            scope_string = "cascade";
+        }
+        if (scope == FailureScope::parent) {
+            scope_string  = "parent";
+        }
+        if (scope == FailureScope::all) {
+            scope_string ="all";
+        }
+        return scope_string;
+    }
 
 
 };
