@@ -162,6 +162,11 @@ void Facility::registerFailureModesWithFacility(const vector<shared_ptr<FailureM
         if (component_map_.find(component_id) != component_map_.end()){
             failure_map_.emplace(failure->getId(), failure);
         }
+        else{
+            cout << "FailureMode with id " << failure->getId() <<
+            " not registered because component with id " << component_id <<
+            " not found in component map." << endl;
+        }
     }
 }
 
