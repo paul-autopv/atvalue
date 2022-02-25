@@ -21,6 +21,7 @@ public:
     FailureMode(FailureModeDetail  detail, unique_ptr<IProbability> distribution);
 
     int getId() const;
+    int getComponentId() const;
     double getCapex() const;
     double getOpex() const;
     int getDaysToInvestigate() const;

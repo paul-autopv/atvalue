@@ -20,9 +20,11 @@ set(HEADER_FILES
         models/Outage.h
         models/OutageCost.h
         models/OutageSchedule.h
-        models/enums/OutageType.h
         models/OutageManager.h
-        models/FailureModeDetail.h models/enums/ShutdownCode.h)
+        models/FailureModeDetail.h
+        models/enums/OutageType.h
+        models/enums/ShutdownCode.h
+        models/enums/FailureScope.h)
 
 set(SOURCE_FILES
         models/Component.cpp

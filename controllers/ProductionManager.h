@@ -11,6 +11,7 @@
 
 #include "../controllers/Simulator.h"
 #include "../models/OutageManager.h"
+#include "../models/enums/FailureScope.h"
 
 #include <random>
 
@@ -24,6 +25,9 @@ public:
 
     IncidentRegister operator()();
 
+    bool hasOccurredFailure(const int &day, const int &failureId, const double &probability);
+    bool isComponentOnline(const int &failure_id);
+
 private:
     int duration_;
     InputMap structure_;
@@ -32,7 +36,7 @@ private:
     OutageManager outageManager_ = OutageManager();
     IncidentRegister incidentRegister_;
 
-    bool hasOccurredFailure(const int &day, const int &failureId, const double &probability);
+    void shutDownAffectedComponents(const int &component_id, FailureScope scope);
     void resolveFailure(const FailureModeDetail &failureModeDetail, const int &day);
     void recordFailure(const int &incident, const int &day, FailureModeDetail &event);
     void scheduleOutage(const FailureModeDetail &detail, const int &day);

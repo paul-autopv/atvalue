@@ -8,18 +8,21 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include "enums/FailureScope.h"
 
 class FailureModeDetail{
 
 public:
     FailureModeDetail() = default;
-    FailureModeDetail(int id, int component_id, std::string name, std::string description, std::string tag, double capex,
-                      double opex, int days_to_investigate, int days_to_procure, int days_to_repair) :
+    FailureModeDetail(int id, int component_id, std::string name, std::string description, std::string tag,
+                      FailureScope scope, double capex, double opex, int days_to_investigate, int days_to_procure,
+                      int days_to_repair) :
             id {id},
             component_id {component_id},
             name {std::move(name)},
             description {std::move(description)},
             tag {std::move(tag)},
+            scope {scope},
             capex {capex},
             opex {opex},
             days_to_investigate {days_to_investigate},
@@ -31,6 +34,7 @@ public:
     std::string name {};
     std::string description {};
     std::string tag {};
+    FailureScope scope{};
     double capex {};
     double opex {};
     int days_to_investigate {};

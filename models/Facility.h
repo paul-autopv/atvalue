@@ -36,6 +36,7 @@ public:
     FailureModeDetail getFailureModeDetail(const int &failureId);
     int componentCount() const;
     int failureCount() const;
+    shared_ptr<Component> getComponentPtr(const int &component_id);
 
 private:
     ComponentMap component_map_;
@@ -68,6 +69,7 @@ private:
                                int component_installed);
 
     shared_ptr<Component> getParent(int parent_id);
+    FailureScope getScope(const string &scope);
 
 };
 

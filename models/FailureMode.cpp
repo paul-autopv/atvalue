@@ -40,3 +40,7 @@ FailureModeDetail FailureMode::getFailureModeDetail() {
 double FailureMode::getFailureProbability(const int &day) const {
     return distribution_->getProbability(day);
 }
+
+int FailureMode::getComponentId() const {
+    return failureModeDetail_.component_id;
+}

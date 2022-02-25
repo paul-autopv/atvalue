@@ -28,6 +28,7 @@ IncidentRegister ProductionManager::operator()() {
             auto probability = likelihood();
             if (hasOccurredFailure(day, failureId, probability)){
                 auto failure_detail = facility_->getFailureModeDetail(failureId);
+                shutDownAffectedComponents(failure_detail.component_id, failure_detail.scope);
                 recordFailure(incident, day, failure_detail);
                 resolveFailure(failure_detail, day);
                 ++incident;
@@ -39,8 +40,19 @@ IncidentRegister ProductionManager::operator()() {
 
 bool ProductionManager::hasOccurredFailure(const int &day, const int &failureId, const double &probability) {
 //    Verify component is available
-    auto cumulativeProbability = facility_->getFailureModeProbability(failureId, day);
-    return cumulativeProbability  > probability;
+    if (isComponentOnline(failureId)){
+        auto cumulativeProbability = facility_->getFailureModeProbability(failureId, day);
+        return cumulativeProbability  > probability;
+    }
+    return false;
+}
+
+bool ProductionManager::isComponentOnline(const int &failure_id) {
+    auto failure = facility_->getFailureModeDetail(failure_id);
+    auto component = facility_->getComponentPtr(failure.component_id);
+    if (component)
+        return component->isOnline();
+    return false;
 }
 
 void ProductionManager::recordFailure(const int &incident, const int &day, FailureModeDetail &event) {
@@ -68,7 +80,6 @@ void ProductionManager::repairComponent() {
 
 }
 
-
 int ProductionManager::scheduleOutageOfType(const FailureModeDetail &failureModeDetail, int start, int duration,
                                             OutageType type, OutageCost cost) {
     if (duration | cost.isNotZero()){
@@ -79,5 +90,20 @@ int ProductionManager::scheduleOutageOfType(const FailureModeDetail &failureMode
     return start;
 }
 
+void ProductionManager::shutDownAffectedComponents(const int &component_id, FailureScope scope) {
+    if (scope == FailureScope::all){
+        auto component = facility_->getComponentPtr(0);
+        component->shutdown();
+    }
+    if (scope == FailureScope::parent){
+        auto child = facility_->getComponentPtr(component_id);
+        auto parent = facility_->getComponentPtr(child->getParentId());
+        parent->shutdown();
+    }
+    if (scope == FailureScope::cascade){
+        auto component = facility_->getComponentPtr(component_id);
+        component->shutdown();
+    }
+}
 
 #pragma clang diagnostic pop

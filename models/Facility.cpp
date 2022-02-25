@@ -35,6 +35,7 @@ Facility::getFailureModesForComponent(const InputMap &failure_map, vector<int> &
                 failure_parameters[fields.name],
                 failure_parameters[fields.description],
                 failure_parameters[fields.tag],
+                getScope(failure_parameters[fields.scope]),
                 stod(failure_parameters[fields.capex]),
                 stod(failure_parameters[fields.opex]),
                 stoi(failure_parameters[fields.days_to_investigate]),
@@ -157,7 +158,10 @@ int Facility::failureCount() const {
 
 void Facility::registerFailureModesWithFacility(const vector<shared_ptr<FailureMode>>& failure_modes) {
     for (const auto& failure : failure_modes) {
-        failure_map_.emplace(failure->getId(), failure);
+        auto component_id = failure->getComponentId();
+        if (component_map_.find(component_id) != component_map_.end()){
+            failure_map_.emplace(failure->getId(), failure);
+        }
     }
 }
 
@@ -182,4 +186,17 @@ FailureModeDetail Facility::getFailureModeDetail(const int &failureId) {
     auto id = to_string(failureId);
     return failure_map_.at(failureId)->getFailureModeDetail();
 
+}
+
+shared_ptr<Component> Facility::getComponentPtr(const int &component_id) {
+    auto component = component_map_.at(component_id);
+    return { component };
+}
+
+FailureScope Facility::getScope(const string &scope) {
+    if (scope == "all")
+        return FailureScope::all;
+    if (scope == "parent")
+        return FailureScope::parent;
+    return FailureScope::cascade;
 }
