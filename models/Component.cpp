@@ -43,8 +43,10 @@ void Component::shutdown(ShutdownCode code) {
     is_online_ = false;
     if (code != ShutdownCode::constrained)
         is_available_ = false;
-    for (const auto& child : children_) {
-        child->shutdown(code);
+    if (!children_.empty()){
+        for (const auto& child : children_) {
+            child->shutdown(code);
+        }
     }
 }
 
@@ -63,7 +65,5 @@ bool Component::isAvailable() const {
 bool Component::isOnline() const {
     return is_online_;
 }
-
-
 
 #pragma clang diagnostic pop
