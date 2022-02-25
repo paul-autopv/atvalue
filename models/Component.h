@@ -36,7 +36,7 @@ public:
 
     bool isAvailable() const;
     bool isOnline() const;
-    void setParent(weak_ptr<Component> parent_ptr);
+    void setParent(const shared_ptr<Component>& parent_ptr);
     int getParentId() const;
     void addChild(const shared_ptr<Component>& child);
     int getId() const;

@@ -27,8 +27,8 @@ void Component::addChild(const shared_ptr<Component>& child) {
     children_.push_back(child);
 }
 
-void Component::setParent(weak_ptr<Component> parent_ptr) {
-    parent_ = move(parent_ptr);
+void Component::setParent(const shared_ptr<Component>& parent_ptr) {
+    parent_ = weak_ptr<Component>(parent_ptr);
 }
 
 int Component::getParentId() const {

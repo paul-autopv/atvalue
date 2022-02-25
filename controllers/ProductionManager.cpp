@@ -39,7 +39,6 @@ IncidentRegister ProductionManager::operator()() {
 }
 
 bool ProductionManager::hasOccurredFailure(const int &day, const int &failureId, const double &probability) {
-//    Verify component is available
     if (isComponentOnline(failureId)){
         auto cumulativeProbability = facility_->getFailureModeProbability(failureId, day);
         return cumulativeProbability  > probability;
@@ -50,14 +49,18 @@ bool ProductionManager::hasOccurredFailure(const int &day, const int &failureId,
 bool ProductionManager::isComponentOnline(const int &failure_id) {
     auto failure = facility_->getFailureModeDetail(failure_id);
     auto component = facility_->getComponentPtr(failure.component_id);
-    if (component)
+    if (component) {
+        auto is_online = component->isOnline();
         return component->isOnline();
+    }
     return false;
 }
 
 void ProductionManager::recordFailure(const int &incident, const int &day, FailureModeDetail &event) {
+    auto simulation = to_string(std::hash<std::thread::id>{}(std::this_thread::get_id()));
     auto event_record = event.toString();
     event_record.push_back(to_string(day));
+    event_record.push_back(simulation);
     incidentRegister_.insert(pair<int, vector<string>>(incident, event_record));
 }
 

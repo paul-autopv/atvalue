@@ -48,7 +48,7 @@ private:
     void registerComponentWithFacility(const vector<string> &component_detail, const InputMap &component_map, FamilyTree &structure,
                                        vector<shared_ptr<FailureMode>> failures, bool isRoot);
 
-    shared_ptr<Component> registerComponent(unique_ptr<Component> &component);
+    shared_ptr<Component> registerComponent(shared_ptr<Component> component);
 
     bool isInComponentMap(int id) const;
 

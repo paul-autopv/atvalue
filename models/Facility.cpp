@@ -70,7 +70,7 @@ FamilyTree Facility::childCounter(const InputMap& component_map) {
     auto children = std::make_unique<std::map<int, int>>();
 
     if (!component_map.empty()) {
-        for (auto iter{cbegin(component_map)}; iter != cend(component_map); ++iter) {
+        for (auto iter{component_map.begin()}; iter != component_map.end(); ++iter) {
             auto parent_id = stoi(iter->second[fields.parent_id]);
             if (children == nullptr || children->find(parent_id) == children->end())
                 (*children)[parent_id] = 0;
@@ -106,8 +106,8 @@ void Facility::registerComponentWithFacility(const vector<string> &component_det
     auto days_installed = stoi(component_detail[fields.days_installed]);
     auto children = childrenCount(structure, id);
     auto parent_id = (isRoot) ? -1 : stoi(component_detail[fields.parent_id]);
-    auto component = make_unique<Component>(id, name, days_installed, move(failures), capacity, children);
-    auto component_ptr = registerComponent(component);
+    auto component_ptr = make_shared<Component>(id, name, days_installed, move(failures), capacity, children);
+    registerComponent(component_ptr);
     linkParentChildNodes(component_ptr, parent_id);
 
     cout << "Added " << name << " (id: " << id << ")" << endl;
@@ -117,15 +117,15 @@ void Facility::linkParentChildNodes(const std::shared_ptr<Component>& component_
 
     if (parent_id > 0){
         auto parent_ptr = getParent(parent_id);
-        component_ptr->setParent(weak_ptr<Component>(parent_ptr));
-        parent_ptr->addChild(component_ptr);
+        component_ptr->setParent(shared_ptr<Component>(parent_ptr));
+        parent_ptr->addChild(shared_ptr<Component>(component_ptr));
+        cout << component_ptr.use_count() << endl;
     }
 }
 
-shared_ptr<Component> Facility::registerComponent(unique_ptr<Component> &component) {
-    auto  unit_ptr = shared_ptr<Component>(move(component));
-    component_map_.emplace(unit_ptr->getId(), unit_ptr);
-    return unit_ptr;
+shared_ptr<Component> Facility::registerComponent(shared_ptr<Component> component) {
+    component_map_.emplace(component->getId(), component);
+    return component;
 }
 
 shared_ptr<Component> Facility::getParent(int parent_id) {
@@ -133,7 +133,9 @@ shared_ptr<Component> Facility::getParent(int parent_id) {
         std::string message = "Current unit map does not contain unit with parent_id";
         throw std::invalid_argument( message );
     }
-    return {component_map_.at(parent_id)};
+    auto parent_ptr = shared_ptr<Component>(component_map_.at(parent_id));
+    cout << "Parent ptr count " << parent_ptr.use_count() << endl;
+    return parent_ptr;
 }
 
 int Facility::componentCount() const {
