@@ -42,7 +42,7 @@ private:
     void scheduleOutage(const FailureModeDetail &detail, const int &day);
     int scheduleOutageOfType(const FailureModeDetail &failureModeDetail, int start, int duration,
                              OutageType type, OutageCost cost);
-    void repairComponent();
+    void repairComponent(const FailureModeDetail &detail, const int &day);
 };
 
 

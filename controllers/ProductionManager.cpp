@@ -68,7 +68,7 @@ void ProductionManager::recordFailure(const int &incident, const int &day, Failu
 void ProductionManager::resolveFailure(const FailureModeDetail &failureModeDetail, const int &day) {
 
     scheduleOutage(failureModeDetail, day);
-    repairComponent();
+    repairComponent(failureModeDetail, day);
 }
 
 void ProductionManager::scheduleOutage(const FailureModeDetail &detail, const int &day) {
@@ -80,8 +80,11 @@ void ProductionManager::scheduleOutage(const FailureModeDetail &detail, const in
     scheduleOutageOfType(detail, start, detail.days_to_repair, OutageType::repair, cost) ;
 }
 
-void ProductionManager::repairComponent() {
-
+void ProductionManager::repairComponent(const FailureModeDetail &detail, const int &day) {
+    auto component_id = detail.component_id;
+    auto component = facility_->getComponentPtr(component_id);
+    auto previous_installed = component->getDaysInstalled();
+    component->setDaysInstalled(day);
 }
 
 int ProductionManager::scheduleOutageOfType(const FailureModeDetail &failureModeDetail, int start, int duration,

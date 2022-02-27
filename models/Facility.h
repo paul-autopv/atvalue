@@ -32,10 +32,11 @@ public:
 
     void buildFacility(const InputMap &component_map, const InputMap &failure_map);
     vector<int> getShuffledFailureModeIds();
-    vector<int> getOrderedFailureModeIds(bool reverse=false);
+
     double getFailureModeProbability(const int &failureId, const int &day);
     FailureModeDetail getFailureModeDetail(const int &failureId);
-    int componentCount() const;
+    void updateFailureMode(const FailureModeDetail &detail);
+
     int failureCount() const;
     shared_ptr<Component> getComponentPtr(const int &component_id) const;
     shared_ptr<Component> getRootComponentPtr() const;

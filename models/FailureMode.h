@@ -29,6 +29,7 @@ public:
     int getDaysToRepair() const;
 
     FailureModeDetail getFailureModeDetail();
+    void updateFailureModeDetail(const FailureModeDetail &detail);
     double getFailureProbability(const int &day) const;
 
 private:

@@ -39,6 +39,10 @@ int Component::getDaysInstalled() const {
     return days_installed_;
 }
 
+void Component::setDaysInstalled(const int& day) {
+    days_installed_ = day;
+}
+
 void Component::shutdown(ShutdownCode code) {
     is_online_ = false;
     if (code != ShutdownCode::constrained)

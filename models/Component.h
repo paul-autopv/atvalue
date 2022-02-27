@@ -41,6 +41,7 @@ public:
     void addChild(const shared_ptr<Component>& child);
     int getId() const;
     int getDaysInstalled() const;
+    void setDaysInstalled(const int& day);
 
     void shutdown(ShutdownCode code = ShutdownCode::unplanned);
     void startup();

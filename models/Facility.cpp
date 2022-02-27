@@ -138,10 +138,6 @@ shared_ptr<Component> Facility::getParent(int parent_id) {
     return parent_ptr;
 }
 
-int Facility::componentCount() const {
-    return component_map_.size();
-}
-
 
 bool Facility::isInComponentMap(int id) const{
     return component_map_.find(id) != component_map_.end();
@@ -178,16 +174,6 @@ vector<int> Facility::getShuffledFailureModeIds() {
 }
 
 
-vector<int> Facility::getOrderedFailureModeIds(bool reverse) {
-    vector<int> failureIds;
-    for (auto &it : failure_map_){
-        failureIds.push_back(it.first);
-    }
-    if (reverse)
-        std::reverse(failureIds.begin(), failureIds.end());
-    return failureIds;
-}
-
 double Facility::getFailureModeProbability(const int &failureId, const int &day) {
     return failure_map_.at(failureId)->getFailureProbability(day);
 }
@@ -198,11 +184,16 @@ FailureModeDetail Facility::getFailureModeDetail(const int &failureId) {
 
 }
 
+void Facility::updateFailureMode(const FailureModeDetail &detail) {
+    auto failure_id = detail.id;
+    failure_map_.at(failure_id)->updateFailureModeDetail(detail);
+}
+
+
 shared_ptr<Component> Facility::getComponentPtr(const int &component_id) const {
     auto component = component_map_.at(component_id);
     return { component };
 }
-
 
 shared_ptr<Component> Facility::getRootComponentPtr() const {
     return getComponentPtr(1);
