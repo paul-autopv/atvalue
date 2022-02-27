@@ -24,11 +24,9 @@ IncidentRegister ProductionManager::operator()() {
     auto incident {1};
     for (int day = 0; day < duration_; ++day) {
         auto failuresForDay = facility_->getShuffledFailureModeIds();
-//        auto failuresForDay = facility_->getOrderedFailureModeIds();
         for (auto &failureId : failuresForDay){
             auto probability = likelihood();
             if (hasOccurredFailure(day, failureId, probability)){
-//            if (hasOccurredFailure(day, failureId, 0.8)){
                 cout << "Day: " << day << " Failure :" << failureId << " Probability " << probability <<endl;
                 auto failure_detail = facility_->getFailureModeDetail(failureId);
                 shutDownAffectedComponents(failure_detail.component_id, failure_detail.scope);
