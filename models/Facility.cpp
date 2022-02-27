@@ -12,7 +12,7 @@ void Facility::buildFacility(const InputMap &component_map, const InputMap &fail
         auto component_installed = stoi(component_record[fields.days_installed]);
         auto is_root = (iter == component_map.begin());
         auto failures = getFailureModesForComponent(failure_map, (*failure_modes)[component], component_installed);
-        registerComponentWithFacility(component_record, component_map, structure, failures, is_root, duration_);
+        registerComponentWithFacility(component_record, component_map, structure, failures, is_root, simulation_duration_);
         registerFailureModesWithFacility(failures);
     }
 }
@@ -92,7 +92,7 @@ std::unique_ptr<ComponentFailureModes> Facility::getAllComponentFailureModes(con
 
 void Facility::registerComponentWithFacility(const vector<string> &component_detail, const InputMap &component_map,
                                              FamilyTree &structure, vector<shared_ptr<FailureMode>> failures,
-                                             bool isRoot, const int duration) {
+                                             bool isRoot, const int simulation_duration) {
 
     StationFields fields;
 
@@ -102,7 +102,7 @@ void Facility::registerComponentWithFacility(const vector<string> &component_det
     auto days_installed = stoi(component_detail[fields.days_installed]);
     auto children = childrenCount(structure, id);
     auto parent_id = (isRoot) ? -1 : stoi(component_detail[fields.parent_id]);
-    auto component_ptr = make_shared<Component>(id, name, duration, days_installed, move(failures), capacity, children);
+    auto component_ptr = make_shared<Component>(id, name, simulation_duration, days_installed, move(failures), capacity, children);
     registerComponent(component_ptr);
     linkParentChildNodes(component_ptr, parent_id);
 

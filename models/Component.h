@@ -23,7 +23,7 @@ private:
     vector<shared_ptr<FailureMode>> failure_modes_;
     vector<bool> available_days;
     vector<bool> online_days;
-    int duration_ {};
+    int simulation_duration_ {};
     int day_installed_{};
     double capacity_{};
 
@@ -33,7 +33,7 @@ public:
 
     Component() = delete;
     Component(const Component&) = delete;
-    Component(int id, string name, const int &duration, int days_installed,
+    Component(int id, string name, const int &simulation_duration, int days_installed,
               vector<shared_ptr<FailureMode>> failure_modes, double capacity, int children);
 
     bool isOnline(const int &day) const;

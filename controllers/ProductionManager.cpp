@@ -8,9 +8,9 @@
 
 ProductionManager::ProductionManager() : ProductionManager(0, InputMap(), InputMap()) {}
 
-ProductionManager::ProductionManager(const int &duration, const InputMap &structure, const InputMap &failures) :
-        duration_ {duration}, structure_ {structure}, failures_ {failures}{
-    facility_ = make_shared<Facility>(duration_);
+ProductionManager::ProductionManager(const int &simulation_duration, const InputMap &structure, const InputMap &failures) :
+        simulation_duration_ {simulation_duration}, structure_ {structure}, failures_ {failures}{
+    facility_ = make_shared<Facility>(simulation_duration_);
     facility_->buildFacility(structure_, failures_);
 };
 
@@ -22,15 +22,15 @@ IncidentRegister ProductionManager::operator()() {
     auto likelihood = [&distribution, &engine](){ return (double)distribution(engine)/max; };
 
     auto incident {1};
-    for (int day = 0; day < duration_; ++day) {
+    for (int day = 0; day < simulation_duration_; ++day) {
         auto failuresForDay = facility_->getShuffledFailureModeIds();
         for (auto &failureId : failuresForDay){
             auto probability = likelihood();
             if (hasOccurredFailure(day, failureId, probability)){
                 auto failure_detail = facility_->getFailureModeDetail(failureId);
                 cout << "Day: " << day << " Component: " << failure_detail.component_id << " Failure: " << failureId << " Probability: " << probability <<endl;
-                auto duration = failure_detail.days_to_investigate + failure_detail.days_to_procure + failure_detail.days_to_repair;
-                shutDownAffectedComponents(failure_detail.component_id, failure_detail.scope, day, duration);
+                auto outage_duration = failure_detail.days_to_investigate + failure_detail.days_to_procure + failure_detail.days_to_repair;
+                shutDownAffectedComponents(failure_detail.component_id, failure_detail.scope, day, outage_duration);
                 recordFailure(incident, day, failure_detail);
                 resolveFailure(failure_detail, day);
                 ++incident;

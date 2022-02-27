@@ -29,7 +29,7 @@ class Facility {
 public:
     Facility() = default;
 
-    explicit Facility(int duration) : duration_ {duration} {};
+    explicit Facility(int duration) : simulation_duration_ {duration} {};
 
     void buildFacility(const InputMap &component_map, const InputMap &failure_map);
     vector<int> getShuffledFailureModeIds();
@@ -44,7 +44,7 @@ public:
 
 private:
 
-    int duration_ {0};
+    int simulation_duration_ {0};
 
     ComponentMap component_map_;
 
@@ -54,7 +54,7 @@ private:
 
     void registerComponentWithFacility(const vector<string> &component_detail, const InputMap &component_map,
                                        FamilyTree &structure, vector<shared_ptr<FailureMode>> failures,
-                                       bool isRoot, const int duration);
+                                       bool isRoot, const int simulation_duration);
 
     shared_ptr<Component> registerComponent(shared_ptr<Component> component);
 

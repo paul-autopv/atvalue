@@ -21,7 +21,7 @@ class  ProductionManager{
 public:
     ProductionManager();
 
-    ProductionManager(const int &duration, const InputMap &structure, const InputMap &failures);
+    ProductionManager(const int &simulation_duration, const InputMap &structure, const InputMap &failures);
 
     IncidentRegister operator()();
 
@@ -29,7 +29,7 @@ public:
     bool isComponentOnline(const int &failure_id, const int &day);
 
 private:
-    int duration_;
+    int simulation_duration_;
     InputMap structure_;
     InputMap failures_;
     shared_ptr<Facility> facility_;

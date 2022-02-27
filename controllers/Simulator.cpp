@@ -5,15 +5,15 @@
 
 
 Simulator::Simulator(const int &simulations, const int &duration, InputMap failures, InputMap structure) :
-    simulations_ {simulations < 0 ? 0 : simulations},
-    duration_ {duration},
-    failures_ {std::move(failures)},
-    structure_ {std::move(structure)}{
+        simulations_ {simulations < 0 ? 0 : simulations},
+        simulation_duration_ {duration},
+        failures_ {std::move(failures)},
+        structure_ {std::move(structure)}{
 
     if (simulations_ <= 0) {
         throw invalid_argument("Simulation duration must be larger than 0.");
     }
-    if (duration_ <= 0) {
+    if (simulation_duration_ <= 0) {
         throw invalid_argument("Number of simulations must be larger than 0.");
     }
 
@@ -29,7 +29,7 @@ void Simulator::run() const {
     // define functors
     vector<ProductionManager> productionManagers(simulations_);
     for (auto i = 0; i < simulations_; ++i){
-        productionManagers[i] = ProductionManager(duration_, structure_, failures_);
+        productionManagers[i] = ProductionManager(simulation_duration_, structure_, failures_);
     }
 
     // define tasks
@@ -65,14 +65,14 @@ void Simulator::run() const {
 // Code commented out below is an example of how to work with output of futures.
 //
 //        TypeRegister accumulator;
-//        accumulator.resize(duration_);
+//        accumulator.resize(simulation_duration_);
 //        for (auto future = 0; future < simulations_; ++future){
 //        auto future_register = futures[future].get();
 //        accumulator = sumRegister(accumulator, future_register);
 //        }
 //
 //        long sum {0};
-//        for (int j = 0; j < duration_; ++j) {
+//        for (int j = 0; j < simulation_duration_; ++j) {
 //        sum += accumulator[j];
 //        }
 //        std::cout << "Sum of all elements: " << sum << endl;
@@ -96,7 +96,7 @@ void Simulator::writeRegisterToCsv(const Register& the_register) {
 void Simulator::run_single() const{
 
     for (int i = 0; i < simulations_; ++i) {
-        auto progress = ProductionManager(duration_, structure_, failures_);
+        auto progress = ProductionManager(simulation_duration_, structure_, failures_);
         progress();
     }
 }

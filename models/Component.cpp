@@ -8,17 +8,17 @@
 #include <utility>
 #include "Component.h"
 
-Component::Component(int id, string name, const int &duration, int days_installed,
+Component::Component(int id, string name, const int &simulation_duration, int days_installed,
                      vector<shared_ptr<FailureMode>> failure_modes, double capacity, int children) :
         id_ {id},
         name_ {std::move(name)},
-        duration_ {duration},
+        simulation_duration_ {simulation_duration},
         failure_modes_ {move(failure_modes)},
         capacity_ {capacity},
         day_installed_ {days_installed}{
     children_.reserve(children);
-    available_days.resize(duration_, true);
-    online_days.resize(duration_, true);
+    available_days.resize(simulation_duration_, true);
+    online_days.resize(simulation_duration_, true);
 };
 
 
@@ -48,7 +48,7 @@ void Component::setDayInstalled(const int& day) {
 }
 
 void Component::scheduleOutage(const int &start, const int &outage_duration) {
-    auto end = outage_duration < 0 ? start : min(start + outage_duration, duration_);
+    auto end = outage_duration < 0 ? start : min(start + outage_duration, simulation_duration_);
     for (auto day = start; day < end; ++day){
         online_days.at(day) = false;
         available_days.at(day) = false;

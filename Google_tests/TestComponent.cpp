@@ -22,7 +22,6 @@ protected:
 
 };
 
-
 TEST_F(TestComponent, scheduleOutageCorrectlyAllocatesAvailabilityDays){
 
     int pre_outage_days {0};
