@@ -30,7 +30,7 @@ protected:
 };
 
 TEST_F(TestFacility, getShuffledFailureModesReturnsRandomListWithSameLength){
-    auto result = facility_.getShuffledFailureModes();
+    auto result = facility_.getShuffledFailureModeIds();
     std::cout << result[0] << std::endl;
 
     EXPECT_EQ(result.size(), failures_.size());

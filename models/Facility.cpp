@@ -160,19 +160,11 @@ int Facility::failureCount() const {
 
 void Facility::registerFailureModesWithFacility(const vector<shared_ptr<FailureMode>>& failure_modes) {
     for (const auto& failure : failure_modes) {
-        auto component_id = failure->getComponentId();
-        if (component_map_.find(component_id) != component_map_.end()){
-            failure_map_.emplace(failure->getId(), failure);
-        }
-        else{
-            cout << "FailureMode with id " << failure->getId() <<
-            " not registered because component with id " << component_id <<
-            " not found in component map." << endl;
-        }
+        failure_map_.emplace(failure->getId(), failure);
     }
 }
 
-vector<int> Facility::getShuffledFailureModes() {
+vector<int> Facility::getShuffledFailureModeIds() {
     vector<int> failureIds;
 
     for (auto & it : failure_map_) {
@@ -182,6 +174,17 @@ vector<int> Facility::getShuffledFailureModes() {
     std::random_device randomDevice;
     std::default_random_engine randomEngine(randomDevice());
     shuffle(failureIds.begin(), failureIds.end(), randomEngine);
+    return failureIds;
+}
+
+
+vector<int> Facility::getOrderedFailureModeIds(bool reverse) {
+    vector<int> failureIds;
+    for (auto &it : failure_map_){
+        failureIds.push_back(it.first);
+    }
+    if (reverse)
+        std::reverse(failureIds.begin(), failureIds.end());
     return failureIds;
 }
 
@@ -195,9 +198,14 @@ FailureModeDetail Facility::getFailureModeDetail(const int &failureId) {
 
 }
 
-shared_ptr<Component> Facility::getComponentPtr(const int &component_id) {
+shared_ptr<Component> Facility::getComponentPtr(const int &component_id) const {
     auto component = component_map_.at(component_id);
     return { component };
+}
+
+
+shared_ptr<Component> Facility::getRootComponentPtr() const {
+    return getComponentPtr(1);
 }
 
 FailureScope Facility::getScope(const string &scope) {
@@ -207,3 +215,4 @@ FailureScope Facility::getScope(const string &scope) {
         return FailureScope::parent;
     return FailureScope::cascade;
 }
+
