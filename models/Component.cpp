@@ -43,10 +43,6 @@ int Component::getParentId() const {
     return parent_.lock()->getId();
 }
 
-int Component::getDayInstalled() const {
-    return day_installed_;
-}
-
 void Component::setDayInstalled(const int& day) {
     day_installed_ = day;
 }
@@ -56,6 +52,11 @@ void Component::scheduleOutage(const int &start, const int &outage_duration) {
     for (auto day = start; day < end; ++day){
         online_days.at(day) = false;
         available_days.at(day) = false;
+    }
+    if (!children_.empty()) {
+        for (auto &child: children_) {
+            child->scheduleOutage(start, outage_duration);
+        }
     }
 }
 
