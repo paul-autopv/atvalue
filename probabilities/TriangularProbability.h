@@ -9,9 +9,6 @@
 #include "../models/IProbability.h"
 
 class TriangularProbability : public IProbability{
-    int installed_ {0};
-    int should_fail_ {0};
-    int will_fail_ {0};
 public:
     TriangularProbability() = delete;
     TriangularProbability(const int &installed, const int &should_fail, const int &will_fail){
@@ -36,6 +33,17 @@ public:
         }
         return ((pre_should_fail + ((day - (double)should_fail_) / ((double)will_fail_ - (double)should_fail_)) * post_should_fail )) / denominator;
     };
+
+    void setParameters(const double& installed, const double &should_fail, const double &will_fail) override{
+        should_fail_ = (should_fail_ - installed_) + (int) installed;
+        will_fail_ =  (will_fail_ - installed_) + (int) installed;
+        installed_ = (int) installed;
+    }
+
+private:
+    int installed_ {0};
+    int should_fail_ {0};
+    int will_fail_ = {0};
 };
 
 

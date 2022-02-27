@@ -96,3 +96,26 @@ TEST_F(TestTriangular, UniqueValuesReturnCorrectValue){
 
     EXPECT_EQ((int)(probability*100'000), 93254);
 }
+
+TEST_F(TestTriangular, setParamatersCorrectlyUpdatesParameters){
+    auto triangular = TriangularProbability(0, 100, 200);
+
+    auto probability1_pre = triangular.getProbability(0);
+    auto probability2_pre = triangular.getProbability(100);
+    auto probability3_pre = triangular.getProbability(200);
+
+    triangular.setParameters(300, 400, 500);
+
+    auto probability0_post = triangular.getProbability(200);
+    auto probability1_post = triangular.getProbability(300);
+    auto probability2_post = triangular.getProbability(400);
+    auto probability3_post = triangular.getProbability(500);
+
+    EXPECT_EQ(probability1_pre, 0);
+    EXPECT_EQ(probability2_pre, 0.5);
+    EXPECT_EQ(probability3_pre, 1);
+    EXPECT_EQ(probability0_post, 0);
+    EXPECT_EQ(probability1_post, 0);
+    EXPECT_EQ(probability2_post, 0.5);
+    EXPECT_EQ(probability3_post, 1);
+}

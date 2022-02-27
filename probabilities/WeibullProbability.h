@@ -16,6 +16,11 @@ public:
     WeibullProbability() = delete;
     WeibullProbability(const double &alpha, const double &beta) : alpha_ {alpha}, beta_ {beta}{};
 
+    void setParameters(const double &alpha, const double &beta, const double &c) override {
+        alpha_ = alpha;
+        beta_ = beta;
+    };
+
 
     double getProbability(const int &day) override {
         if (day < 0)
