@@ -11,7 +11,6 @@ set(HEADER_FILES
         models/Facility.h
         models/FailureMode.h
         models/IProbability.h
-        probabilities/WeibullProbability.h
         utilities/CsvReader.h
         models/CsvMap.h
         probabilities/TriangularProbability.h

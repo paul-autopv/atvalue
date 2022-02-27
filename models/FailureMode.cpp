@@ -37,10 +37,9 @@ FailureModeDetail FailureMode::getFailureModeDetail() {
     return failureModeDetail_;
 }
 
-void FailureMode::updateFailureModeDetail(const FailureModeDetail &detail ) {
-    failureModeDetail_ = detail;
-
-}
+void FailureMode::resetFailureModeProbability(const int &day){
+    distribution_->resetProbability(day);
+};
 
 double FailureMode::getFailureProbability(const int &day) const {
     return distribution_->getProbability(day);

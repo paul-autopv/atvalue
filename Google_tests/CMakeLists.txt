@@ -7,6 +7,6 @@ include_directories(${gtest_SOURCE_DIR}/include ${gtest_SOURCE_DIR})
 
 # 'Google_Tests_run' is the target name
 # 'test1.cpp tests2.cpp' are source files with tests
-add_executable(Google_Tests_run TestWeibull.cpp TestTriangular.cpp TestSimulator.cpp TestFacility.cpp TestOutage.cpp TestOutageManager.cpp TestComponent.cpp TestProductionManager.cpp)
+add_executable(Google_Tests_run TestTriangular.cpp TestSimulator.cpp TestFacility.cpp TestOutage.cpp TestOutageManager.cpp TestComponent.cpp TestProductionManager.cpp)
 target_link_libraries(Google_Tests_run models)
 target_link_libraries(Google_Tests_run gtest gtest_main)

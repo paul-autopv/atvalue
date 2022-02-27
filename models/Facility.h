@@ -13,7 +13,6 @@
 
 #include "Component.h"
 #include "CsvMap.h"
-#include "../probabilities/WeibullProbability.h"
 #include "../probabilities/TriangularProbability.h"
 
 using namespace std;
@@ -35,7 +34,7 @@ public:
 
     double getFailureModeProbability(const int &failureId, const int &day);
     FailureModeDetail getFailureModeDetail(const int &failureId);
-    void updateFailureMode(const FailureModeDetail &detail);
+    void resetFailureModeProbability(const int &day, const int &failure_mode_id);
 
     int failureCount() const;
     shared_ptr<Component> getComponentPtr(const int &component_id) const;

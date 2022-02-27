@@ -82,9 +82,12 @@ void ProductionManager::scheduleOutage(const FailureModeDetail &detail, const in
 
 void ProductionManager::repairComponent(const FailureModeDetail &detail, const int &day) {
     auto component_id = detail.component_id;
+    auto failure_id = detail.id;
     auto component = facility_->getComponentPtr(component_id);
     auto previous_installed = component->getDaysInstalled();
+    auto failure_mode = failures_.at(failure_id);
     component->setDaysInstalled(day);
+    facility_->resetFailureModeProbability(day, failure_id);
 }
 
 int ProductionManager::scheduleOutageOfType(const FailureModeDetail &failureModeDetail, int start, int duration,

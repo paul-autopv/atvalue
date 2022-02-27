@@ -8,7 +8,7 @@
 class IProbability{
 public:
     virtual double getProbability(const int &day) = 0;
-    virtual void setParameters(const double &a, const double &b, const double &c = 0)  = 0;
+    virtual void resetProbability(const int &day) = 0;
 };
 
 #endif //ATVALUE_IPROBABILITY_H

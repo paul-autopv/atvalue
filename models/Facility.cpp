@@ -53,11 +53,6 @@ unique_ptr<IProbability>
 Facility::getProbabilityDistribution(const vector<string> &failure_mode, const string &probability_type,
                                      int component_installed) {
     FailureModeFields fields;
-    if (probability_type == "weibull"){
-        return make_unique<WeibullProbability>(
-                stod(failure_mode[fields.a]),
-                stod(failure_mode[fields.b]));
-    }
     return make_unique<TriangularProbability>(TriangularProbability(
             -component_installed,
             stoi(failure_mode[fields.a]),
@@ -184,11 +179,9 @@ FailureModeDetail Facility::getFailureModeDetail(const int &failureId) {
 
 }
 
-void Facility::updateFailureMode(const FailureModeDetail &detail) {
-    auto failure_id = detail.id;
-    failure_map_.at(failure_id)->updateFailureModeDetail(detail);
+void Facility::resetFailureModeProbability(const int &day, const int &failure_mode_id) {
+    failure_map_.at(failure_mode_id)->resetFailureModeProbability(day);
 }
-
 
 shared_ptr<Component> Facility::getComponentPtr(const int &component_id) const {
     auto component = component_map_.at(component_id);

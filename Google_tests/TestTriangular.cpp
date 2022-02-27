@@ -104,7 +104,7 @@ TEST_F(TestTriangular, setParamatersCorrectlyUpdatesParameters){
     auto probability2_pre = triangular.getProbability(100);
     auto probability3_pre = triangular.getProbability(200);
 
-    triangular.setParameters(300, 400, 500);
+    triangular.resetProbability(300);
 
     auto probability0_post = triangular.getProbability(200);
     auto probability1_post = triangular.getProbability(300);
