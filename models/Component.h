@@ -21,10 +21,11 @@ private:
     weak_ptr<Component> parent_;
     vector<shared_ptr<Component>> children_;
     vector<shared_ptr<FailureMode>> failure_modes_;
-    int days_installed_{};
+    vector<bool> available_days;
+    vector<bool> online_days;
+    int duration_ {};
+    int day_installed_{};
     double capacity_{};
-    bool is_online_ {true};
-    bool is_available_ {true};
 
 
 public:
@@ -32,19 +33,19 @@ public:
 
     Component() = delete;
     Component(const Component&) = delete;
-    Component(int id, string name, int days_installed, vector<shared_ptr<FailureMode>> failure_modes, double capacity= 0, int children= 0);
+    Component(int id, string name, const int &duration, int days_installed,
+              vector<shared_ptr<FailureMode>> failure_modes, double capacity, int children);
 
-    bool isAvailable() const;
-    bool isOnline() const;
+    bool isOnline(const int &day) const;
     void setParent(const shared_ptr<Component>& parent_ptr);
     int getParentId() const;
     void addChild(const shared_ptr<Component>& child);
     int getId() const;
-    int getDaysInstalled() const;
-    void setDaysInstalled(const int& day);
-
-    void shutdown(ShutdownCode code = ShutdownCode::unplanned);
-    void startup();
+    int getDayInstalled() const;
+    void setDayInstalled(const int& day);
+    void scheduleOutage(const int &start, const int &outage_duration);
+    bool isAvailable(const int &day) const;
+    vector<bool> getAvailability();
 
 };
 

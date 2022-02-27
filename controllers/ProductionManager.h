@@ -26,7 +26,7 @@ public:
     IncidentRegister operator()();
 
     bool hasOccurredFailure(const int &day, const int &failureId, const double &probability);
-    bool isComponentOnline(const int &failure_id);
+    bool isComponentOnline(const int &failure_id, const int &day);
 
 private:
     int duration_;
@@ -36,7 +36,8 @@ private:
     OutageManager outageManager_ = OutageManager();
     IncidentRegister incidentRegister_;
 
-    void shutDownAffectedComponents(const int &component_id, FailureScope scope);
+    void shutDownAffectedComponents(const int &component_id, FailureScope scope, const int &day,
+                                    const int &duration);
     void resolveFailure(const FailureModeDetail &failureModeDetail, const int &day);
     void recordFailure(const int &incident, const int &day, FailureModeDetail &event);
     void scheduleOutage(const FailureModeDetail &detail, const int &day);

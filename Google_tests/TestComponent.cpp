@@ -11,84 +11,41 @@ protected:
         child1_->addChild(child2_);
         parent_->addChild(child1_);
     }
+    int duration_ {1000};
 
     shared_ptr<Component> parent_ = make_shared<Component>(
-            1, "parent", 1,vector<shared_ptr<FailureMode>>(),0,2);
+            1, "parent", duration_, 1,vector<shared_ptr<FailureMode>>(),0,2);
     shared_ptr<Component> child1_ = make_shared<Component>(
-            2, "child1", 1,vector<shared_ptr<FailureMode>>(),0,1);
+            2, "child1", duration_, 1,vector<shared_ptr<FailureMode>>(),0,1);
     shared_ptr<Component> child2_ = make_shared<Component>(
-            1, "child2", 1,vector<shared_ptr<FailureMode>>(),0,1);
+            1, "child2", duration_, 1,vector<shared_ptr<FailureMode>>(),0,1);
+
 };
 
 
-TEST_F(TestComponent, ShutdownUnplannedMakesUnavailableComponentAndAllChildrenWhenCalled){
+TEST_F(TestComponent, scheduleOutageCorrectlyAllocatesAvailabilityDays){
 
-    vector<bool> availability_before = { parent_->isAvailable(), child1_->isAvailable(), child2_->isAvailable() };
-    parent_->shutdown(ShutdownCode::unplanned);
-    vector<bool> availability_after = { parent_->isAvailable(), child1_->isAvailable(), child2_->isAvailable() };
+    int pre_outage_days {0};
+    auto availability = child1_->getAvailability();
+    for (auto day = availability.begin(); day < availability.end(); ++day){
+        pre_outage_days += *day;
+    };
 
-    EXPECT_TRUE(availability_before.at(0) && availability_before.at(1) && availability_before.at(2) );
-    EXPECT_TRUE(!availability_after.at(0) && !availability_after.at(1) && !availability_after.at(2) );
-}
+    child1_->scheduleOutage(4, 10);
 
-TEST_F(TestComponent, ShutdownPlannedMakesUnavailableComponentAndAllChildrenWhenCalled){
+    int post_outage_days {0};
+    availability = child1_->getAvailability();
+    for (auto day = availability.begin(); day < availability.end(); ++day){
+        post_outage_days += *day;
+    };
 
-    vector<bool> availability_before = { parent_->isAvailable(), child1_->isAvailable(), child2_->isAvailable() };
-    parent_->shutdown(ShutdownCode::planned);
-    vector<bool> availability_after = { parent_->isAvailable(), child1_->isAvailable(), child2_->isAvailable() };
+    auto last_day_available = child1_->isAvailable(3);
+    auto first_day_unavailable = child1_->isAvailable(4);
+    auto last_day_unavailable = child1_->isAvailable(13);
 
-    EXPECT_TRUE(availability_before.at(0) && availability_before.at(1) && availability_before.at(2) );
-    EXPECT_TRUE(!availability_after.at(0) && !availability_after.at(1) && !availability_after.at(2) );
-}
+    ASSERT_EQ(pre_outage_days, duration_);
+    ASSERT_EQ(post_outage_days, duration_ - 10);
+    ASSERT_TRUE(last_day_available && !first_day_unavailable && !last_day_unavailable);
 
-TEST_F(TestComponent, ShutdownConstrainedNotMakeUnavailableComponentAndAllChildrenWhenCalled){
-
-    vector<bool> availability_before = { parent_->isAvailable(), child1_->isAvailable(), child2_->isAvailable() };
-    parent_->shutdown(ShutdownCode::constrained);
-    vector<bool> availability_after = { parent_->isAvailable(), child1_->isAvailable(), child2_->isAvailable() };
-
-    EXPECT_TRUE(availability_before.at(0) && availability_before.at(1) && availability_before.at(2) );
-    EXPECT_TRUE(availability_after.at(0) && availability_after.at(1) && availability_after.at(2) );
-}
-
-TEST_F(TestComponent, ShutdownUnplannedMakesNotOnlineComponentAndAllChildrenWhenCalled){
-
-    vector<bool> availability_before = { parent_->isOnline(), child1_->isOnline(), child2_->isOnline() };
-    parent_->shutdown(ShutdownCode::unplanned);
-    vector<bool> availability_after = { parent_->isOnline(), child1_->isOnline(), child2_->isOnline() };
-
-    EXPECT_TRUE(availability_before.at(0) && availability_before.at(1) && availability_before.at(2) );
-    EXPECT_TRUE(!availability_after.at(0) && !availability_after.at(1) && !availability_after.at(2) );
-}
-
-TEST_F(TestComponent, ShutdownPlannedMakesNotOnlineComponentAndAllChildrenWhenCalled){
-
-    vector<bool> availability_before = { parent_->isOnline(), child1_->isOnline(), child2_->isOnline() };
-    parent_->shutdown(ShutdownCode::planned);
-    vector<bool> availability_after = { parent_->isOnline(), child1_->isOnline(), child2_->isOnline() };
-
-    EXPECT_TRUE(availability_before.at(0) && availability_before.at(1) && availability_before.at(2) );
-    EXPECT_TRUE(!availability_after.at(0) && !availability_after.at(1) && !availability_after.at(2) );
-}
-
-TEST_F(TestComponent, ShutdownConstrainedMakesNotOnlineComponentAndAllChildrenWhenCalled){
-
-    vector<bool> availability_before = { parent_->isOnline(), child1_->isOnline(), child2_->isOnline() };
-    parent_->shutdown(ShutdownCode::constrained);
-    vector<bool> availability_after = { parent_->isOnline(), child1_->isOnline(), child2_->isOnline() };
-
-    EXPECT_TRUE(availability_before.at(0) && availability_before.at(1) && availability_before.at(2) );
-    EXPECT_TRUE(!availability_after.at(0) && !availability_after.at(1) && !availability_after.at(2) );
-}
-
-TEST_F(TestComponent, StartUpMakesComponentAvailableAfterShutdown){
-
-    parent_->shutdown(ShutdownCode::unplanned);
-    vector<bool> availability_before = { parent_->isAvailable(), child1_->isAvailable(), child2_->isAvailable() };
-    parent_->startup();
-    vector<bool> availability_after = { parent_->isAvailable(), child1_->isAvailable(), child2_->isAvailable() };
-
-    EXPECT_TRUE(!availability_before.at(0) && !availability_before.at(1) && !availability_before.at(2) );
-    EXPECT_TRUE(availability_after.at(0) && availability_after.at(1) && availability_after.at(2) );
 }
 

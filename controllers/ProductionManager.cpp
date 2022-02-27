@@ -10,7 +10,7 @@ ProductionManager::ProductionManager() : ProductionManager(0, InputMap(), InputM
 
 ProductionManager::ProductionManager(const int &duration, const InputMap &structure, const InputMap &failures) :
         duration_ {duration}, structure_ {structure}, failures_ {failures}{
-    facility_ = make_shared<Facility>();
+    facility_ = make_shared<Facility>(duration_);
     facility_->buildFacility(structure_, failures_);
 };
 
@@ -27,9 +27,10 @@ IncidentRegister ProductionManager::operator()() {
         for (auto &failureId : failuresForDay){
             auto probability = likelihood();
             if (hasOccurredFailure(day, failureId, probability)){
-                cout << "Day: " << day << " Failure :" << failureId << " Probability " << probability <<endl;
                 auto failure_detail = facility_->getFailureModeDetail(failureId);
-                shutDownAffectedComponents(failure_detail.component_id, failure_detail.scope);
+                cout << "Day: " << day << " Component: " << failure_detail.component_id << " Failure: " << failureId << " Probability: " << probability <<endl;
+                auto duration = failure_detail.days_to_investigate + failure_detail.days_to_procure + failure_detail.days_to_repair;
+                shutDownAffectedComponents(failure_detail.component_id, failure_detail.scope, day, duration);
                 recordFailure(incident, day, failure_detail);
                 resolveFailure(failure_detail, day);
                 ++incident;
@@ -40,19 +41,18 @@ IncidentRegister ProductionManager::operator()() {
 }
 
 bool ProductionManager::hasOccurredFailure(const int &day, const int &failureId, const double &probability) {
-    if (isComponentOnline(failureId)){
+    if (isComponentOnline(failureId, day)){
         auto cumulativeProbability = facility_->getFailureModeProbability(failureId, day);
         return cumulativeProbability  > probability;
     }
     return false;
 }
 
-bool ProductionManager::isComponentOnline(const int &failure_id) {
+bool ProductionManager::isComponentOnline(const int &failure_id, const int &day) {
     auto failure = facility_->getFailureModeDetail(failure_id);
     auto component = facility_->getComponentPtr(failure.component_id);
     if (component) {
-        auto is_online = component->isOnline();
-        return component->isOnline();
+        return component->isOnline(day);
     }
     return false;
 }
@@ -84,9 +84,8 @@ void ProductionManager::repairComponent(const FailureModeDetail &detail, const i
     auto component_id = detail.component_id;
     auto failure_id = detail.id;
     auto component = facility_->getComponentPtr(component_id);
-    auto previous_installed = component->getDaysInstalled();
     auto failure_mode = failures_.at(failure_id);
-    component->setDaysInstalled(day);
+    component->setDayInstalled(day);
     facility_->resetFailureModeProbability(day, failure_id);
 }
 
@@ -100,19 +99,20 @@ int ProductionManager::scheduleOutageOfType(const FailureModeDetail &failureMode
     return start;
 }
 
-void ProductionManager::shutDownAffectedComponents(const int &component_id, FailureScope scope) {
+void ProductionManager::shutDownAffectedComponents(const int &component_id, FailureScope scope, const int &day,
+                                                   const int &duration) {
     if (scope == FailureScope::all){
         auto component = facility_->getRootComponentPtr();
-        component->shutdown();
+        component->scheduleOutage( day, duration);
     }
     if (scope == FailureScope::parent){
         auto child = facility_->getComponentPtr(component_id);
         auto parent = facility_->getComponentPtr(child->getParentId());
-        parent->shutdown();
+        parent->scheduleOutage(day, duration);
     }
     if (scope == FailureScope::cascade){
         auto component = facility_->getComponentPtr(component_id);
-        component->shutdown();
+        component->scheduleOutage(day, duration);
     }
 }
 

@@ -8,9 +8,17 @@
 #include <utility>
 #include "Component.h"
 
-Component::Component(int id, string name, int days_installed, vector<shared_ptr<FailureMode>> failure_modes, double capacity, int children)
-        : id_ {id}, name_ {std::move(name)}, failure_modes_ {move(failure_modes)}, capacity_ {capacity}, days_installed_ {days_installed}{
+Component::Component(int id, string name, const int &duration, int days_installed,
+                     vector<shared_ptr<FailureMode>> failure_modes, double capacity, int children) :
+        id_ {id},
+        name_ {std::move(name)},
+        duration_ {duration},
+        failure_modes_ {move(failure_modes)},
+        capacity_ {capacity},
+        day_installed_ {days_installed}{
     children_.reserve(children);
+    available_days.resize(duration_, true);
+    online_days.resize(duration_, true);
 };
 
 
@@ -35,39 +43,32 @@ int Component::getParentId() const {
     return parent_.lock()->getId();
 }
 
-int Component::getDaysInstalled() const {
-    return days_installed_;
+int Component::getDayInstalled() const {
+    return day_installed_;
 }
 
-void Component::setDaysInstalled(const int& day) {
-    days_installed_ = day;
+void Component::setDayInstalled(const int& day) {
+    day_installed_ = day;
 }
 
-void Component::shutdown(ShutdownCode code) {
-    is_online_ = false;
-    if (code != ShutdownCode::constrained)
-        is_available_ = false;
-    if (!children_.empty()){
-        for (const auto& child : children_) {
-            child->shutdown(code);
-        }
+void Component::scheduleOutage(const int &start, const int &outage_duration) {
+    auto end = outage_duration < 0 ? start : min(start + outage_duration, duration_);
+    for (auto day = start; day < end; ++day){
+        online_days.at(day) = false;
+        available_days.at(day) = false;
     }
 }
 
-void Component::startup() {
-    is_online_ = true;
-    is_available_ = true;
-    for (const auto &child : children_){
-        child->startup();
-    }
+bool Component::isOnline(const int &day) const {
+    return online_days.at(day);
 }
 
-bool Component::isAvailable() const {
-    return is_available_;
+bool Component::isAvailable(const int &day) const {
+    return available_days.at(day);
 }
 
-bool Component::isOnline() const {
-    return is_online_;
+vector<bool> Component::getAvailability() {
+    return available_days;
 }
 
 #pragma clang diagnostic pop

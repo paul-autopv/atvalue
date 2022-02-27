@@ -29,6 +29,8 @@ class Facility {
 public:
     Facility() = default;
 
+    explicit Facility(int duration) : duration_ {duration} {};
+
     void buildFacility(const InputMap &component_map, const InputMap &failure_map);
     vector<int> getShuffledFailureModeIds();
 
@@ -41,14 +43,18 @@ public:
     shared_ptr<Component> getRootComponentPtr() const;
 
 private:
+
+    int duration_ {0};
+
     ComponentMap component_map_;
 
     FailureMap failure_map_;
 
     void linkParentChildNodes(const std::shared_ptr<Component>& component_ptr, int parent_id);
 
-    void registerComponentWithFacility(const vector<string> &component_detail, const InputMap &component_map, FamilyTree &structure,
-                                       vector<shared_ptr<FailureMode>> failures, bool isRoot);
+    void registerComponentWithFacility(const vector<string> &component_detail, const InputMap &component_map,
+                                       FamilyTree &structure, vector<shared_ptr<FailureMode>> failures,
+                                       bool isRoot, const int duration);
 
     shared_ptr<Component> registerComponent(shared_ptr<Component> component);
 

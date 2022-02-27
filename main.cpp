@@ -18,7 +18,8 @@ int main() {
 
     auto simulator = Simulator(simulations, duration, failures, structure);
     auto start = chrono::steady_clock::now();
-    simulator.run_single();
+    simulator.run();
+//    simulator.run_single();
     auto end = chrono::steady_clock::now();
     chrono::duration<double> concurrent_elapsed = end - start;
     std::cout << "Concurrent elapsed time: " << concurrent_elapsed.count() << "s\n";
