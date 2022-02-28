@@ -18,9 +18,17 @@ protected:
     shared_ptr<Component> child1_ = make_shared<Component>(
             2, "child1", duration_, 1,vector<shared_ptr<FailureMode>>(),0,1);
     shared_ptr<Component> child2_ = make_shared<Component>(
-            1, "child2", duration_, 1,vector<shared_ptr<FailureMode>>(),0,1);
+            3, "child2", duration_, 1,vector<shared_ptr<FailureMode>>(),0,1);
 
 };
+
+TEST_F(TestComponent, ExceptionWhenDurationLessThanZero){
+    shared_ptr<Component> child3 = make_shared<Component>(
+            1, "child3", duration_, 1,vector<shared_ptr<FailureMode>>(),0,1);
+
+    ASSERT_THROW(parent_->addChild(child3), std::invalid_argument);
+}
+
 
 TEST_F(TestComponent, scheduleOutageCorrectlyAllocatesAvailabilityDays){
 
@@ -50,9 +58,9 @@ TEST_F(TestComponent, scheduleOutageCorrectlyAllocatesAvailabilityDays){
 
 TEST_F(TestComponent, getCapacityReturnsCorrectCapacityIfActiveCapacityIsSet) {
     shared_ptr<Component> child3 = make_shared<Component>(
-            1, "child3", duration_, 1,vector<shared_ptr<FailureMode>>(),100,1);
+            4, "child3", duration_, 1,vector<shared_ptr<FailureMode>>(),100,1);
     shared_ptr<Component> child4 = make_shared<Component>(
-            1, "child4", duration_, 1,vector<shared_ptr<FailureMode>>(),0,1);
+            5, "child4", duration_, 1,vector<shared_ptr<FailureMode>>(),0,1);
     parent_->addChild(child3);
     child3->addChild(child4);
 
@@ -64,11 +72,11 @@ TEST_F(TestComponent, getCapacityReturnsCorrectCapacityIfActiveCapacityIsSet) {
 
 TEST_F(TestComponent, getCapacityReturnsCorrectCapacityIfActiveCapacityIsNotSet) {
     shared_ptr<Component> child3 = make_shared<Component>(
-            1, "child3", duration_, 1,vector<shared_ptr<FailureMode>>(),0,1);
+            4, "child3", duration_, 1,vector<shared_ptr<FailureMode>>(),0,1);
     shared_ptr<Component> child4 = make_shared<Component>(
-            1, "child4", duration_, 1,vector<shared_ptr<FailureMode>>(),100,1);
+            5, "child4", duration_, 1,vector<shared_ptr<FailureMode>>(),100,1);
     shared_ptr<Component> child5 = make_shared<Component>(
-            1, "child5", duration_, 1,vector<shared_ptr<FailureMode>>(),100,1);
+            6, "child5", duration_, 1,vector<shared_ptr<FailureMode>>(),100,1);
     parent_->addChild(child3);
     child3->addChild(child4);
     child3->addChild(child5);
@@ -76,5 +84,4 @@ TEST_F(TestComponent, getCapacityReturnsCorrectCapacityIfActiveCapacityIsNotSet)
     auto result = child3->getCapacity();
 
     ASSERT_EQ(result, 200);
-
 }

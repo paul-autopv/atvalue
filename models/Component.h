@@ -23,6 +23,7 @@ private:
     vector<shared_ptr<FailureMode>> failure_modes_;
     vector<bool> available_days;
     vector<bool> online_days;
+    vector<double> capacity_loss_;
     int simulation_duration_ {};
     int day_installed_{};
     double active_capacity_ {0};
@@ -47,6 +48,10 @@ public:
     bool isAvailable(const int &day) const;
     vector<bool> getAvailability();
     double getCapacity();
+
+    void scheduleCapacityLoss(const int &start, const int &outage_duration);
+
+    void setCapacity(const int &start, const int &outage_duration, const double &value);
 };
 
 
