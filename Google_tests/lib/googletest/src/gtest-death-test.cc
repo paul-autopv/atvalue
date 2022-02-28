@@ -889,17 +889,17 @@ int FuchsiaDeathTest::Wait() {
   status_zx = zx::port::create(0, &port);
   GTEST_DEATH_TEST_CHECK_(status_zx == ZX_OK);
 
-  // ProductionCycle to wait for the child process to terminate.
+  // ProductionManager to wait for the child process to terminate.
   status_zx = child_process_.wait_async(
       port, kProcessKey, ZX_PROCESS_TERMINATED, 0);
   GTEST_DEATH_TEST_CHECK_(status_zx == ZX_OK);
 
-  // ProductionCycle to wait for the socket to be readable or closed.
+  // ProductionManager to wait for the socket to be readable or closed.
   status_zx = stderr_socket_.wait_async(
       port, kSocketKey, ZX_SOCKET_READABLE | ZX_SOCKET_PEER_CLOSED, 0);
   GTEST_DEATH_TEST_CHECK_(status_zx == ZX_OK);
 
-  // ProductionCycle to wait for an exception.
+  // ProductionManager to wait for an exception.
   status_zx = exception_channel_.wait_async(
       port, kExceptionKey, ZX_CHANNEL_READABLE, 0);
   GTEST_DEATH_TEST_CHECK_(status_zx == ZX_OK);

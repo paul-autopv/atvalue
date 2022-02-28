@@ -9,13 +9,10 @@
 #include "../models/IProbability.h"
 
 class TriangularProbability : public IProbability{
-    int installed_ {0};
-    int should_fail_ {0};
-    int will_fail_ {0};
 public:
     TriangularProbability() = delete;
     TriangularProbability(const int &installed, const int &should_fail, const int &will_fail){
-        if (will_fail < should_fail || installed > should_fail)
+        if (should_fail > will_fail || installed > should_fail)
             throw std::invalid_argument("Ensure that will_fail >= should_fail >= installed.");
         installed_ = installed;
         should_fail_ = should_fail;
@@ -36,7 +33,21 @@ public:
         }
         return ((pre_should_fail + ((day - (double)should_fail_) / ((double)will_fail_ - (double)should_fail_)) * post_should_fail )) / denominator;
     };
+
+
+    void resetProbability(const int &day) override{
+        should_fail_ = (should_fail_ - installed_) + (int) day;
+        will_fail_ =  (will_fail_ - installed_) + (int) day;
+        installed_ = (int) day;
+    }
+
+private:
+    int installed_ {0};
+    int should_fail_ {0};
+    int will_fail_ = {0};
 };
+
+
 
 
 #endif //ATVALUE_TRIANGULARPROBABILITY_H

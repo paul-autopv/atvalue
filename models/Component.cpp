@@ -1,3 +1,5 @@
+#pragma clang diagnostic push
+#pragma ide diagnostic ignored "misc-no-recursion"
 //
 // Created by Paul on 2021/12/28.
 //
@@ -6,10 +8,19 @@
 #include <utility>
 #include "Component.h"
 
-Component::Component(int id, string name, int days_installed, vector<shared_ptr<FailureMode>> failure_modes, double capacity, int children)
-        : id_ {id}, name_ {std::move(name)}, failure_modes_ {move(failure_modes)}, capacity_ {capacity}, days_installed_ {days_installed}{
+Component::Component(int id, string name, const int &simulation_duration, int days_installed,
+                     vector<shared_ptr<FailureMode>> failure_modes, double capacity, int children) :
+        id_ {id},
+        name_ {std::move(name)},
+        simulation_duration_ {simulation_duration},
+        failure_modes_ {move(failure_modes)},
+        capacity_ {capacity},
+        day_installed_ {days_installed}{
     children_.reserve(children);
+    available_days.resize(simulation_duration_, true);
+    online_days.resize(simulation_duration_, true);
 };
+
 
 std::ostream &operator<<(std::ostream &os, const Component &unit) {
     os << "Component id_: " << unit.id_ << " (" << unit.name_ << ")";
@@ -20,40 +31,45 @@ int Component::getId() const{
     return this->id_;
 }
 
-std::string Component::getName() const {
-    return this->name_;
-}
-
 void Component::addChild(const shared_ptr<Component>& child) {
     children_.push_back(child);
 }
 
-bool Component::isRoot() const {
-    return parent_.use_count() == 0;
-}
-
-void Component::setParent(weak_ptr<Component> parent_ptr) {
-    parent_ = move(parent_ptr);
+void Component::setParent(const shared_ptr<Component>& parent_ptr) {
+    parent_ = weak_ptr<Component>(parent_ptr);
 }
 
 int Component::getParentId() const {
     return parent_.lock()->getId();
 }
 
-int Component::countOfChildren() const{
-    return children_.size();
+void Component::setDayInstalled(const int& day) {
+    day_installed_ = day;
 }
 
-void Component::addFailureMode(unique_ptr<FailureMode> mode) {
-    failure_modes_.push_back(move(mode));
-
+void Component::scheduleOutage(const int &start, const int &outage_duration) {
+    auto end = outage_duration < 0 ? start : min(start + outage_duration, simulation_duration_);
+    for (auto day = start; day < end; ++day){
+        online_days.at(day) = false;
+        available_days.at(day) = false;
+    }
+    if (!children_.empty()) {
+        for (auto &child: children_) {
+            child->scheduleOutage(start, outage_duration);
+        }
+    }
 }
 
-double Component::getCapacity() const {
-    return capacity_;
+bool Component::isOnline(const int &day) const {
+    return online_days.at(day);
 }
 
-int Component::getDaysInstalled() const {
-    return days_installed_;
+bool Component::isAvailable(const int &day) const {
+    return available_days.at(day);
 }
 
+vector<bool> Component::getAvailability() {
+    return available_days;
+}
+
+#pragma clang diagnostic pop

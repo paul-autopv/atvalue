@@ -6,35 +6,45 @@
 
 #include <utility>
 
-FailureMode::FailureMode(const FailureModeDetail& detail, unique_ptr<IProbability> distribution):
-    id_ {detail.id},
-    unit_id_ {detail.unit_id},
-    name_ {detail.name},
-    description_ {detail.description},
-    tag_ {detail.tag},
+FailureMode::FailureMode(FailureModeDetail  detail, unique_ptr<IProbability> distribution):
+    failureModeDetail_ {std::move(detail)},
     distribution_ {move(distribution)}  {
 }
 
 int FailureMode::getId() const {
-    return id_;
+    return failureModeDetail_.id;
 }
 
-int FailureMode::getUnitId() const {
-    return unit_id_;
+double FailureMode::getCapex() const {
+    return failureModeDetail_.capex;
 }
+
+double FailureMode::getOpex() const {
+    return failureModeDetail_.opex;
+}
+
+int FailureMode::getDaysToInvestigate() const {
+    return failureModeDetail_.days_to_investigate;
+}
+int FailureMode::getDaysToProcure() const {
+    return failureModeDetail_.days_to_procure;
+}
+int FailureMode::getDaysToRepair() const {
+    return failureModeDetail_.days_to_repair;
+}
+
+FailureModeDetail FailureMode::getFailureModeDetail() {
+    return failureModeDetail_;
+}
+
+void FailureMode::resetFailureModeProbability(const int &day){
+    distribution_->resetProbability(day);
+};
 
 double FailureMode::getFailureProbability(const int &day) const {
     return distribution_->getProbability(day);
 }
 
-string FailureMode::getDescription() const {
-    return description_;
-}
-
-string FailureMode::getName() const {
-    return name_;
-}
-
-string FailureMode::getTag() const {
-    return tag_;
+int FailureMode::getComponentId() const {
+    return failureModeDetail_.component_id;
 }

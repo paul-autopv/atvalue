@@ -701,7 +701,7 @@ std::vector<std::string> GenerateNames() {
   return result;
 }
 
-// TypeParameterizedTest<Fixture, TestSel, Types>::ProductionCycle()
+// TypeParameterizedTest<Fixture, TestSel, Types>::ProductionManager()
 // registers a list of type-parameterized tests with Google Test.  The
 // return value is insignificant - we just need to return something
 // such that we can call this function in a namespace scope.
@@ -768,7 +768,7 @@ GTEST_API_ void RegisterTypeParameterizedTestSuite(const char* test_suite_name,
 GTEST_API_ void RegisterTypeParameterizedTestSuiteInstantiation(
     const char* case_name);
 
-// TypeParameterizedTestSuite<Fixture, Tests, Types>::ProductionCycle()
+// TypeParameterizedTestSuite<Fixture, Tests, Types>::ProductionManager()
 // registers *all combinations* of 'Tests' and 'Types' with Google
 // Test.  The return value is insignificant - we just need to return
 // something such that we can call this function in a namespace scope.

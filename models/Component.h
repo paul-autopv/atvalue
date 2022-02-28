@@ -9,36 +9,44 @@
 #include <string>
 #include <vector>
 #include "FailureMode.h"
+#include "enums/ShutdownCode.h"
 
 using namespace std;
 
 class Component {
 
-public:
-    friend ostream& operator<<(ostream& os, const Component& unit);
-
-    Component() = delete;
-    Component(int id, string name, int days_installed, vector<shared_ptr<FailureMode>> failure_modes, double capacity= 0, int children= 0);
-
-    void setParent(weak_ptr<Component> parent_ptr);
-    int getParentId() const;
-    void addChild(const shared_ptr<Component>& child);
-    void addFailureMode(unique_ptr<FailureMode> mode);
-    bool isRoot() const;
-    int getId() const;
-    int countOfChildren() const;
-    string getName() const;
-    double getCapacity() const;
-    int getDaysInstalled() const;
-
 private:
-    int id_;
+    int id_{};
     string name_;
     weak_ptr<Component> parent_;
     vector<shared_ptr<Component>> children_;
     vector<shared_ptr<FailureMode>> failure_modes_;
-    int days_installed_;
-    double capacity_;
+    vector<bool> available_days;
+    vector<bool> online_days;
+    int simulation_duration_ {};
+    int day_installed_{};
+    double capacity_{};
+
+
+public:
+    friend ostream& operator<<(ostream& os, const Component& unit);
+
+    Component() = delete;
+    Component(const Component&) = delete;
+    Component(int id, string name, const int &simulation_duration, int days_installed,
+              vector<shared_ptr<FailureMode>> failure_modes, double capacity, int children);
+
+    bool isOnline(const int &day) const;
+    void setParent(const shared_ptr<Component>& parent_ptr);
+    int getParentId() const;
+    void addChild(const shared_ptr<Component>& child);
+    int getId() const;
+    int getDayInstalled() const;
+    void setDayInstalled(const int& day);
+    void scheduleOutage(const int &start, const int &outage_duration);
+    bool isAvailable(const int &day) const;
+    vector<bool> getAvailability();
+
 };
 
 

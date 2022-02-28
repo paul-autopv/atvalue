@@ -1,4 +1,491 @@
-﻿id,unit_id,name,description,tag,probability,a,b
-1,2,Component failure,Component failure description,tag_name,weibull,2,3
-2,2,Component failure,Component failure description,tag_name,weibull,300,45
-3,1,Component failure,Component failure description,tag_name,weibull,1000,2345
+id,component_id,name,description,tag,scope,investigate_days,procure_days,repair_days,capex,opex,probability,a,b
+1,2,Failure of pumps during dewatering resulting in ex,Failure of pumps during dewatering resulting in ex,tag 1,parent,0,90,0,0,55000,triangular,32873,273938
+2,2,Each Generator has its own equipment  pumping func,Each Generator has its own equipment  pumping func,tag 2,parent,0,90,0,0,25000,triangular,21902,35612
+3,2,There is no plant SCADA only monitoring SCADA for ,There is no plant SCADA only monitoring SCADA for ,tag 3,parent,0,90,0,200000,0,triangular,30145,32873
+4,2,Failure of obsolescent system control equipment eg,Failure of obsolescent system control equipment eg,tag 4,parent,0,365,365,250000,0,triangular,10958,16437
+5,2,Unavailability of unit due to obsolescence of equi,Unavailability of unit due to obsolescence of equi,tag 5,parent,0,365,365,20000000,0,triangular,0,2740
+6,2,Unavailability of unit due to obsolescence of equi,Unavailability of unit due to obsolescence of equi,tag 6,parent,0,365,365,20000000,0,triangular,0,10958
+7,2,Failure of obsolete control card requiring a procu,Failure of obsolete control card requiring a procu,tag 7,parent,0,365,1,5000000,0,triangular,2740,5479
+8,2,Failure of obsolete breaker requiring a procuremen,Failure of obsolete breaker requiring a procuremen,tag 8,parent,0,365,5,5000000,0,triangular,5479,16437
+9,2,Failure of thyristors and fuses would require to b,Failure of thyristors and fuses would require to b,tag 9,parent,0,5,1,0,7500,triangular,5479,16437
+10,2,Failure of relay to adequately protect Generator d,Failure of relay to adequately protect Generator d,tag 10,parent,0,365,365,250000,0,triangular,10369,13697
+11,2,Failure of obsolete relay leading to requirement f,Failure of obsolete relay leading to requirement f,tag 11,parent,0,90,5,0,175000,triangular,10369,13697
+12,2,Failure of relay to adequately protect Generator d,Failure of relay to adequately protect Generator d,tag 12,parent,0,365,365,250000,0,triangular,10369,13697
+13,2,Failure of obsolete relay leading to requirement f,Failure of obsolete relay leading to requirement f,tag 13,parent,0,90,5,0,175000,triangular,10369,13697
+14,2,Uncontrolled application of brake pads during oper,Uncontrolled application of brake pads during oper,tag 14,parent,0,90,5,10000,30000,triangular,166104,219424
+15,2,Failure of brakes and jacking limit switches resul,Failure of brakes and jacking limit switches resul,tag 15,parent,0,5,0,0,7500,triangular,52049,54788
+16,2,Failure of heat exchanger tubing requiring removal,Failure of heat exchanger tubing requiring removal,tag 16,parent,0,90,5,0,20000,triangular,52049,54788
+17,2,Failure of at least 2 fans requiring replacement,Failure of at least 2 fans requiring replacement,tag 17,parent,0,90,2,0,15000,triangular,6164,8219
+18,2,Old and obsolete  needs to be replaced. Not all se,Old and obsolete  needs to be replaced. Not all se,tag 18,parent,0,90,0,0,25000,triangular,104141,120533
+19,2,Failure of speed sensing device resulting in inabi,Failure of speed sensing device resulting in inabi,tag 19,parent,0,90,0,0,15000,triangular,159733,191757
+20,2,Complete de-lamination of white metal leading to f,Complete de-lamination of white metal leading to f,tag 20,parent,0,365,5,0,220000,triangular,123272,164363
+21,2,Failure of all temperature instruments resulting i,Failure of all temperature instruments resulting i,tag 21,parent,0,90,0,0,15000,triangular,13700,45212
+22,2,Loosening of windings leading to rotor earth fault,Loosening of windings leading to rotor earth fault,tag 22,parent,0,365,25,0,300000,triangular,28490,43830
+23,2,Failure of flexible pole connections resulting in ,Failure of flexible pole connections resulting in ,tag 23,parent,0,5,4,0,10000,triangular,28490,43830
+24,2,Cracks developing in the rotor pole end plates and,Cracks developing in the rotor pole end plates and,tag 24,parent,0,365,540,0,1500000,triangular,8761,16437
+25,2,Failure of rim yoke resulting in pole movement and,Failure of rim yoke resulting in pole movement and,tag 25,parent,0,365,365,80000000,0,triangular,20273,23011
+26,2,Failure of rim yoke resulting in unscheduled outag,Failure of rim yoke resulting in unscheduled outag,tag 26,parent,0,365,365,75000000,0,triangular,20273,23011
+27,2,Failure of brushgear that could result in a flasho,Failure of brushgear that could result in a flasho,tag 27,parent,0,90,90,0,50000,triangular,52071,98618
+28,2,Failure of frame through cracking leading to loss ,Failure of frame through cracking leading to loss ,tag 28,parent,0,365,150,13500000,750000,triangular,273938,273938
+29,2,Failure of the core/lamination stacks leading to o,Failure of the core/lamination stacks leading to o,tag 29,parent,0,365,30,0,375000,triangular,11510,14245
+30,2,Failure of the core/lamination stacks leading to o,Failure of the core/lamination stacks leading to o,tag 30,parent,0,365,150,13500000,750000,triangular,11510,14245
+31,2,Failure of the core/lamination stacks leading to i,Failure of the core/lamination stacks leading to i,tag 31,parent,0,365,365,27500000,0,triangular,11510,14245
+32,2,Failure of remaining RTDs that are presently funct,Failure of remaining RTDs that are presently funct,tag 32,parent,0,365,150,13500000,0,triangular,12054,13697
+33,2,Failure of windings resulting in a repairable phas,Failure of windings resulting in a repairable phas,tag 33,parent,0,365,150,0,450000,triangular,12054,13697
+34,2,Failure of windings resulting in a failure of core,Failure of windings resulting in a failure of core,tag 34,parent,0,365,365,35000000,0,triangular,12054,13697
+35,2,Failure of all temperature transmitters leading to,Failure of all temperature transmitters leading to,tag 35,parent,0,5,0,0,1500,triangular,10958,10958
+36,2,Failure of remaining RTDs that are presently funct,Failure of remaining RTDs that are presently funct,tag 36,parent,0,365,150,8000000,0,triangular,12054,13697
+37,2,Increased vibration due to dislodging of thrust bl,Increased vibration due to dislodging of thrust bl,tag 37,parent,0,365,60,1000000,0,triangular,273938,273938
+38,2,Complete de-lamination of white metal leading to f,Complete de-lamination of white metal leading to f,tag 38,parent,0,90,14,0,175000,triangular,39447,54788
+39,2,Failure of all temperature instruments resulting i,Failure of all temperature instruments resulting i,tag 39,parent,0,90,0,0,15000,triangular,21368,28490
+40,2,Failure of hydraulic system leading to inability t,Failure of hydraulic system leading to inability t,tag 40,parent,0,365,90,0,500000,triangular,273938,273938
+41,2,Failure of sliding and link arm bushes resulting i,Failure of sliding and link arm bushes resulting i,tag 41,parent,0,90,21,0,80000,triangular,273938,273938
+42,2,Failure of servo motors (seals  valves) leading to,Failure of servo motors (seals  valves) leading to,tag 42,parent,0,90,30,0,200000,triangular,186196,191757
+43,2,Failure of bypass penstock side isolating valve in,Failure of bypass penstock side isolating valve in,tag 43,parent,0,90,30,0,45000,triangular,123272,164363
+44,2,Failure of bypass penstock side isolating valve in,Failure of bypass penstock side isolating valve in,tag 44,parent,0,90,30,0,30000,triangular,175320,219150
+45,2,Failure of hydraulic system leading to inability t,Failure of hydraulic system leading to inability t,tag 45,parent,0,365,45,875000,0,triangular,30818,41091
+46,2,Failure of maintenance seal requiring unscheduled ,Failure of maintenance seal requiring unscheduled ,tag 46,parent,0,365,30,0,500000,triangular,47255,63006
+47,2,Failure of service seal causing poor seal with una,Failure of service seal causing poor seal with una,tag 47,parent,0,365,30,0,500000,triangular,36982,49309
+48,2,Failure of instrumentation resulting in unplanned ,Failure of instrumentation resulting in unplanned ,tag 48,parent,0,5,0,0,5000,triangular,14177,18902
+49,2,Failure of servo motors (seals  valves) leading to,Failure of servo motors (seals  valves) leading to,tag 49,parent,0,90,45,0,75000,triangular,14177,18902
+50,2,Seizure of trunnions resulting in valve not being ,Seizure of trunnions resulting in valve not being ,tag 50,parent,0,365,45,0,450000,triangular,47255,63006
+51,2,Failure of seals leading to excessive leakage and ,Failure of seals leading to excessive leakage and ,tag 51,parent,0,90,0,0,40000,triangular,14177,18902
+52,2,Failure of instrumentation resulting in unplanned ,Failure of instrumentation resulting in unplanned ,tag 52,parent,0,90,0,0,15000,triangular,8219,10958
+53,2,Failure of rotork vales resulting in inability to ,Failure of rotork vales resulting in inability to ,tag 53,parent,0,90,0,45000,0,triangular,9862,13149
+54,2,Failure of fans requiring replacement,Failure of fans requiring replacement,tag 54,parent,0,90,0,0,12000,triangular,6164,8219
+55,2,Complete de-lamination of white metal leading to f,Complete de-lamination of white metal leading to f,tag 55,parent,0,90,30,0,95000,triangular,90400,120533
+56,2,Failure of instrumentation resulting in unplanned ,Failure of instrumentation resulting in unplanned ,tag 56,parent,0,5,0,0,10000,triangular,15820,21094
+57,2,Failure of mechanism or coating requiring speciali,Failure of mechanism or coating requiring speciali,tag 57,parent,0,5,21,0,3500,triangular,18697,24929
+58,2,Failure of obsolete relay leading to requirement f,Failure of obsolete relay leading to requirement f,tag 58,parent,0,90,10,150000,0,triangular,10273,13697
+59,2,Failure of relay to adequately protect Pony Motor ,Failure of relay to adequately protect Pony Motor ,tag 59,parent,0,365,60,0,3500000,triangular,58760,78347
+60,2,Rotor winding insulation failure leading to unsche,Rotor winding insulation failure leading to unsche,tag 60,parent,0,365,30,1000000,0,triangular,96563,128751
+61,2,Failure of brushgear that could result in a flasho,Failure of brushgear that could result in a flasho,tag 61,parent,0,365,14,0,2500000,triangular,96563,128751
+62,2,Failure of frame through cracking leading to loss ,Failure of frame through cracking leading to loss ,tag 62,parent,0,90,7,0,130000,triangular,234217,312289
+63,2,Failure of the core/lamination stacks leading to o,Failure of the core/lamination stacks leading to o,tag 63,parent,0,90,90,0,75000,triangular,234217,312289
+64,2,Failure of the core/lamination stacks leading to o,Failure of the core/lamination stacks leading to o,tag 64,parent,0,365,120,2000000,0,triangular,234217,312289
+65,2,Failure of windings resulting in a repairable phas,Failure of windings resulting in a repairable phas,tag 65,parent,0,90,21,0,125000,triangular,234217,312289
+66,2,Failure of windings resulting in a failure of core,Failure of windings resulting in a failure of core,tag 66,parent,0,365,120,3500000,0,triangular,234217,312289
+67,2,Failure of all temperature sensors leading to incr,Failure of all temperature sensors leading to incr,tag 67,parent,0,90,0,0,15000,triangular,6164,8219
+68,2,Failure of remaining RTDs that are presently funct,Failure of remaining RTDs that are presently funct,tag 68,parent,0,365,0,3500000,0,triangular,23011,30681
+69,2,Failure of Compressor resulting in increased start,Failure of Compressor resulting in increased start,tag 69,parent,0,365,0,0,550000,triangular,147927,197235
+70,2,The stabilising air is not critical to the working,The stabilising air is not critical to the working,tag 70,parent,0,90,0,50000,0,triangular,8219,10958
+71,2,Failure of Compressor resulting in increased start,Failure of Compressor resulting in increased start,tag 71,parent,0,5,0,0,7500,triangular,63691,84921
+72,2,The stabilising air is not critical to the working,The stabilising air is not critical to the working,tag 72,parent,0,5,0,0,7500,triangular,8219,10958
+73,2,Failure of any cables/terminations could result in,Failure of any cables/terminations could result in,tag 73,parent,0,90,0,0,130000,triangular,39858,53144
+74,2,Failure of switchgear resulting in unavailability ,Failure of switchgear resulting in unavailability ,tag 74,parent,0,365,0,0,225000,triangular,18491,24655
+75,2,Failure of fused isolator can result in auxiliary ,Failure of fused isolator can result in auxiliary ,tag 75,parent,0,5,0,0,3000,triangular,39858,53144
+76,2,Failure of protection relays could result in suppl,Failure of protection relays could result in suppl,tag 76,parent,0,90,0,0,75000,triangular,11095,14793
+77,2,Failure of switchgear resulting in system failure ,Failure of switchgear resulting in system failure ,tag 77,parent,0,90,30,0,75000,triangular,11095,14793
+78,2,Failure of breakers could result in supply & redun,Failure of breakers could result in supply & redun,tag 78,parent,0,365,0,3650000,0,triangular,11095,14793
+79,2,Failure of protection relays could result in suppl,Failure of protection relays could result in suppl,tag 79,parent,0,365,0,400000,0,triangular,11095,14793
+80,2,Failure of switchgear resulting in unavailability ,Failure of switchgear resulting in unavailability ,tag 80,parent,0,90,210,0,75000,triangular,18491,24655
+81,2,Failure of obsolete relay leading to requirement f,Failure of obsolete relay leading to requirement f,tag 81,parent,0,90,210,175000,0,triangular,11095,14793
+82,2,Failure of obsolete relays incorporated in the con,Failure of obsolete relays incorporated in the con,tag 82,parent,0,365,30,750000,0,triangular,11095,14793
+83,2,Failure of transformer requiring replacement,Failure of transformer requiring replacement,tag 83,parent,0,365,365,15000000,0,triangular,82182,109575
+84,2,Failure of relay to adequately protect transformer,Failure of relay to adequately protect transformer,tag 84,parent,0,365,365,15000000,0,triangular,58760,78347
+85,2,Failure of obsolete relay leading to requirement f,Failure of obsolete relay leading to requirement f,tag 85,parent,0,90,5,0,125000,triangular,58760,78347
+86,2,Failure of transformer requiring replacement,Failure of transformer requiring replacement,tag 86,parent,0,90,14,150000,0,triangular,63691,84921
+87,2,Failure of cooling water piping leading to bearing,Failure of cooling water piping leading to bearing,tag 87,parent,0,90,5,0,75000,triangular,63691,84921
+88,2,Cracking of welds or draft tube sections requiring,Cracking of welds or draft tube sections requiring,tag 88,parent,0,90,0,0,150000,triangular,63691,84921
+89,2,Pick up of guide vanes leading to top and/or botto,Pick up of guide vanes leading to top and/or botto,tag 89,parent,0,365,14,0,450000,triangular,63691,84921
+90,2,Failure of bushes resulting in high vibration requ,Failure of bushes resulting in high vibration requ,tag 90,parent,0,365,0,0,250000,triangular,10273,13697
+91,2,Failure of white metal surface requiring unschedul,Failure of white metal surface requiring unschedul,tag 91,parent,0,90,5,0,175000,triangular,90400,120533
+92,2,Cavitation damage resulting in unscheduled/extende,Cavitation damage resulting in unscheduled/extende,tag 92,parent,0,90,0,0,150000,triangular,63691,84921
+93,2,Pitting and/or cavitation of runner resulting inir,Pitting and/or cavitation of runner resulting inir,tag 93,parent,0,365,365,40000000,0,triangular,63691,84921
+94,2,Failure of cooling water piping requiring unschedu,Failure of cooling water piping requiring unschedu,tag 94,parent,0,5,0,0,7500,triangular,18491,24655
+95,2,Failure of cooling water during pump start or SCO ,Failure of cooling water during pump start or SCO ,tag 95,parent,0,90,0,0,30000,triangular,18491,24655
+96,2,Cracking of welds or spiral sections requiring out,Cracking of welds or spiral sections requiring out,tag 96,parent,0,90,0,0,150000,triangular,18491,24655
+97,2,Corrosion damage leading to unscheduled/extended s,Corrosion damage leading to unscheduled/extended s,tag 97,parent,0,5,0,0,7500,triangular,18491,24655
+98,2,Cracking of welds or stay vanes requiring unschedu,Cracking of welds or stay vanes requiring unschedu,tag 98,parent,0,90,0,0,150000,triangular,246544,328725
+99,2,Catastrophic shaft failure,Catastrophic shaft failure,tag 99,parent,0,365,365,125000000,0,triangular,821813,1095750
+100,2,Failure or blockage of heat exchanger tubing requi,Failure or blockage of heat exchanger tubing requi,tag 100,parent,0,90,0,0,15000,triangular,34928,46570
+101,2,Failure of drive systems on gates in closed positi,Failure of drive systems on gates in closed positi,tag 101,parent,0,90,7,0,150000,triangular,102727,136969
+102,2,HP Oil pump failure resulting in thrust bearing pa,HP Oil pump failure resulting in thrust bearing pa,tag 102,parent,0,90,4,0,175000,triangular,63691,84921
+103,2,Failure of the oil cooling pipework and/or heat ex,Failure of the oil cooling pipework and/or heat ex,tag 103,parent,0,90,4,0,75000,triangular,31229,41639
+104,2,Failure of the oil cooling pipework and/or heat ex,Failure of the oil cooling pipework and/or heat ex,tag 104,parent,0,90,4,0,75000,triangular,20957,27942
+105,2,Failure of all temperature instruments resulting i,Failure of all temperature instruments resulting i,tag 105,parent,0,90,0,0,75000,triangular,63691,84921
+106,2,Failure of internal oil cooler pipework resulting ,Failure of internal oil cooler pipework resulting ,tag 106,parent,0,90,2,0,75000,triangular,20135,26846
+107,2,Failure of vapour extraction system allowing oil m,Failure of vapour extraction system allowing oil m,tag 107,parent,0,5,0,0,10000,triangular,38215,50953
+108,2,Failure of vapour extraction system allowing oil m,Failure of vapour extraction system allowing oil m,tag 108,parent,0,5,0,0,10000,triangular,14341,19121
+109,2,Complete de-lamination of white metal leading to f,Complete de-lamination of white metal leading to f,tag 109,parent,0,90,5,0,95000,triangular,242435,323247
+110,2,Failure of the sealing air system causing oil leak,Failure of the sealing air system causing oil leak,tag 110,parent,0,5,0,0,10000,triangular,63691,84921
+111,2,Failure of the sealing air system causing oil leak,Failure of the sealing air system causing oil leak,tag 111,parent,0,5,0,0,10000,triangular,63691,84921
+112,3,Failure of pumps during dewatering resulting in ex,Failure of pumps during dewatering resulting in ex,tag 112,parent,0,90,0,0,55000,triangular,32873,273938
+113,3,Each Generator has its own equipment  pumping func,Each Generator has its own equipment  pumping func,tag 113,parent,0,90,0,0,25000,triangular,21902,35612
+114,3,There is no plant SCADA only monitoring SCADA for ,There is no plant SCADA only monitoring SCADA for ,tag 114,parent,0,90,0,200000,0,triangular,30145,32873
+115,3,Failure of obsolescent system control equipment eg,Failure of obsolescent system control equipment eg,tag 115,parent,0,365,365,250000,0,triangular,10958,16437
+116,3,Unavailability of unit due to obsolescence of equi,Unavailability of unit due to obsolescence of equi,tag 116,parent,0,365,365,20000000,0,triangular,0,2740
+117,3,Unavailability of unit due to obsolescence of equi,Unavailability of unit due to obsolescence of equi,tag 117,parent,0,365,365,20000000,0,triangular,0,10958
+118,3,Failure of obsolete control card requiring a procu,Failure of obsolete control card requiring a procu,tag 118,parent,0,365,1,5000000,0,triangular,2740,5479
+119,3,Failure of obsolete breaker requiring a procuremen,Failure of obsolete breaker requiring a procuremen,tag 119,parent,0,365,5,5000000,0,triangular,5479,16437
+120,3,Failure of thyristors and fuses would require to b,Failure of thyristors and fuses would require to b,tag 120,parent,0,5,1,0,7500,triangular,5479,16437
+121,3,Failure of relay to adequately protect Generator d,Failure of relay to adequately protect Generator d,tag 121,parent,0,365,365,250000,0,triangular,10369,13697
+122,3,Failure of obsolete relay leading to requirement f,Failure of obsolete relay leading to requirement f,tag 122,parent,0,90,5,0,175000,triangular,10369,13697
+123,3,Failure of relay to adequately protect Generator d,Failure of relay to adequately protect Generator d,tag 123,parent,0,365,365,250000,0,triangular,10369,13697
+124,3,Failure of obsolete relay leading to requirement f,Failure of obsolete relay leading to requirement f,tag 124,parent,0,90,5,0,175000,triangular,10369,13697
+125,2,Failure of the core/lamination stacks leading to i,Failure of the core/lamination stacks leading to i,tag 125,parent,0,365,365,3500000,0,triangular,234217,312289
+126,3,Uncontrolled application of brake pads during oper,Uncontrolled application of brake pads during oper,tag 126,parent,0,90,5,10000,30000,triangular,166104,219424
+127,3,Failure of brakes and jacking limit switches resul,Failure of brakes and jacking limit switches resul,tag 127,parent,0,5,0,0,7500,triangular,52049,54788
+128,3,Failure of heat exchanger tubing requiring removal,Failure of heat exchanger tubing requiring removal,tag 128,parent,0,90,5,0,20000,triangular,52049,54788
+129,3,Failure of at least 2 fans requiring replacement,Failure of at least 2 fans requiring replacement,tag 129,parent,0,90,2,0,15000,triangular,6164,8219
+130,3,Old and obsolete  needs to be replaced. Not all se,Old and obsolete  needs to be replaced. Not all se,tag 130,parent,0,90,0,0,25000,triangular,104141,120533
+131,3,Failure of speed sensing device resulting in inabi,Failure of speed sensing device resulting in inabi,tag 131,parent,0,90,0,0,15000,triangular,159733,191757
+132,3,Complete de-lamination of white metal leading to f,Complete de-lamination of white metal leading to f,tag 132,parent,0,365,5,0,220000,triangular,123272,164363
+133,3,Failure of all temperature instruments resulting i,Failure of all temperature instruments resulting i,tag 133,parent,0,90,0,0,15000,triangular,13700,45212
+134,3,Loosening of windings leading to rotor earth fault,Loosening of windings leading to rotor earth fault,tag 134,parent,0,365,25,0,300000,triangular,28490,43830
+135,3,Failure of flexible pole connections resulting in ,Failure of flexible pole connections resulting in ,tag 135,parent,0,5,4,0,10000,triangular,28490,43830
+136,3,Cracks developing in the rotor pole end plates and,Cracks developing in the rotor pole end plates and,tag 136,parent,0,365,540,0,1500000,triangular,8761,16437
+137,3,Failure of rim yoke resulting in pole movement and,Failure of rim yoke resulting in pole movement and,tag 137,parent,0,365,365,80000000,0,triangular,20273,23011
+138,3,Failure of rim yoke resulting in unscheduled outag,Failure of rim yoke resulting in unscheduled outag,tag 138,parent,0,365,365,75000000,0,triangular,20273,23011
+139,3,Failure of brushgear that could result in a flasho,Failure of brushgear that could result in a flasho,tag 139,parent,0,90,90,0,50000,triangular,52071,98618
+140,3,Failure of frame through cracking leading to loss ,Failure of frame through cracking leading to loss ,tag 140,parent,0,365,150,13500000,750000,triangular,273938,273938
+141,3,Failure of the core/lamination stacks leading to o,Failure of the core/lamination stacks leading to o,tag 141,parent,0,365,30,0,375000,triangular,11510,14245
+142,3,Failure of the core/lamination stacks leading to o,Failure of the core/lamination stacks leading to o,tag 142,parent,0,365,150,13500000,750000,triangular,11510,14245
+143,3,Failure of the core/lamination stacks leading to i,Failure of the core/lamination stacks leading to i,tag 143,parent,0,365,365,27500000,0,triangular,11510,14245
+144,3,Failure of remaining RTDs that are presently funct,Failure of remaining RTDs that are presently funct,tag 144,parent,0,365,150,13500000,0,triangular,12054,13697
+145,3,Failure of windings resulting in a repairable phas,Failure of windings resulting in a repairable phas,tag 145,parent,0,365,150,0,450000,triangular,12054,13697
+146,3,Failure of windings resulting in a failure of core,Failure of windings resulting in a failure of core,tag 146,parent,0,365,365,35000000,0,triangular,12054,13697
+147,3,Failure of all temperature transmitters leading to,Failure of all temperature transmitters leading to,tag 147,parent,0,5,0,0,1500,triangular,10958,10958
+148,3,Failure of remaining RTDs that are presently funct,Failure of remaining RTDs that are presently funct,tag 148,parent,0,365,150,8000000,0,triangular,12054,13697
+149,3,Increased vibration due to dislodging of thrust bl,Increased vibration due to dislodging of thrust bl,tag 149,parent,0,365,60,1000000,0,triangular,273938,273938
+150,3,Complete de-lamination of white metal leading to f,Complete de-lamination of white metal leading to f,tag 150,parent,0,90,14,0,175000,triangular,39447,54788
+151,3,Failure of all temperature instruments resulting i,Failure of all temperature instruments resulting i,tag 151,parent,0,90,0,0,15000,triangular,21368,28490
+152,3,Failure of hydraulic system leading to inability t,Failure of hydraulic system leading to inability t,tag 152,parent,0,365,90,0,500000,triangular,273938,273938
+153,3,Failure of sliding and link arm bushes resulting i,Failure of sliding and link arm bushes resulting i,tag 153,parent,0,90,21,0,80000,triangular,273938,273938
+154,3,Failure of servo motors (seals  valves) leading to,Failure of servo motors (seals  valves) leading to,tag 154,parent,0,90,30,0,200000,triangular,186196,191757
+155,3,Failure of bypass penstock side isolating valve in,Failure of bypass penstock side isolating valve in,tag 155,parent,0,90,30,0,45000,triangular,123272,164363
+156,3,Failure of bypass penstock side isolating valve in,Failure of bypass penstock side isolating valve in,tag 156,parent,0,90,30,0,30000,triangular,175320,219150
+157,3,Failure of hydraulic system leading to inability t,Failure of hydraulic system leading to inability t,tag 157,parent,0,365,45,875000,0,triangular,30818,41091
+158,3,Failure of maintenance seal requiring unscheduled ,Failure of maintenance seal requiring unscheduled ,tag 158,parent,0,365,30,0,500000,triangular,47255,63006
+159,3,Failure of service seal causing poor seal with una,Failure of service seal causing poor seal with una,tag 159,parent,0,365,30,0,500000,triangular,36982,49309
+160,3,Failure of instrumentation resulting in unplanned ,Failure of instrumentation resulting in unplanned ,tag 160,parent,0,5,0,0,5000,triangular,14177,18902
+161,3,Failure of servo motors (seals  valves) leading to,Failure of servo motors (seals  valves) leading to,tag 161,parent,0,90,45,0,75000,triangular,14177,18902
+162,3,Seizure of trunnions resulting in valve not being ,Seizure of trunnions resulting in valve not being ,tag 162,parent,0,365,45,0,450000,triangular,47255,63006
+163,3,Failure of seals leading to excessive leakage and ,Failure of seals leading to excessive leakage and ,tag 163,parent,0,90,0,0,40000,triangular,14177,18902
+164,3,Failure of instrumentation resulting in unplanned ,Failure of instrumentation resulting in unplanned ,tag 164,parent,0,90,0,0,15000,triangular,8219,10958
+165,3,Failure of rotork vales resulting in inability to ,Failure of rotork vales resulting in inability to ,tag 165,parent,0,90,0,45000,0,triangular,9862,13149
+166,3,Failure of fans requiring replacement,Failure of fans requiring replacement,tag 166,parent,0,90,0,0,12000,triangular,6164,8219
+167,3,Complete de-lamination of white metal leading to f,Complete de-lamination of white metal leading to f,tag 167,parent,0,90,30,0,95000,triangular,90400,120533
+168,3,Failure of instrumentation resulting in unplanned ,Failure of instrumentation resulting in unplanned ,tag 168,parent,0,5,0,0,10000,triangular,15820,21094
+169,3,Failure of mechanism or coating requiring speciali,Failure of mechanism or coating requiring speciali,tag 169,parent,0,5,21,0,3500,triangular,18697,24929
+170,3,Failure of obsolete relay leading to requirement f,Failure of obsolete relay leading to requirement f,tag 170,parent,0,90,10,150000,0,triangular,10273,13697
+171,3,Failure of relay to adequately protect Pony Motor ,Failure of relay to adequately protect Pony Motor ,tag 171,parent,0,365,60,0,3500000,triangular,58760,78347
+172,3,Rotor winding insulation failure leading to unsche,Rotor winding insulation failure leading to unsche,tag 172,parent,0,365,30,1000000,0,triangular,96563,128751
+173,3,Failure of brushgear that could result in a flasho,Failure of brushgear that could result in a flasho,tag 173,parent,0,365,14,0,2500000,triangular,96563,128751
+174,3,Failure of frame through cracking leading to loss ,Failure of frame through cracking leading to loss ,tag 174,parent,0,90,7,0,130000,triangular,234217,312289
+175,3,Failure of the core/lamination stacks leading to o,Failure of the core/lamination stacks leading to o,tag 175,parent,0,90,90,0,75000,triangular,234217,312289
+176,3,Failure of the core/lamination stacks leading to o,Failure of the core/lamination stacks leading to o,tag 176,parent,0,365,120,2000000,0,triangular,234217,312289
+177,3,Failure of the core/lamination stacks leading to i,Failure of the core/lamination stacks leading to i,tag 177,parent,0,365,365,3500000,0,triangular,234217,312289
+178,3,Failure of windings resulting in a repairable phas,Failure of windings resulting in a repairable phas,tag 178,parent,0,90,21,0,125000,triangular,234217,312289
+179,3,Failure of windings resulting in a failure of core,Failure of windings resulting in a failure of core,tag 179,parent,0,365,120,3500000,0,triangular,234217,312289
+180,3,Failure of all temperature sensors leading to incr,Failure of all temperature sensors leading to incr,tag 180,parent,0,90,0,0,15000,triangular,6164,8219
+181,3,Failure of remaining RTDs that are presently funct,Failure of remaining RTDs that are presently funct,tag 181,parent,0,365,0,3500000,0,triangular,23011,30681
+182,3,Failure of Compressor resulting in increased start,Failure of Compressor resulting in increased start,tag 182,parent,0,365,0,0,550000,triangular,147927,197235
+183,3,The stabilising air is not critical to the working,The stabilising air is not critical to the working,tag 183,parent,0,90,0,50000,0,triangular,8219,10958
+184,3,Failure of Compressor resulting in increased start,Failure of Compressor resulting in increased start,tag 184,parent,0,5,0,0,7500,triangular,63691,84921
+185,3,The stabilising air is not critical to the working,The stabilising air is not critical to the working,tag 185,parent,0,5,0,0,7500,triangular,8219,10958
+186,3,Failure of any cables/terminations could result in,Failure of any cables/terminations could result in,tag 186,parent,0,90,0,0,130000,triangular,39858,53144
+187,3,Failure of switchgear resulting in unavailability ,Failure of switchgear resulting in unavailability ,tag 187,parent,0,365,0,0,225000,triangular,18491,24655
+188,3,Failure of fused isolator can result in auxiliary ,Failure of fused isolator can result in auxiliary ,tag 188,parent,0,5,0,0,3000,triangular,39858,53144
+189,3,Failure of protection relays could result in suppl,Failure of protection relays could result in suppl,tag 189,parent,0,90,0,0,75000,triangular,11095,14793
+190,3,Failure of switchgear resulting in system failure ,Failure of switchgear resulting in system failure ,tag 190,parent,0,90,30,0,75000,triangular,11095,14793
+191,3,Failure of breakers could result in supply & redun,Failure of breakers could result in supply & redun,tag 191,parent,0,365,0,3650000,0,triangular,11095,14793
+192,3,Failure of protection relays could result in suppl,Failure of protection relays could result in suppl,tag 192,parent,0,365,0,400000,0,triangular,11095,14793
+193,3,Failure of switchgear resulting in unavailability ,Failure of switchgear resulting in unavailability ,tag 193,parent,0,90,210,0,75000,triangular,18491,24655
+194,3,Failure of obsolete relay leading to requirement f,Failure of obsolete relay leading to requirement f,tag 194,parent,0,90,210,175000,0,triangular,11095,14793
+195,3,Failure of obsolete relays incorporated in the con,Failure of obsolete relays incorporated in the con,tag 195,parent,0,365,30,750000,0,triangular,11095,14793
+196,3,Failure of transformer requiring replacement,Failure of transformer requiring replacement,tag 196,parent,0,365,365,15000000,0,triangular,82182,109575
+197,3,Failure of relay to adequately protect transformer,Failure of relay to adequately protect transformer,tag 197,parent,0,365,365,15000000,0,triangular,58760,78347
+198,3,Failure of obsolete relay leading to requirement f,Failure of obsolete relay leading to requirement f,tag 198,parent,0,90,5,0,125000,triangular,58760,78347
+199,3,Failure of transformer requiring replacement,Failure of transformer requiring replacement,tag 199,parent,0,90,14,150000,0,triangular,63691,84921
+200,3,Failure of cooling water piping leading to bearing,Failure of cooling water piping leading to bearing,tag 200,parent,0,90,5,0,75000,triangular,63691,84921
+201,3,Cracking of welds or draft tube sections requiring,Cracking of welds or draft tube sections requiring,tag 201,parent,0,90,0,0,150000,triangular,63691,84921
+202,3,Pick up of guide vanes leading to top and/or botto,Pick up of guide vanes leading to top and/or botto,tag 202,parent,0,365,14,0,450000,triangular,63691,84921
+203,3,Failure of bushes resulting in high vibration requ,Failure of bushes resulting in high vibration requ,tag 203,parent,0,365,0,0,250000,triangular,10273,13697
+204,3,Failure of white metal surface requiring unschedul,Failure of white metal surface requiring unschedul,tag 204,parent,0,90,5,0,175000,triangular,90400,120533
+205,3,Cavitation damage resulting in unscheduled/extende,Cavitation damage resulting in unscheduled/extende,tag 205,parent,0,90,0,0,150000,triangular,63691,84921
+206,3,Pitting and/or cavitation of runner resulting inir,Pitting and/or cavitation of runner resulting inir,tag 206,parent,0,365,365,40000000,0,triangular,63691,84921
+207,3,Failure of cooling water piping requiring unschedu,Failure of cooling water piping requiring unschedu,tag 207,parent,0,5,0,0,7500,triangular,18491,24655
+208,3,Failure of cooling water during pump start or SCO ,Failure of cooling water during pump start or SCO ,tag 208,parent,0,90,0,0,30000,triangular,18491,24655
+209,3,Cracking of welds or spiral sections requiring out,Cracking of welds or spiral sections requiring out,tag 209,parent,0,90,0,0,150000,triangular,18491,24655
+210,3,Corrosion damage leading to unscheduled/extended s,Corrosion damage leading to unscheduled/extended s,tag 210,parent,0,5,0,0,7500,triangular,18491,24655
+211,3,Cracking of welds or stay vanes requiring unschedu,Cracking of welds or stay vanes requiring unschedu,tag 211,parent,0,90,0,0,150000,triangular,246544,328725
+212,3,Catastrophic shaft failure,Catastrophic shaft failure,tag 212,parent,0,365,365,125000000,0,triangular,821813,1095750
+213,3,Failure or blockage of heat exchanger tubing requi,Failure or blockage of heat exchanger tubing requi,tag 213,parent,0,90,0,0,15000,triangular,34928,46570
+214,3,Failure of drive systems on gates in closed positi,Failure of drive systems on gates in closed positi,tag 214,parent,0,90,7,0,150000,triangular,102727,136969
+215,3,HP Oil pump failure resulting in thrust bearing pa,HP Oil pump failure resulting in thrust bearing pa,tag 215,parent,0,90,4,0,175000,triangular,63691,84921
+216,3,Failure of the oil cooling pipework and/or heat ex,Failure of the oil cooling pipework and/or heat ex,tag 216,parent,0,90,4,0,75000,triangular,31229,41639
+217,3,Failure of the oil cooling pipework and/or heat ex,Failure of the oil cooling pipework and/or heat ex,tag 217,parent,0,90,4,0,75000,triangular,20957,27942
+218,3,Failure of all temperature instruments resulting i,Failure of all temperature instruments resulting i,tag 218,parent,0,90,0,0,75000,triangular,63691,84921
+219,3,Failure of internal oil cooler pipework resulting ,Failure of internal oil cooler pipework resulting ,tag 219,parent,0,90,2,0,75000,triangular,20135,26846
+220,3,Failure of vapour extraction system allowing oil m,Failure of vapour extraction system allowing oil m,tag 220,parent,0,5,0,0,10000,triangular,38215,50953
+221,3,Failure of vapour extraction system allowing oil m,Failure of vapour extraction system allowing oil m,tag 221,parent,0,5,0,0,10000,triangular,14341,19121
+222,3,Complete de-lamination of white metal leading to f,Complete de-lamination of white metal leading to f,tag 222,parent,0,90,5,0,95000,triangular,242435,323247
+223,3,Failure of the sealing air system causing oil leak,Failure of the sealing air system causing oil leak,tag 223,parent,0,5,0,0,10000,triangular,63691,84921
+224,3,Failure of the sealing air system causing oil leak,Failure of the sealing air system causing oil leak,tag 224,parent,0,5,0,0,10000,triangular,63691,84921
+225,4,Failure of pumps during dewatering resulting in ex,Failure of pumps during dewatering resulting in ex,tag 225,parent,0,90,0,0,55000,triangular,32873,273938
+226,4,Each Generator has its own equipment  pumping func,Each Generator has its own equipment  pumping func,tag 226,parent,0,90,0,0,25000,triangular,21902,35612
+227,4,There is no plant SCADA only monitoring SCADA for ,There is no plant SCADA only monitoring SCADA for ,tag 227,parent,0,90,0,200000,0,triangular,30145,32873
+228,4,Failure of obsolescent system control equipment eg,Failure of obsolescent system control equipment eg,tag 228,parent,0,365,365,250000,0,triangular,10958,16437
+229,4,Unavailability of unit due to obsolescence of equi,Unavailability of unit due to obsolescence of equi,tag 229,parent,0,365,365,20000000,0,triangular,0,2740
+230,4,Unavailability of unit due to obsolescence of equi,Unavailability of unit due to obsolescence of equi,tag 230,parent,0,365,365,20000000,0,triangular,0,10958
+231,4,Failure of obsolete control card requiring a procu,Failure of obsolete control card requiring a procu,tag 231,parent,0,365,1,5000000,0,triangular,2740,5479
+232,4,Failure of obsolete breaker requiring a procuremen,Failure of obsolete breaker requiring a procuremen,tag 232,parent,0,365,5,5000000,0,triangular,5479,16437
+233,4,Failure of thyristors and fuses would require to b,Failure of thyristors and fuses would require to b,tag 233,parent,0,5,1,0,7500,triangular,5479,16437
+234,4,Failure of relay to adequately protect Generator d,Failure of relay to adequately protect Generator d,tag 234,parent,0,365,365,250000,0,triangular,10369,13697
+235,4,Failure of obsolete relay leading to requirement f,Failure of obsolete relay leading to requirement f,tag 235,parent,0,90,5,0,175000,triangular,10369,13697
+236,4,Failure of relay to adequately protect Generator d,Failure of relay to adequately protect Generator d,tag 236,parent,0,365,365,250000,0,triangular,10369,13697
+237,4,Failure of obsolete relay leading to requirement f,Failure of obsolete relay leading to requirement f,tag 237,parent,0,90,5,0,175000,triangular,10369,13697
+238,4,Uncontrolled application of brake pads during oper,Uncontrolled application of brake pads during oper,tag 238,parent,0,90,5,10000,30000,triangular,166104,219424
+239,4,Failure of brakes and jacking limit switches resul,Failure of brakes and jacking limit switches resul,tag 239,parent,0,5,0,0,7500,triangular,52049,54788
+240,4,Failure of heat exchanger tubing requiring removal,Failure of heat exchanger tubing requiring removal,tag 240,parent,0,90,5,0,20000,triangular,52049,54788
+241,4,Failure of at least 2 fans requiring replacement,Failure of at least 2 fans requiring replacement,tag 241,parent,0,90,2,0,15000,triangular,6164,8219
+242,4,Old and obsolete  needs to be replaced. Not all se,Old and obsolete  needs to be replaced. Not all se,tag 242,parent,0,90,0,0,25000,triangular,104141,120533
+243,4,Failure of speed sensing device resulting in inabi,Failure of speed sensing device resulting in inabi,tag 243,parent,0,90,0,0,15000,triangular,159733,191757
+244,4,Complete de-lamination of white metal leading to f,Complete de-lamination of white metal leading to f,tag 244,parent,0,365,5,0,220000,triangular,123272,164363
+245,4,Failure of all temperature instruments resulting i,Failure of all temperature instruments resulting i,tag 245,parent,0,90,0,0,15000,triangular,13700,45212
+246,4,Loosening of windings leading to rotor earth fault,Loosening of windings leading to rotor earth fault,tag 246,parent,0,365,25,0,300000,triangular,28490,43830
+247,4,Failure of flexible pole connections resulting in ,Failure of flexible pole connections resulting in ,tag 247,parent,0,5,4,0,10000,triangular,28490,43830
+248,4,Cracks developing in the rotor pole end plates and,Cracks developing in the rotor pole end plates and,tag 248,parent,0,365,540,0,1500000,triangular,8761,16437
+249,4,Failure of rim yoke resulting in pole movement and,Failure of rim yoke resulting in pole movement and,tag 249,parent,0,365,365,80000000,0,triangular,20273,23011
+250,4,Failure of rim yoke resulting in unscheduled outag,Failure of rim yoke resulting in unscheduled outag,tag 250,parent,0,365,365,75000000,0,triangular,20273,23011
+251,4,Failure of brushgear that could result in a flasho,Failure of brushgear that could result in a flasho,tag 251,parent,0,90,90,0,50000,triangular,52071,98618
+252,4,Failure of frame through cracking leading to loss ,Failure of frame through cracking leading to loss ,tag 252,parent,0,365,150,13500000,750000,triangular,273938,273938
+253,4,Failure of the core/lamination stacks leading to o,Failure of the core/lamination stacks leading to o,tag 253,parent,0,365,30,0,375000,triangular,11510,14245
+254,4,Failure of the core/lamination stacks leading to o,Failure of the core/lamination stacks leading to o,tag 254,parent,0,365,150,13500000,750000,triangular,11510,14245
+255,4,Failure of the core/lamination stacks leading to i,Failure of the core/lamination stacks leading to i,tag 255,parent,0,365,365,27500000,0,triangular,11510,14245
+256,4,Failure of remaining RTDs that are presently funct,Failure of remaining RTDs that are presently funct,tag 256,parent,0,365,150,13500000,0,triangular,12054,13697
+257,4,Failure of windings resulting in a repairable phas,Failure of windings resulting in a repairable phas,tag 257,parent,0,365,150,0,450000,triangular,12054,13697
+258,4,Failure of windings resulting in a failure of core,Failure of windings resulting in a failure of core,tag 258,parent,0,365,365,35000000,0,triangular,12054,13697
+259,4,Failure of all temperature transmitters leading to,Failure of all temperature transmitters leading to,tag 259,parent,0,5,0,0,1500,triangular,10958,10958
+260,4,Failure of remaining RTDs that are presently funct,Failure of remaining RTDs that are presently funct,tag 260,parent,0,365,150,8000000,0,triangular,12054,13697
+261,4,Increased vibration due to dislodging of thrust bl,Increased vibration due to dislodging of thrust bl,tag 261,parent,0,365,60,1000000,0,triangular,273938,273938
+262,4,Complete de-lamination of white metal leading to f,Complete de-lamination of white metal leading to f,tag 262,parent,0,90,14,0,175000,triangular,39447,54788
+263,4,Failure of all temperature instruments resulting i,Failure of all temperature instruments resulting i,tag 263,parent,0,90,0,0,15000,triangular,21368,28490
+264,4,Failure of hydraulic system leading to inability t,Failure of hydraulic system leading to inability t,tag 264,parent,0,365,90,0,500000,triangular,273938,273938
+265,4,Failure of sliding and link arm bushes resulting i,Failure of sliding and link arm bushes resulting i,tag 265,parent,0,90,21,0,80000,triangular,273938,273938
+266,4,Failure of servo motors (seals  valves) leading to,Failure of servo motors (seals  valves) leading to,tag 266,parent,0,90,30,0,200000,triangular,186196,191757
+267,4,Failure of bypass penstock side isolating valve in,Failure of bypass penstock side isolating valve in,tag 267,parent,0,90,30,0,45000,triangular,123272,164363
+268,4,Failure of bypass penstock side isolating valve in,Failure of bypass penstock side isolating valve in,tag 268,parent,0,90,30,0,30000,triangular,175320,219150
+269,4,Failure of hydraulic system leading to inability t,Failure of hydraulic system leading to inability t,tag 269,parent,0,365,45,875000,0,triangular,30818,41091
+270,4,Failure of maintenance seal requiring unscheduled ,Failure of maintenance seal requiring unscheduled ,tag 270,parent,0,365,30,0,500000,triangular,47255,63006
+271,4,Failure of service seal causing poor seal with una,Failure of service seal causing poor seal with una,tag 271,parent,0,365,30,0,500000,triangular,36982,49309
+272,4,Failure of instrumentation resulting in unplanned ,Failure of instrumentation resulting in unplanned ,tag 272,parent,0,5,0,0,5000,triangular,14177,18902
+273,4,Failure of servo motors (seals  valves) leading to,Failure of servo motors (seals  valves) leading to,tag 273,parent,0,90,45,0,75000,triangular,14177,18902
+274,4,Seizure of trunnions resulting in valve not being ,Seizure of trunnions resulting in valve not being ,tag 274,parent,0,365,45,0,450000,triangular,47255,63006
+275,4,Failure of seals leading to excessive leakage and ,Failure of seals leading to excessive leakage and ,tag 275,parent,0,90,0,0,40000,triangular,14177,18902
+276,4,Failure of instrumentation resulting in unplanned ,Failure of instrumentation resulting in unplanned ,tag 276,parent,0,90,0,0,15000,triangular,8219,10958
+277,4,Failure of rotork vales resulting in inability to ,Failure of rotork vales resulting in inability to ,tag 277,parent,0,90,0,45000,0,triangular,9862,13149
+278,4,Failure of fans requiring replacement,Failure of fans requiring replacement,tag 278,parent,0,90,0,0,12000,triangular,6164,8219
+279,4,Complete de-lamination of white metal leading to f,Complete de-lamination of white metal leading to f,tag 279,parent,0,90,30,0,95000,triangular,90400,120533
+280,4,Failure of instrumentation resulting in unplanned ,Failure of instrumentation resulting in unplanned ,tag 280,parent,0,5,0,0,10000,triangular,15820,21094
+281,4,Failure of mechanism or coating requiring speciali,Failure of mechanism or coating requiring speciali,tag 281,parent,0,5,21,0,3500,triangular,18697,24929
+282,4,Failure of obsolete relay leading to requirement f,Failure of obsolete relay leading to requirement f,tag 282,parent,0,90,10,150000,0,triangular,10273,13697
+283,4,Failure of relay to adequately protect Pony Motor ,Failure of relay to adequately protect Pony Motor ,tag 283,parent,0,365,60,0,3500000,triangular,58760,78347
+284,4,Rotor winding insulation failure leading to unsche,Rotor winding insulation failure leading to unsche,tag 284,parent,0,365,30,1000000,0,triangular,96563,128751
+285,4,Failure of brushgear that could result in a flasho,Failure of brushgear that could result in a flasho,tag 285,parent,0,365,14,0,2500000,triangular,96563,128751
+286,4,Failure of frame through cracking leading to loss ,Failure of frame through cracking leading to loss ,tag 286,parent,0,90,7,0,130000,triangular,234217,312289
+287,4,Failure of the core/lamination stacks leading to o,Failure of the core/lamination stacks leading to o,tag 287,parent,0,90,90,0,75000,triangular,234217,312289
+288,4,Failure of the core/lamination stacks leading to o,Failure of the core/lamination stacks leading to o,tag 288,parent,0,365,120,2000000,0,triangular,234217,312289
+289,4,Failure of the core/lamination stacks leading to i,Failure of the core/lamination stacks leading to i,tag 289,parent,0,365,365,3500000,0,triangular,234217,312289
+290,4,Failure of windings resulting in a repairable phas,Failure of windings resulting in a repairable phas,tag 290,parent,0,90,21,0,125000,triangular,234217,312289
+291,4,Failure of windings resulting in a failure of core,Failure of windings resulting in a failure of core,tag 291,parent,0,365,120,3500000,0,triangular,234217,312289
+292,4,Failure of all temperature sensors leading to incr,Failure of all temperature sensors leading to incr,tag 292,parent,0,90,0,0,15000,triangular,6164,8219
+293,4,Failure of remaining RTDs that are presently funct,Failure of remaining RTDs that are presently funct,tag 293,parent,0,365,0,3500000,0,triangular,23011,30681
+294,4,Failure of Compressor resulting in increased start,Failure of Compressor resulting in increased start,tag 294,parent,0,365,0,0,550000,triangular,147927,197235
+295,4,The stabilising air is not critical to the working,The stabilising air is not critical to the working,tag 295,parent,0,90,0,50000,0,triangular,8219,10958
+296,4,Failure of Compressor resulting in increased start,Failure of Compressor resulting in increased start,tag 296,parent,0,5,0,0,7500,triangular,63691,84921
+297,4,The stabilising air is not critical to the working,The stabilising air is not critical to the working,tag 297,parent,0,5,0,0,7500,triangular,8219,10958
+298,4,Failure of any cables/terminations could result in,Failure of any cables/terminations could result in,tag 298,parent,0,90,0,0,130000,triangular,39858,53144
+299,4,Failure of switchgear resulting in unavailability ,Failure of switchgear resulting in unavailability ,tag 299,parent,0,365,0,0,225000,triangular,18491,24655
+300,4,Failure of fused isolator can result in auxiliary ,Failure of fused isolator can result in auxiliary ,tag 300,parent,0,5,0,0,3000,triangular,39858,53144
+301,4,Failure of protection relays could result in suppl,Failure of protection relays could result in suppl,tag 301,parent,0,90,0,0,75000,triangular,11095,14793
+302,4,Failure of switchgear resulting in system failure ,Failure of switchgear resulting in system failure ,tag 302,parent,0,90,30,0,75000,triangular,11095,14793
+303,4,Failure of breakers could result in supply & redun,Failure of breakers could result in supply & redun,tag 303,parent,0,365,0,3650000,0,triangular,11095,14793
+304,4,Failure of protection relays could result in suppl,Failure of protection relays could result in suppl,tag 304,parent,0,365,0,400000,0,triangular,11095,14793
+305,4,Failure of switchgear resulting in unavailability ,Failure of switchgear resulting in unavailability ,tag 305,parent,0,90,210,0,75000,triangular,18491,24655
+306,4,Failure of obsolete relay leading to requirement f,Failure of obsolete relay leading to requirement f,tag 306,parent,0,90,210,175000,0,triangular,11095,14793
+307,4,Failure of obsolete relays incorporated in the con,Failure of obsolete relays incorporated in the con,tag 307,parent,0,365,30,750000,0,triangular,11095,14793
+308,4,Failure of transformer requiring replacement,Failure of transformer requiring replacement,tag 308,parent,0,365,365,15000000,0,triangular,82182,109575
+309,4,Failure of relay to adequately protect transformer,Failure of relay to adequately protect transformer,tag 309,parent,0,365,365,15000000,0,triangular,58760,78347
+310,4,Failure of obsolete relay leading to requirement f,Failure of obsolete relay leading to requirement f,tag 310,parent,0,90,5,0,125000,triangular,58760,78347
+311,4,Failure of transformer requiring replacement,Failure of transformer requiring replacement,tag 311,parent,0,90,14,150000,0,triangular,63691,84921
+312,4,Failure of cooling water piping leading to bearing,Failure of cooling water piping leading to bearing,tag 312,parent,0,90,5,0,75000,triangular,63691,84921
+313,4,Cracking of welds or draft tube sections requiring,Cracking of welds or draft tube sections requiring,tag 313,parent,0,90,0,0,150000,triangular,63691,84921
+314,4,Pick up of guide vanes leading to top and/or botto,Pick up of guide vanes leading to top and/or botto,tag 314,parent,0,365,14,0,450000,triangular,63691,84921
+315,4,Failure of bushes resulting in high vibration requ,Failure of bushes resulting in high vibration requ,tag 315,parent,0,365,0,0,250000,triangular,10273,13697
+316,4,Failure of white metal surface requiring unschedul,Failure of white metal surface requiring unschedul,tag 316,parent,0,90,5,0,175000,triangular,90400,120533
+317,4,Cavitation damage resulting in unscheduled/extende,Cavitation damage resulting in unscheduled/extende,tag 317,parent,0,90,0,0,150000,triangular,63691,84921
+318,4,Pitting and/or cavitation of runner resulting inir,Pitting and/or cavitation of runner resulting inir,tag 318,parent,0,365,365,40000000,0,triangular,63691,84921
+319,4,Failure of cooling water piping requiring unschedu,Failure of cooling water piping requiring unschedu,tag 319,parent,0,5,0,0,7500,triangular,18491,24655
+320,4,Failure of cooling water during pump start or SCO ,Failure of cooling water during pump start or SCO ,tag 320,parent,0,90,0,0,30000,triangular,18491,24655
+321,4,Cracking of welds or spiral sections requiring out,Cracking of welds or spiral sections requiring out,tag 321,parent,0,90,0,0,150000,triangular,18491,24655
+322,4,Corrosion damage leading to unscheduled/extended s,Corrosion damage leading to unscheduled/extended s,tag 322,parent,0,5,0,0,7500,triangular,18491,24655
+323,4,Cracking of welds or stay vanes requiring unschedu,Cracking of welds or stay vanes requiring unschedu,tag 323,parent,0,90,0,0,150000,triangular,246544,328725
+324,4,Catastrophic shaft failure,Catastrophic shaft failure,tag 324,parent,0,365,365,125000000,0,triangular,821813,1095750
+325,4,Failure or blockage of heat exchanger tubing requi,Failure or blockage of heat exchanger tubing requi,tag 325,parent,0,90,0,0,15000,triangular,34928,46570
+326,4,Failure of drive systems on gates in closed positi,Failure of drive systems on gates in closed positi,tag 326,parent,0,90,7,0,150000,triangular,102727,136969
+327,4,HP Oil pump failure resulting in thrust bearing pa,HP Oil pump failure resulting in thrust bearing pa,tag 327,parent,0,90,4,0,175000,triangular,63691,84921
+328,4,Failure of the oil cooling pipework and/or heat ex,Failure of the oil cooling pipework and/or heat ex,tag 328,parent,0,90,4,0,75000,triangular,31229,41639
+329,4,Failure of the oil cooling pipework and/or heat ex,Failure of the oil cooling pipework and/or heat ex,tag 329,parent,0,90,4,0,75000,triangular,20957,27942
+330,4,Failure of all temperature instruments resulting i,Failure of all temperature instruments resulting i,tag 330,parent,0,90,0,0,75000,triangular,63691,84921
+331,4,Failure of internal oil cooler pipework resulting ,Failure of internal oil cooler pipework resulting ,tag 331,parent,0,90,2,0,75000,triangular,20135,26846
+332,4,Failure of vapour extraction system allowing oil m,Failure of vapour extraction system allowing oil m,tag 332,parent,0,5,0,0,10000,triangular,38215,50953
+333,4,Failure of vapour extraction system allowing oil m,Failure of vapour extraction system allowing oil m,tag 333,parent,0,5,0,0,10000,triangular,14341,19121
+334,4,Complete de-lamination of white metal leading to f,Complete de-lamination of white metal leading to f,tag 334,parent,0,90,5,0,95000,triangular,242435,323247
+335,4,Failure of the sealing air system causing oil leak,Failure of the sealing air system causing oil leak,tag 335,parent,0,5,0,0,10000,triangular,63691,84921
+336,4,Failure of the sealing air system causing oil leak,Failure of the sealing air system causing oil leak,tag 336,parent,0,5,0,0,10000,triangular,63691,84921
+337,5,Failure of pumps during dewatering resulting in ex,Failure of pumps during dewatering resulting in ex,tag 337,parent,0,90,0,0,55000,triangular,32873,273938
+338,5,Each Generator has its own equipment  pumping func,Each Generator has its own equipment  pumping func,tag 338,parent,0,90,0,0,25000,triangular,21902,35612
+339,5,There is no plant SCADA only monitoring SCADA for ,There is no plant SCADA only monitoring SCADA for ,tag 339,parent,0,90,0,200000,0,triangular,30145,32873
+340,5,Failure of obsolescent system control equipment eg,Failure of obsolescent system control equipment eg,tag 340,parent,0,365,365,250000,0,triangular,10958,16437
+341,5,Unavailability of unit due to obsolescence of equi,Unavailability of unit due to obsolescence of equi,tag 341,parent,0,365,365,20000000,0,triangular,0,2740
+342,5,Unavailability of unit due to obsolescence of equi,Unavailability of unit due to obsolescence of equi,tag 342,parent,0,365,365,20000000,0,triangular,0,10958
+343,5,Failure of obsolete control card requiring a procu,Failure of obsolete control card requiring a procu,tag 343,parent,0,365,1,5000000,0,triangular,2740,5479
+344,5,Failure of obsolete breaker requiring a procuremen,Failure of obsolete breaker requiring a procuremen,tag 344,parent,0,365,5,5000000,0,triangular,5479,16437
+345,5,Failure of thyristors and fuses would require to b,Failure of thyristors and fuses would require to b,tag 345,parent,0,5,1,0,7500,triangular,5479,16437
+346,5,Failure of relay to adequately protect Generator d,Failure of relay to adequately protect Generator d,tag 346,parent,0,365,365,250000,0,triangular,10369,13697
+347,5,Failure of obsolete relay leading to requirement f,Failure of obsolete relay leading to requirement f,tag 347,parent,0,90,5,0,175000,triangular,10369,13697
+348,5,Failure of relay to adequately protect Generator d,Failure of relay to adequately protect Generator d,tag 348,parent,0,365,365,250000,0,triangular,10369,13697
+349,5,Failure of obsolete relay leading to requirement f,Failure of obsolete relay leading to requirement f,tag 349,parent,0,90,5,0,175000,triangular,10369,13697
+350,5,Uncontrolled application of brake pads during oper,Uncontrolled application of brake pads during oper,tag 350,parent,0,90,5,10000,30000,triangular,166104,219424
+351,5,Failure of brakes and jacking limit switches resul,Failure of brakes and jacking limit switches resul,tag 351,parent,0,5,0,0,7500,triangular,52049,54788
+352,5,Failure of heat exchanger tubing requiring removal,Failure of heat exchanger tubing requiring removal,tag 352,parent,0,90,5,0,20000,triangular,52049,54788
+353,5,Failure of at least 2 fans requiring replacement,Failure of at least 2 fans requiring replacement,tag 353,parent,0,90,2,0,15000,triangular,6164,8219
+354,5,Old and obsolete  needs to be replaced. Not all se,Old and obsolete  needs to be replaced. Not all se,tag 354,parent,0,90,0,0,25000,triangular,104141,120533
+355,5,Failure of speed sensing device resulting in inabi,Failure of speed sensing device resulting in inabi,tag 355,parent,0,90,0,0,15000,triangular,159733,191757
+356,5,Complete de-lamination of white metal leading to f,Complete de-lamination of white metal leading to f,tag 356,parent,0,365,5,0,220000,triangular,123272,164363
+357,5,Failure of all temperature instruments resulting i,Failure of all temperature instruments resulting i,tag 357,parent,0,90,0,0,15000,triangular,13700,45212
+358,5,Loosening of windings leading to rotor earth fault,Loosening of windings leading to rotor earth fault,tag 358,parent,0,365,25,0,300000,triangular,28490,43830
+359,5,Failure of flexible pole connections resulting in ,Failure of flexible pole connections resulting in ,tag 359,parent,0,5,4,0,10000,triangular,28490,43830
+360,5,Cracks developing in the rotor pole end plates and,Cracks developing in the rotor pole end plates and,tag 360,parent,0,365,540,0,1500000,triangular,8761,16437
+361,5,Failure of rim yoke resulting in pole movement and,Failure of rim yoke resulting in pole movement and,tag 361,parent,0,365,365,80000000,0,triangular,20273,23011
+362,5,Failure of rim yoke resulting in unscheduled outag,Failure of rim yoke resulting in unscheduled outag,tag 362,parent,0,365,365,75000000,0,triangular,20273,23011
+363,5,Failure of brushgear that could result in a flasho,Failure of brushgear that could result in a flasho,tag 363,parent,0,90,90,0,50000,triangular,52071,98618
+364,5,Failure of frame through cracking leading to loss ,Failure of frame through cracking leading to loss ,tag 364,parent,0,365,150,13500000,750000,triangular,273938,273938
+365,5,Failure of the core/lamination stacks leading to o,Failure of the core/lamination stacks leading to o,tag 365,parent,0,365,30,0,375000,triangular,11510,14245
+366,5,Failure of the core/lamination stacks leading to o,Failure of the core/lamination stacks leading to o,tag 366,parent,0,365,150,13500000,750000,triangular,11510,14245
+367,5,Failure of the core/lamination stacks leading to i,Failure of the core/lamination stacks leading to i,tag 367,parent,0,365,365,27500000,0,triangular,11510,14245
+368,5,Failure of remaining RTDs that are presently funct,Failure of remaining RTDs that are presently funct,tag 368,parent,0,365,150,13500000,0,triangular,12054,13697
+369,5,Failure of windings resulting in a repairable phas,Failure of windings resulting in a repairable phas,tag 369,parent,0,365,150,0,450000,triangular,12054,13697
+370,5,Failure of windings resulting in a failure of core,Failure of windings resulting in a failure of core,tag 370,parent,0,365,365,35000000,0,triangular,12054,13697
+371,5,Failure of all temperature transmitters leading to,Failure of all temperature transmitters leading to,tag 371,parent,0,5,0,0,1500,triangular,10958,10958
+372,5,Failure of remaining RTDs that are presently funct,Failure of remaining RTDs that are presently funct,tag 372,parent,0,365,150,8000000,0,triangular,12054,13697
+373,5,Increased vibration due to dislodging of thrust bl,Increased vibration due to dislodging of thrust bl,tag 373,parent,0,365,60,1000000,0,triangular,273938,273938
+374,5,Complete de-lamination of white metal leading to f,Complete de-lamination of white metal leading to f,tag 374,parent,0,90,14,0,175000,triangular,39447,54788
+375,5,Failure of all temperature instruments resulting i,Failure of all temperature instruments resulting i,tag 375,parent,0,90,0,0,15000,triangular,21368,28490
+376,5,Failure of hydraulic system leading to inability t,Failure of hydraulic system leading to inability t,tag 376,parent,0,365,90,0,500000,triangular,273938,273938
+377,5,Failure of sliding and link arm bushes resulting i,Failure of sliding and link arm bushes resulting i,tag 377,parent,0,90,21,0,80000,triangular,273938,273938
+378,5,Failure of servo motors (seals  valves) leading to,Failure of servo motors (seals  valves) leading to,tag 378,parent,0,90,30,0,200000,triangular,186196,191757
+379,5,Failure of bypass penstock side isolating valve in,Failure of bypass penstock side isolating valve in,tag 379,parent,0,90,30,0,45000,triangular,123272,164363
+380,5,Failure of bypass penstock side isolating valve in,Failure of bypass penstock side isolating valve in,tag 380,parent,0,90,30,0,30000,triangular,175320,219150
+381,5,Failure of hydraulic system leading to inability t,Failure of hydraulic system leading to inability t,tag 381,parent,0,365,45,875000,0,triangular,30818,41091
+382,5,Failure of maintenance seal requiring unscheduled ,Failure of maintenance seal requiring unscheduled ,tag 382,parent,0,365,30,0,500000,triangular,47255,63006
+383,5,Failure of service seal causing poor seal with una,Failure of service seal causing poor seal with una,tag 383,parent,0,365,30,0,500000,triangular,36982,49309
+384,5,Failure of instrumentation resulting in unplanned ,Failure of instrumentation resulting in unplanned ,tag 384,parent,0,5,0,0,5000,triangular,14177,18902
+385,5,Failure of servo motors (seals  valves) leading to,Failure of servo motors (seals  valves) leading to,tag 385,parent,0,90,45,0,75000,triangular,14177,18902
+386,5,Seizure of trunnions resulting in valve not being ,Seizure of trunnions resulting in valve not being ,tag 386,parent,0,365,45,0,450000,triangular,47255,63006
+387,5,Failure of seals leading to excessive leakage and ,Failure of seals leading to excessive leakage and ,tag 387,parent,0,90,0,0,40000,triangular,14177,18902
+388,5,Failure of instrumentation resulting in unplanned ,Failure of instrumentation resulting in unplanned ,tag 388,parent,0,90,0,0,15000,triangular,8219,10958
+389,5,Failure of rotork vales resulting in inability to ,Failure of rotork vales resulting in inability to ,tag 389,parent,0,90,0,45000,0,triangular,9862,13149
+390,5,Failure of fans requiring replacement,Failure of fans requiring replacement,tag 390,parent,0,90,0,0,12000,triangular,6164,8219
+391,5,Complete de-lamination of white metal leading to f,Complete de-lamination of white metal leading to f,tag 391,parent,0,90,30,0,95000,triangular,90400,120533
+392,5,Failure of instrumentation resulting in unplanned ,Failure of instrumentation resulting in unplanned ,tag 392,parent,0,5,0,0,10000,triangular,15820,21094
+393,5,Failure of mechanism or coating requiring speciali,Failure of mechanism or coating requiring speciali,tag 393,parent,0,5,21,0,3500,triangular,18697,24929
+394,5,Failure of obsolete relay leading to requirement f,Failure of obsolete relay leading to requirement f,tag 394,parent,0,90,10,150000,0,triangular,10273,13697
+395,5,Failure of relay to adequately protect Pony Motor ,Failure of relay to adequately protect Pony Motor ,tag 395,parent,0,365,60,0,3500000,triangular,58760,78347
+396,5,Rotor winding insulation failure leading to unsche,Rotor winding insulation failure leading to unsche,tag 396,parent,0,365,30,1000000,0,triangular,96563,128751
+397,5,Failure of brushgear that could result in a flasho,Failure of brushgear that could result in a flasho,tag 397,parent,0,365,14,0,2500000,triangular,96563,128751
+398,5,Failure of frame through cracking leading to loss ,Failure of frame through cracking leading to loss ,tag 398,parent,0,90,7,0,130000,triangular,234217,312289
+399,5,Failure of the core/lamination stacks leading to o,Failure of the core/lamination stacks leading to o,tag 399,parent,0,90,90,0,75000,triangular,234217,312289
+400,5,Failure of the core/lamination stacks leading to o,Failure of the core/lamination stacks leading to o,tag 400,parent,0,365,120,2000000,0,triangular,234217,312289
+401,5,Failure of the core/lamination stacks leading to i,Failure of the core/lamination stacks leading to i,tag 401,parent,0,365,365,3500000,0,triangular,234217,312289
+402,5,Failure of windings resulting in a repairable phas,Failure of windings resulting in a repairable phas,tag 402,parent,0,90,21,0,125000,triangular,234217,312289
+403,5,Failure of windings resulting in a failure of core,Failure of windings resulting in a failure of core,tag 403,parent,0,365,120,3500000,0,triangular,234217,312289
+404,5,Failure of all temperature sensors leading to incr,Failure of all temperature sensors leading to incr,tag 404,parent,0,90,0,0,15000,triangular,6164,8219
+405,5,Failure of remaining RTDs that are presently funct,Failure of remaining RTDs that are presently funct,tag 405,parent,0,365,0,3500000,0,triangular,23011,30681
+406,5,Failure of Compressor resulting in increased start,Failure of Compressor resulting in increased start,tag 406,parent,0,365,0,0,550000,triangular,147927,197235
+407,5,The stabilising air is not critical to the working,The stabilising air is not critical to the working,tag 407,parent,0,90,0,50000,0,triangular,8219,10958
+408,5,Failure of Compressor resulting in increased start,Failure of Compressor resulting in increased start,tag 408,parent,0,5,0,0,7500,triangular,63691,84921
+409,5,The stabilising air is not critical to the working,The stabilising air is not critical to the working,tag 409,parent,0,5,0,0,7500,triangular,8219,10958
+410,5,Failure of any cables/terminations could result in,Failure of any cables/terminations could result in,tag 410,parent,0,90,0,0,130000,triangular,39858,53144
+411,5,Failure of switchgear resulting in unavailability ,Failure of switchgear resulting in unavailability ,tag 411,parent,0,365,0,0,225000,triangular,18491,24655
+412,5,Failure of fused isolator can result in auxiliary ,Failure of fused isolator can result in auxiliary ,tag 412,parent,0,5,0,0,3000,triangular,39858,53144
+413,5,Failure of protection relays could result in suppl,Failure of protection relays could result in suppl,tag 413,parent,0,90,0,0,75000,triangular,11095,14793
+414,5,Failure of switchgear resulting in system failure ,Failure of switchgear resulting in system failure ,tag 414,parent,0,90,30,0,75000,triangular,11095,14793
+415,5,Failure of breakers could result in supply & redun,Failure of breakers could result in supply & redun,tag 415,parent,0,365,0,3650000,0,triangular,11095,14793
+416,5,Failure of protection relays could result in suppl,Failure of protection relays could result in suppl,tag 416,parent,0,365,0,400000,0,triangular,11095,14793
+417,5,Failure of switchgear resulting in unavailability ,Failure of switchgear resulting in unavailability ,tag 417,parent,0,90,210,0,75000,triangular,18491,24655
+418,5,Failure of obsolete relay leading to requirement f,Failure of obsolete relay leading to requirement f,tag 418,parent,0,90,210,175000,0,triangular,11095,14793
+419,5,Failure of obsolete relays incorporated in the con,Failure of obsolete relays incorporated in the con,tag 419,parent,0,365,30,750000,0,triangular,11095,14793
+420,5,Failure of transformer requiring replacement,Failure of transformer requiring replacement,tag 420,parent,0,365,365,15000000,0,triangular,82182,109575
+421,5,Failure of relay to adequately protect transformer,Failure of relay to adequately protect transformer,tag 421,parent,0,365,365,15000000,0,triangular,58760,78347
+422,5,Failure of obsolete relay leading to requirement f,Failure of obsolete relay leading to requirement f,tag 422,parent,0,90,5,0,125000,triangular,58760,78347
+423,5,Failure of transformer requiring replacement,Failure of transformer requiring replacement,tag 423,parent,0,90,14,150000,0,triangular,63691,84921
+424,5,Failure of cooling water piping leading to bearing,Failure of cooling water piping leading to bearing,tag 424,parent,0,90,5,0,75000,triangular,63691,84921
+425,5,Cracking of welds or draft tube sections requiring,Cracking of welds or draft tube sections requiring,tag 425,parent,0,90,0,0,150000,triangular,63691,84921
+426,5,Pick up of guide vanes leading to top and/or botto,Pick up of guide vanes leading to top and/or botto,tag 426,parent,0,365,14,0,450000,triangular,63691,84921
+427,5,Failure of bushes resulting in high vibration requ,Failure of bushes resulting in high vibration requ,tag 427,parent,0,365,0,0,250000,triangular,10273,13697
+428,5,Failure of white metal surface requiring unschedul,Failure of white metal surface requiring unschedul,tag 428,parent,0,90,5,0,175000,triangular,90400,120533
+429,5,Cavitation damage resulting in unscheduled/extende,Cavitation damage resulting in unscheduled/extende,tag 429,parent,0,90,0,0,150000,triangular,63691,84921
+430,5,Pitting and/or cavitation of runner resulting inir,Pitting and/or cavitation of runner resulting inir,tag 430,parent,0,365,365,40000000,0,triangular,63691,84921
+431,5,Failure of cooling water piping requiring unschedu,Failure of cooling water piping requiring unschedu,tag 431,parent,0,5,0,0,7500,triangular,18491,24655
+432,5,Failure of cooling water during pump start or SCO ,Failure of cooling water during pump start or SCO ,tag 432,parent,0,90,0,0,30000,triangular,18491,24655
+433,5,Cracking of welds or spiral sections requiring out,Cracking of welds or spiral sections requiring out,tag 433,parent,0,90,0,0,150000,triangular,18491,24655
+434,5,Corrosion damage leading to unscheduled/extended s,Corrosion damage leading to unscheduled/extended s,tag 434,parent,0,5,0,0,7500,triangular,18491,24655
+435,5,Cracking of welds or stay vanes requiring unschedu,Cracking of welds or stay vanes requiring unschedu,tag 435,parent,0,90,0,0,150000,triangular,246544,328725
+436,5,Catastrophic shaft failure,Catastrophic shaft failure,tag 436,parent,0,365,365,125000000,0,triangular,821813,1095750
+437,5,Failure or blockage of heat exchanger tubing requi,Failure or blockage of heat exchanger tubing requi,tag 437,parent,0,90,0,0,15000,triangular,34928,46570
+438,5,Failure of drive systems on gates in closed positi,Failure of drive systems on gates in closed positi,tag 438,parent,0,90,7,0,150000,triangular,102727,136969
+439,5,HP Oil pump failure resulting in thrust bearing pa,HP Oil pump failure resulting in thrust bearing pa,tag 439,parent,0,90,4,0,175000,triangular,63691,84921
+440,5,Failure of the oil cooling pipework and/or heat ex,Failure of the oil cooling pipework and/or heat ex,tag 440,parent,0,90,4,0,75000,triangular,31229,41639
+441,5,Failure of the oil cooling pipework and/or heat ex,Failure of the oil cooling pipework and/or heat ex,tag 441,parent,0,90,4,0,75000,triangular,20957,27942
+442,5,Failure of all temperature instruments resulting i,Failure of all temperature instruments resulting i,tag 442,parent,0,90,0,0,75000,triangular,63691,84921
+443,5,Failure of internal oil cooler pipework resulting ,Failure of internal oil cooler pipework resulting ,tag 443,parent,0,90,2,0,75000,triangular,20135,26846
+444,5,Failure of vapour extraction system allowing oil m,Failure of vapour extraction system allowing oil m,tag 444,parent,0,5,0,0,10000,triangular,38215,50953
+445,5,Failure of vapour extraction system allowing oil m,Failure of vapour extraction system allowing oil m,tag 445,parent,0,5,0,0,10000,triangular,14341,19121
+446,5,Complete de-lamination of white metal leading to f,Complete de-lamination of white metal leading to f,tag 446,parent,0,90,5,0,95000,triangular,242435,323247
+447,5,Failure of the sealing air system causing oil leak,Failure of the sealing air system causing oil leak,tag 447,parent,0,5,0,0,10000,triangular,63691,84921
+448,5,Failure of the sealing air system causing oil leak,Failure of the sealing air system causing oil leak,tag 448,parent,0,5,0,0,10000,triangular,63691,84921
+449,1,Failure of at least 3 pumps resulting in inability,Failure of at least 3 pumps resulting in inability,tag 449,all,0,90,0,0,200000,triangular,96563,128751
+450,1,Failure of both pumps resulting in inability to ke,Failure of both pumps resulting in inability to ke,tag 450,all,0,90,0,0,30000,triangular,119163,158884
+451,1,Failure of both strainers resulting in plant shutd,Failure of both strainers resulting in plant shutd,tag 451,all,0,90,0,0,30000,triangular,96563,128751
+452,1,Failure of single common valve  or multiple parall,Failure of single common valve  or multiple parall,tag 452,all,0,90,0,0,167500,triangular,29175,38900
+453,1,Failure of standby generator during standby requir,Failure of standby generator during standby requir,tag 453,all,0,90,0,0,25000,triangular,18656,24874
+454,1,Inability of staff to operate the plant safely due,Inability of staff to operate the plant safely due,tag 454,all,0,365,0,10000000,15000,triangular,11917,15889
+455,1,The instrumentation on the system is fairly new an,The instrumentation on the system is fairly new an,tag 455,all,0,90,0,0,20000,triangular,6164,8219
+456,1,The instrumentation on the system is fairly new an,The instrumentation on the system is fairly new an,tag 456,all,0,90,0,0,20000,triangular,6164,8219
+457,1,Board is very full  loose connections due to age c,Board is very full  loose connections due to age c,tag 457,all,0,365,60,750000,0,triangular,11095,14793
+458,1,The valves on the cooling water pipework is in goo,The valves on the cooling water pipework is in goo,tag 458,all,0,5,0,0,10000,triangular,14382,19176
+459,1,Failure of obsolescent joint controller resulting ,Failure of obsolescent joint controller resulting ,tag 459,all,0,365,0,15000000,0,triangular,11711,15615
+460,1,Failure of drive systems on emergency gates,Failure of drive systems on emergency gates,tag 460,all,0,90,7,0,150000,triangular,63691,84921
+461,1,Failure of drive systems on gates in closed positi,Failure of drive systems on gates in closed positi,tag 461,all,0,90,7,0,150000,triangular,96563,128751
+462,1,Failure of gate control or communication system du,Failure of gate control or communication system du,tag 462,all,0,365,5,500000,0,triangular,8219,10958
+463,1,Dislodgement of screen panels due to lack of catho,Dislodgement of screen panels due to lack of catho,tag 463,all,0,365,60,0,1000000,triangular,96563,128751
+464,1,Dislodgement of screen panels resulting in station,Dislodgement of screen panels resulting in station,tag 464,all,0,365,60,0,1000000,triangular,96563,128751
+465,1,Failure of gate control or communication system du,Failure of gate control or communication system du,tag 465,all,0,90,60,10000,15000,triangular,63691,84921
+466,1,Failure of transformer requiring replacement,Failure of transformer requiring replacement,tag 466,all,0,365,0,750000,0,triangular,11095,14793
+467,1,Failure of both transformer requiring replacement,Failure of both transformer requiring replacement,tag 467,all,0,365,365,1500000,0,triangular,11095,14793
+468,1,Failure of transformer would cause backup supply t,Failure of transformer would cause backup supply t,tag 468,all,0,365,0,375000,0,triangular,15861,21148
+469,1,Failure of transformer would interrupt the power s,Failure of transformer would interrupt the power s,tag 469,all,0,90,0,200000,0,triangular,18491,24655
+470,1,Failure of transformer requiring replacement,Failure of transformer requiring replacement,tag 470,all,0,365,0,7500000,0,triangular,11095,14793
+471,1,Failure of both transformer simultaneously requiri,Failure of both transformer simultaneously requiri,tag 471,all,0,365,547,15000000,0,triangular,11095,14793
+472,1,Failure of DC system will remove all 24 VDC instru,Failure of DC system will remove all 24 VDC instru,tag 472,all,0,90,15,0,30000,triangular,2055,2740
+473,1,Failure of DC system will remove all 50 VDC instru,Failure of DC system will remove all 50 VDC instru,tag 473,all,0,90,15,0,30000,triangular,12739,16985
+474,1,Failure of DC system will remove all 50 VDC instru,Failure of DC system will remove all 50 VDC instru,tag 474,all,0,90,15,0,30000,triangular,2877,3836
+475,1,Failure of DC system will remove all 110 VDC instr,Failure of DC system will remove all 110 VDC instr,tag 475,all,0,365,15,1100000,0,triangular,10273,13697
+476,1,Failure of D&D control system leading to incorrect,Failure of D&D control system leading to incorrect,tag 476,all,0,90,0,0,55000,triangular,96563,128751
+477,1,Failure of pumps during flood situation resulting ,Failure of pumps during flood situation resulting ,tag 477,all,0,90,0,0,125000,triangular,32873,273938
+478,1,Failure of float switches  resulting in partial fl,Failure of float switches  resulting in partial fl,tag 478,all,0,5,0,0,5000,triangular,96563,128751
+479,1,Breakdown of diesel engine due to carbonisation on,Breakdown of diesel engine due to carbonisation on,tag 479,all,0,90,0,0,150000,triangular,616360,821813
+480,1,Failure of multiple compressors resulting in reduc,Failure of multiple compressors resulting in reduc,tag 480,all,0,90,0,0,55000,triangular,147927,197235
+481,1,Failure of one compressor and interconnection valv,Failure of one compressor and interconnection valv,tag 481,all,0,90,0,0,55000,triangular,147927,197235
+482,1,Failure of instrumentation resulting in reduced ab,Failure of instrumentation resulting in reduced ab,tag 482,all,0,90,0,0,55000,triangular,131490,175320
+483,1,Failure of components resulting in reduced ability,Failure of components resulting in reduced ability,tag 483,all,0,5,0,0,9000,triangular,234217,312289
+484,1,Failure of anchor block resulting in penstock deformation forcing station out of operation,Failure of anchor block resulting in penstock deformation forcing station out of operation,tag 484,all,0,150,90,20000000,0,triangular,16948,18773
+485,1,Failure of turbine foundation due to ASR re-starting as a result of leakage in the draft tube or penstock sections leading to extended outage to repair.,Failure of turbine foundation due to ASR re-starting as a result of leakage in the draft tube or penstock sections leading to extended outage to repair.,tag 485,all,0,150,150,50000000,0,triangular,821813,1095750
+486,1,Increased leakage rate restulting in repair and modification of chamber,Increased leakage rate restulting in repair and modification of chamber,tag 486,all,0,0,0,500000,0,triangular,5475,9125
+487,2,Failure of obsolete governoer unloader valve resulting in the unavailability of the unit,Failure of obsolete governoer unloader valve resulting in the unavailability of the unit,tag 487,parent,0,100000,0,20000000,0,triangular,730,1095
+488,3,Failure of obsolete governoer unloader valve resulting in the unavailability of the unit,Failure of obsolete governoer unloader valve resulting in the unavailability of the unit,tag 488,parent,0,100000,0,20000000,0,triangular,730,1095
+489,4,Failure of obsolete governoer unloader valve resulting in the unavailability of the unit,Failure of obsolete governoer unloader valve resulting in the unavailability of the unit,tag 489,parent,0,100000,0,20000000,0,triangular,730,1095
+490,5,Failure of obsolete governoer unloader valve resulting in the unavailability of the unit,Failure of obsolete governoer unloader valve resulting in the unavailability of the unit,tag 490,parent,0,100000,0,20000000,0,triangular,730,1095

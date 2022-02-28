@@ -8,18 +8,18 @@
 
 #include "OutageSchedule.h"
 #include "OutageCost.h"
-#include "OutageType.h"
+#include "enums/OutageType.h"
 
 class Outage {
 
 public:
     Outage() = delete;
-    Outage(int id, int unit_id, OutageType type, OutageSchedule schedule, OutageCost cost):
-        id_ {id},
-        unit_id_ {unit_id},
-        type_ {type},
-        schedule_ {schedule},
-        cost_ {cost}{}
+    Outage(int id, int component_id, OutageType type, OutageSchedule schedule, OutageCost cost):
+            id_ {id},
+            component_id {component_id},
+            type_ {type},
+            schedule_ {schedule},
+            cost_ {cost}{}
 
     int start() const;
     int end() const;
@@ -33,7 +33,7 @@ public:
 
 private:
     int id_;
-    int unit_id_;
+    int component_id;
     OutageType type_;
     OutageSchedule schedule_;
     OutageCost cost_;

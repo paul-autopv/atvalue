@@ -15,15 +15,23 @@ struct StationFields {
 
 struct FailureModeFields {
     unsigned id {0};
-    unsigned unit_id {1};
+    unsigned component_id {1};
     unsigned name {2};
     unsigned description {3};
     unsigned tag {4};
-    unsigned probability {5};
-    unsigned a {6};
-    unsigned b {7};
-    unsigned c {8};
+    unsigned scope {5};
+    unsigned days_to_investigate {6};
+    unsigned days_to_procure {7};
+    unsigned days_to_repair {8};
+    unsigned capex {9};
+    unsigned opex {10};
+    unsigned probability {11};
+    unsigned a {12};
+    unsigned b {13};
+
 
 };
+
+
 
 #endif //ATVALUE_CSVMAP_H

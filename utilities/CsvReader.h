@@ -19,7 +19,7 @@ public:
     /**
      * Read unit structure CSV file.  First coloumn is unique id.  Must be UTF-8 encoded.
      * @param path Path to CSV
-     * @return map of type <int unique_id, std::string> full comma delimited row including unit_id
+     * @return map of type <int unique_id, std::string> full comma delimited row including component_id
      */
     static InputMap readCsv(const std::string& path, bool has_header = false);
 
