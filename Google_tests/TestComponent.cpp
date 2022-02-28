@@ -48,3 +48,33 @@ TEST_F(TestComponent, scheduleOutageCorrectlyAllocatesAvailabilityDays){
 
 }
 
+TEST_F(TestComponent, getCapacityReturnsCorrectCapacityIfActiveCapacityIsSet) {
+    shared_ptr<Component> child3 = make_shared<Component>(
+            1, "child3", duration_, 1,vector<shared_ptr<FailureMode>>(),100,1);
+    shared_ptr<Component> child4 = make_shared<Component>(
+            1, "child4", duration_, 1,vector<shared_ptr<FailureMode>>(),0,1);
+    parent_->addChild(child3);
+    child3->addChild(child4);
+
+    auto result = child3->getCapacity();
+
+    ASSERT_EQ(result, 100);
+
+}
+
+TEST_F(TestComponent, getCapacityReturnsCorrectCapacityIfActiveCapacityIsNotSet) {
+    shared_ptr<Component> child3 = make_shared<Component>(
+            1, "child3", duration_, 1,vector<shared_ptr<FailureMode>>(),0,1);
+    shared_ptr<Component> child4 = make_shared<Component>(
+            1, "child4", duration_, 1,vector<shared_ptr<FailureMode>>(),100,1);
+    shared_ptr<Component> child5 = make_shared<Component>(
+            1, "child5", duration_, 1,vector<shared_ptr<FailureMode>>(),100,1);
+    parent_->addChild(child3);
+    child3->addChild(child4);
+    child3->addChild(child5);
+
+    auto result = child3->getCapacity();
+
+    ASSERT_EQ(result, 200);
+
+}
