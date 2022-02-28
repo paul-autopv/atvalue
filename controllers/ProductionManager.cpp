@@ -48,13 +48,18 @@ bool ProductionManager::hasOccurredFailure(const int &day, const int &failureId,
     return false;
 }
 
-bool ProductionManager::isComponentOnline(const int &failure_id, const int &day) {
-    auto failure = facility_->getFailureModeDetail(failure_id);
-    auto component = facility_->getComponentPtr(failure.component_id);
-    if (component) {
-        return component->isOnline(day);
+void ProductionManager::shutDownAffectedComponents(const int &component_id, FailureScope scope, const int &day,
+                                                   const int &duration) {
+    if (scope == FailureScope::all){
+        shutDown(facility_->getRootComponentPtr(), day, duration);
     }
-    return false;
+    if (scope == FailureScope::parent){
+        auto component = facility_->getComponentPtr(component_id);
+        shutDown(facility_->getComponentPtr(component->getParentId()), day, duration);
+    }
+    if (scope == FailureScope::component){
+        shutDown(facility_->getComponentPtr(component_id), day, duration);
+    }
 }
 
 void ProductionManager::recordFailure(const int &incident, const int &day, FailureModeDetail &event) {
@@ -69,6 +74,15 @@ void ProductionManager::resolveFailure(const FailureModeDetail &failureModeDetai
 
     scheduleOutage(failureModeDetail, day);
     repairComponent(failureModeDetail, day);
+}
+
+bool ProductionManager::isComponentOnline(const int &failure_id, const int &day) {
+    auto failure = facility_->getFailureModeDetail(failure_id);
+    auto component = facility_->getComponentPtr(failure.component_id);
+    if (component) {
+        return component->isOnline(day);
+    }
+    return false;
 }
 
 void ProductionManager::scheduleOutage(const FailureModeDetail &detail, const int &day) {
@@ -99,21 +113,7 @@ int ProductionManager::scheduleOutageOfType(const FailureModeDetail &failureMode
     return start;
 }
 
-void ProductionManager::shutDownAffectedComponents(const int &component_id, FailureScope scope, const int &day,
-                                                   const int &duration) {
-    if (scope == FailureScope::all){
-        shutDown(day, duration, facility_->getRootComponentPtr());
-    }
-    if (scope == FailureScope::parent){
-        auto component = facility_->getComponentPtr(component_id);
-        shutDown(day, duration, facility_->getComponentPtr(component->getParentId()));
-    }
-    if (scope == FailureScope::component){
-        shutDown(day, duration, facility_->getComponentPtr(component_id));
-    }
-}
-
-void ProductionManager::shutDown(const int &day, const int &duration, shared_ptr<Component> component) const {
+void ProductionManager::shutDown(const shared_ptr<Component>& component, const int &day, const int &duration) const {
     component->scheduleOutage( day, duration);
     component->scheduleCapacityLoss(day, duration);
 }

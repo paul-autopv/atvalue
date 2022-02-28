@@ -45,7 +45,7 @@ private:
                              OutageType type, OutageCost cost);
     void repairComponent(const FailureModeDetail &detail, const int &day);
 
-    void shutDown(const int &day, const int &duration, shared_ptr<Component> component) const;
+    void shutDown(const shared_ptr<Component>& component, const int &day, const int &duration) const;
 };
 
 
