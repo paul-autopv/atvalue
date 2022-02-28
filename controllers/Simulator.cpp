@@ -40,7 +40,7 @@ void Simulator::run() const {
     }
 
     // define futures
-    vector<future<Register>> futures(simulations_);
+    vector<future<ProductionReport>> futures(simulations_);
     for (auto i = 0; i < simulations_; ++i){
         futures[i] = productionManagerTasks[i].get_future();
     }
@@ -79,17 +79,20 @@ void Simulator::run() const {
 //        std::cout << "Done" << std::endl;
 }
 
-void Simulator::writeRegisterToCsv(const Register& the_register) {
+void Simulator::writeRegisterToCsv(ProductionReport report) {
     fstream out_file;
 
     out_file.open(incident_register_path_, ios_base::out | ios_base::app);
 
-    for (auto & it : the_register){
-        out_file << it.first;
-        for (auto & item : it.second){
-            out_file << "," << item ;
+    auto incidents = report.getIncidents();
+    int entry{1};
+    for (auto &item: incidents) {
+        out_file << entry;
+        for (const auto& value: item.event) {
+            out_file << "," << value;
         }
         out_file << endl;
+        ++entry;
     }
 }
 

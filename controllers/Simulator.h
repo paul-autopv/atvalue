@@ -16,8 +16,7 @@
 #include <utility>
 #include <fstream>
 
-using Task_type = IncidentRegister();
-using Register = IncidentRegister;
+using Task_type = ProductionReport();
 
 class Simulator {
 
@@ -35,7 +34,7 @@ private:
     static constexpr auto incident_register_path_ = "../output/incidents.csv";
 
     static void prepareOutputFiles();
-    static void writeRegisterToCsv(const Register& the_register) ;
+    static void writeRegisterToCsv(ProductionReport report) ;
 };
 
 

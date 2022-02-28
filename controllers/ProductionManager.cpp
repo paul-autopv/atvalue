@@ -15,7 +15,7 @@ ProductionManager::ProductionManager(const int &simulation_duration, const Input
 };
 
 
-IncidentRegister ProductionManager::operator()() {
+ProductionReport ProductionManager::operator()() {
     const int max {1'000'000};
     default_random_engine engine {};
     uniform_int_distribution distribution {0, max};
@@ -37,7 +37,7 @@ IncidentRegister ProductionManager::operator()() {
             }
         }
     }
-    return incidentRegister_;
+    return report_;
 }
 
 bool ProductionManager::hasOccurredFailure(const int &day, const int &failureId, const double &probability) {
@@ -62,12 +62,12 @@ void ProductionManager::shutDownAffectedComponents(const int &component_id, Fail
     }
 }
 
-void ProductionManager::recordFailure(const int &incident, const int &day, FailureModeDetail &event) {
+void ProductionManager::recordFailure(const int &incident_id, const int &day, FailureModeDetail &event) {
     auto simulation = to_string(std::hash<std::thread::id>{}(std::this_thread::get_id()));
     auto event_record = event.toString();
     event_record.push_back(to_string(day));
     event_record.push_back(simulation);
-    incidentRegister_.insert(pair<int, vector<string>>(incident, event_record));
+    report_.logIncident(Incident(incident_id, event_record));
 }
 
 void ProductionManager::resolveFailure(const FailureModeDetail &failureModeDetail, const int &day) {

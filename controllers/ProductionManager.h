@@ -9,6 +9,7 @@
 #ifndef ATVALUE_PRODUCTIONMANAGER_H
 #define ATVALUE_PRODUCTIONMANAGER_H
 
+#include "ProductionReport.h"
 #include "../controllers/Simulator.h"
 #include "../models/OutageManager.h"
 #include "../models/enums/FailureScope.h"
@@ -23,7 +24,7 @@ public:
 
     ProductionManager(const int &simulation_duration, const InputMap &structure, const InputMap &failures);
 
-    IncidentRegister operator()();
+    ProductionReport operator()();
 
     bool hasOccurredFailure(const int &day, const int &failureId, const double &probability);
     bool isComponentOnline(const int &failure_id, const int &day);
@@ -34,12 +35,12 @@ private:
     InputMap failures_;
     shared_ptr<Facility> facility_;
     OutageManager outageManager_ = OutageManager();
-    IncidentRegister incidentRegister_;
+    ProductionReport report_;
 
     void shutDownAffectedComponents(const int &component_id, FailureScope scope, const int &day,
                                     const int &duration);
     void resolveFailure(const FailureModeDetail &failureModeDetail, const int &day);
-    void recordFailure(const int &incident, const int &day, FailureModeDetail &event);
+    void recordFailure(const int &incident_id, const int &day, FailureModeDetail &event);
     void scheduleOutage(const FailureModeDetail &detail, const int &day);
     int scheduleOutageOfType(const FailureModeDetail &failureModeDetail, int start, int duration,
                              OutageType type, OutageCost cost);
