@@ -193,6 +193,6 @@ FailureScope Facility::getScope(const string &scope) {
         return FailureScope::all;
     if (scope == "parent")
         return FailureScope::parent;
-    return FailureScope::cascade;
+    return FailureScope::component;
 }
 

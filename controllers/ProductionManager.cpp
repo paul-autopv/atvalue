@@ -93,7 +93,7 @@ int ProductionManager::scheduleOutageOfType(const FailureModeDetail &failureMode
                                             OutageType type, OutageCost cost) {
     if (duration | cost.isNotZero()){
         auto schedule = OutageSchedule(start, duration);
-        outageManager_.scheduleOutage(failureModeDetail.component_id, type, schedule, cost);
+        outageManager_.recordOutage(failureModeDetail.component_id, type, schedule, cost);
         start += duration;
     }
     return start;
@@ -102,18 +102,20 @@ int ProductionManager::scheduleOutageOfType(const FailureModeDetail &failureMode
 void ProductionManager::shutDownAffectedComponents(const int &component_id, FailureScope scope, const int &day,
                                                    const int &duration) {
     if (scope == FailureScope::all){
-        auto component = facility_->getRootComponentPtr();
-        component->scheduleOutage( day, duration);
+        shutDown(day, duration, facility_->getRootComponentPtr());
     }
     if (scope == FailureScope::parent){
-        auto child = facility_->getComponentPtr(component_id);
-        auto parent = facility_->getComponentPtr(child->getParentId());
-        parent->scheduleOutage(day, duration);
-    }
-    if (scope == FailureScope::cascade){
         auto component = facility_->getComponentPtr(component_id);
-        component->scheduleOutage(day, duration);
+        shutDown(day, duration, facility_->getComponentPtr(component->getParentId()));
     }
+    if (scope == FailureScope::component){
+        shutDown(day, duration, facility_->getComponentPtr(component_id));
+    }
+}
+
+void ProductionManager::shutDown(const int &day, const int &duration, shared_ptr<Component> component) const {
+    component->scheduleOutage( day, duration);
+    component->scheduleCapacityLoss(day, duration);
 }
 
 #pragma clang diagnostic pop

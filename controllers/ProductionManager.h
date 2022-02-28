@@ -44,6 +44,8 @@ private:
     int scheduleOutageOfType(const FailureModeDetail &failureModeDetail, int start, int duration,
                              OutageType type, OutageCost cost);
     void repairComponent(const FailureModeDetail &detail, const int &day);
+
+    void shutDown(const int &day, const int &duration, shared_ptr<Component> component) const;
 };
 
 

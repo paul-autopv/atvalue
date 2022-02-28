@@ -8,7 +8,7 @@
 enum class FailureScope{
     all,
     parent,
-    cascade,
+    component,
 };
 
 #endif //ATVALUE_FAILURESCOPE_H
