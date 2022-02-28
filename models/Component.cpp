@@ -76,6 +76,7 @@ void Component::setCapacity(const int &start, const int &outage_duration, const 
         for (auto &child: children_) {
             child->setCapacity(start, outage_duration, 0);
         }
+    }
 }
 
 bool Component::isOnline(const int &day) const {
@@ -98,6 +99,10 @@ double Component::getCapacity() {
         capacity += child->getCapacity();
     }
     return capacity;
+}
+
+vector<double> Component::getCapacityLoss() {
+    return capacity_loss_;
 }
 
 #pragma clang diagnostic pop

@@ -2,6 +2,7 @@
 // Created by Paul.Nel on 24/02/2022.
 //
 
+#include <numeric>
 #include "gtest/gtest.h"
 #include "../models/Component.h"
 
@@ -84,4 +85,43 @@ TEST_F(TestComponent, getCapacityReturnsCorrectCapacityIfActiveCapacityIsNotSet)
     auto result = child3->getCapacity();
 
     ASSERT_EQ(result, 200);
+}
+TEST_F(TestComponent, scheduleCapacityLossUpdatesComponentLossCorrectly) {
+    shared_ptr<Component> child3 = make_shared<Component>(
+            4, "child3", duration_, 1,vector<shared_ptr<FailureMode>>(),0,1);
+    shared_ptr<Component> child4 = make_shared<Component>(
+            5, "child4", duration_, 1,vector<shared_ptr<FailureMode>>(),101,1);
+
+    parent_->addChild(child3);
+    child3->addChild(child4);
+
+    child3->scheduleCapacityLoss(10,20);
+    auto loss = child3->getCapacityLoss();
+
+    double result = accumulate(loss.begin(), loss.end(), 0.);
+
+    ASSERT_EQ(result, 2020);
+}
+
+TEST_F(TestComponent, scheduleCapacityLossUpdatesChildComponentLossCorrectlyWhenParentFailsAfter) {
+    shared_ptr<Component> child3 = make_shared<Component>(
+            4, "child3", duration_, 1,vector<shared_ptr<FailureMode>>(),0,1);
+    shared_ptr<Component> child4 = make_shared<Component>(
+            5, "child4", duration_, 1,vector<shared_ptr<FailureMode>>(),101,1);
+
+    parent_->addChild(child3);
+    child3->addChild(child4);
+
+    child4->scheduleCapacityLoss(10,20);
+    child3->scheduleCapacityLoss(15,25);
+    auto loss1 = child4->getCapacityLoss();
+    auto loss2 = child3->getCapacityLoss();
+
+    double result1 = accumulate(loss1.begin(), loss1.end(), 0.);
+    double result2 = accumulate(loss2.begin(), loss2.end(), 0.);
+    double result3 = result1 + result2;
+
+    ASSERT_EQ(result1, 505);
+    ASSERT_EQ(result2, 2525);
+    ASSERT_EQ(result3, 30*101);
 }

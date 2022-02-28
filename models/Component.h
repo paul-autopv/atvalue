@@ -28,6 +28,7 @@ private:
     int day_installed_{};
     double active_capacity_ {0};
 
+    void setCapacity(const int &start, const int &outage_duration, const double &value);
 
 public:
     friend ostream& operator<<(ostream& os, const Component& unit);
@@ -42,16 +43,15 @@ public:
     int getParentId() const;
     void addChild(const shared_ptr<Component>& child);
     int getId() const;
-    int getDayInstalled() const;
+
     void setDayInstalled(const int& day);
     void scheduleOutage(const int &start, const int &outage_duration);
     bool isAvailable(const int &day) const;
     vector<bool> getAvailability();
+    vector<double> getCapacityLoss();
     double getCapacity();
 
     void scheduleCapacityLoss(const int &start, const int &outage_duration);
-
-    void setCapacity(const int &start, const int &outage_duration, const double &value);
 };
 
 
