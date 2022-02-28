@@ -9,9 +9,9 @@ void Facility::buildFacility(const InputMap &component_map, const InputMap &fail
     for (auto iter = component_map.begin(); iter != component_map.end(); ++iter) {
         auto component = iter->first;
         auto component_record = iter->second;
-        auto component_installed = stoi(component_record[fields.days_installed]);
+        auto component_installed_day = stoi(component_record[fields.days_installed]);
         auto is_root = (iter == component_map.begin());
-        auto failures = getFailureModesForComponent(failure_map, (*failure_modes)[component], component_installed);
+        auto failures = getFailureModesForComponent(failure_map, (*failure_modes)[component], component_installed_day);
         registerComponentWithFacility(component_record, component_map, structure, failures, is_root, simulation_duration_);
         registerFailureModesWithFacility(failures);
     }
@@ -49,8 +49,7 @@ Facility::getFailureModesForComponent(const InputMap &failure_map, vector<int> &
     return failures;
 }
 
-unique_ptr<IProbability>
-Facility::getProbabilityDistribution(const vector<string> &failure_mode, const string &probability_type,
+unique_ptr<IProbability> Facility::getProbabilityDistribution(const vector<string> &failure_mode, const string &probability_type,
                                      int component_installed) {
     FailureModeFields fields;
     return make_unique<TriangularProbability>(TriangularProbability(
@@ -95,7 +94,6 @@ void Facility::registerComponentWithFacility(const vector<string> &component_det
                                              bool isRoot, const int simulation_duration) {
 
     StationFields fields;
-
     auto id = stoi(component_detail[fields.id]);
     auto name = component_detail[fields.name];
     auto capacity = stod(component_detail[fields.capacity]);
@@ -115,7 +113,6 @@ void Facility::linkParentChildNodes(const std::shared_ptr<Component>& component_
         auto parent_ptr = getParent(parent_id);
         component_ptr->setParent(shared_ptr<Component>(parent_ptr));
         parent_ptr->addChild(shared_ptr<Component>(component_ptr));
-        cout << component_ptr.use_count() << endl;
     }
 }
 
@@ -129,9 +126,7 @@ shared_ptr<Component> Facility::getParent(int parent_id) {
         std::string message = "Current unit map does not contain unit with parent_id";
         throw std::invalid_argument( message );
     }
-    auto parent_ptr = shared_ptr<Component>(component_map_.at(parent_id));
-    cout << "Parent ptr count " << parent_ptr.use_count() << endl;
-    return parent_ptr;
+    return { component_map_.at(parent_id) };
 }
 
 
@@ -146,7 +141,7 @@ int Facility::childrenCount(const FamilyTree& family_tree, int component_id) {
     return 0;
 }
 
-int Facility::failureCount() const {
+unsigned long Facility::failureCount() const {
     return failure_map_.size();
 }
 

@@ -38,7 +38,7 @@ public:
     FailureModeDetail getFailureModeDetail(const int &failureId);
     void resetFailureModeProbability(const int &day, const int &failure_mode_id);
 
-    int failureCount() const;
+    unsigned long failureCount() const;
     shared_ptr<Component> getComponentPtr(const int &component_id) const;
     shared_ptr<Component> getRootComponentPtr() const;
 
