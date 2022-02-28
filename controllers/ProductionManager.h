@@ -47,6 +47,8 @@ private:
     void repairComponent(const FailureModeDetail &detail, const int &day);
 
     void shutDown(const shared_ptr<Component>& component, const int &day, const int &duration) const;
+
+    void logProductionLoss();
 };
 
 

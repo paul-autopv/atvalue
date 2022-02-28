@@ -31,10 +31,14 @@ private:
     const int simulation_duration_;
     InputMap failures_;
     InputMap structure_;
-    static constexpr auto incident_register_path_ = "../output/incidents.csv";
+    static constexpr auto incident_register_path_ = "../output/";
 
     static void prepareOutputFiles();
-    static void writeRegisterToCsv(ProductionReport report) ;
+    void reportToCsv(ProductionReport report) const;
+
+    static void reportIncidents(vector<Incident> &report);
+
+    void reportProductionLoss(ProductionLoss &report) const;
 };
 
 

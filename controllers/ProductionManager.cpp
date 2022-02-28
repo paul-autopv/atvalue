@@ -37,7 +37,14 @@ ProductionReport ProductionManager::operator()() {
             }
         }
     }
+    logProductionLoss();
     return report_;
+}
+
+void ProductionManager::logProductionLoss() {
+    for (auto &component : facility_->getComponents()){
+        report_.logProductionLoss(component.first, component.second->getCapacityLoss());
+    }
 }
 
 bool ProductionManager::hasOccurredFailure(const int &day, const int &failureId, const double &probability) {
@@ -60,6 +67,11 @@ void ProductionManager::shutDownAffectedComponents(const int &component_id, Fail
     if (scope == FailureScope::component){
         shutDown(facility_->getComponentPtr(component_id), day, duration);
     }
+}
+
+void ProductionManager::shutDown(const shared_ptr<Component>& component, const int &day, const int &duration) const {
+    component->scheduleOutage( day, duration);
+    component->scheduleCapacityLoss(day, duration);
 }
 
 void ProductionManager::recordFailure(const int &incident_id, const int &day, FailureModeDetail &event) {
@@ -111,11 +123,6 @@ int ProductionManager::scheduleOutageOfType(const FailureModeDetail &failureMode
         start += duration;
     }
     return start;
-}
-
-void ProductionManager::shutDown(const shared_ptr<Component>& component, const int &day, const int &duration) const {
-    component->scheduleOutage( day, duration);
-    component->scheduleCapacityLoss(day, duration);
 }
 
 #pragma clang diagnostic pop

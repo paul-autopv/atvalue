@@ -196,3 +196,7 @@ FailureScope Facility::getScope(const string &scope) {
     return FailureScope::component;
 }
 
+ComponentMap Facility::getComponents() const {
+    return component_map_;
+}
+

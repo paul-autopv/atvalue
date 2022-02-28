@@ -28,65 +28,56 @@ void Simulator::run() const {
 
     // define functors
     vector<ProductionManager> productionManagers(simulations_);
-    for (auto i = 0; i < simulations_; ++i){
+    for (auto i = 0; i < simulations_; ++i) {
         productionManagers[i] = ProductionManager(simulation_duration_, structure_, failures_);
     }
 
     // define tasks
     deque<packaged_task<Task_type>> productionManagerTasks;
-    for (auto i = 0; i < simulations_; ++i){
-        packaged_task<Task_type> productionManagerTask {(productionManagers[i]) };
+    for (auto i = 0; i < simulations_; ++i) {
+        packaged_task<Task_type> productionManagerTask{(productionManagers[i])};
         productionManagerTasks.push_back(move(productionManagerTask));
     }
 
     // define futures
     vector<future<ProductionReport>> futures(simulations_);
-    for (auto i = 0; i < simulations_; ++i){
+    for (auto i = 0; i < simulations_; ++i) {
         futures[i] = productionManagerTasks[i].get_future();
     }
 
     // define threads
-    int i {0};
-    while (!productionManagerTasks.empty()){
+    int i{0};
+    while (!productionManagerTasks.empty()) {
         auto task = move(productionManagerTasks.front());
         productionManagerTasks.pop_front();
-        thread t {move(task)};
+        thread t{move(task)};
         t.detach();
         ++i;
     }
 
-    for (auto future = 0; future < simulations_; ++future){
-        auto the_register = futures[future].get();
-        cout << "Writing register for simulation " << future  << endl;
-        writeRegisterToCsv(the_register);
+    for (auto future = 0; future < simulations_; ++future) {
+        auto report = futures[future].get();
+        cout << "Writing register for simulation " << future << endl;
+        reportToCsv(report);
     }
-
-
-// Code commented out below is an example of how to work with output of futures.
-//
-//        TypeRegister accumulator;
-//        accumulator.resize(simulation_duration_);
-//        for (auto future = 0; future < simulations_; ++future){
-//        auto future_register = futures[future].get();
-//        accumulator = sumRegister(accumulator, future_register);
-//        }
-//
-//        long sum {0};
-//        for (int j = 0; j < simulation_duration_; ++j) {
-//        sum += accumulator[j];
-//        }
-//        std::cout << "Sum of all elements: " << sum << endl;
-//        std::cout << "Done" << std::endl;
 }
 
-void Simulator::writeRegisterToCsv(ProductionReport report) {
-    fstream out_file;
-
-    out_file.open(incident_register_path_, ios_base::out | ios_base::app);
+void Simulator::reportToCsv(ProductionReport report) const {
 
     auto incidents = report.getIncidents();
+    reportIncidents(incidents);
+
+    auto production_loss = report.getProductionLoss();
+    reportProductionLoss(production_loss);
+
+}
+
+void Simulator::reportIncidents(vector<Incident> &report) {
+    fstream out_file;
+
+    out_file.open(incident_register_path_ + (string)"incidents.csv", ios_base::out | ios_base::app);
     int entry{1};
-    for (auto &item: incidents) {
+    for (auto &item: report) {
         out_file << entry;
         for (const auto& value: item.event) {
             out_file << "," << value;
@@ -96,7 +87,20 @@ void Simulator::writeRegisterToCsv(ProductionReport report) {
     }
 }
 
-void Simulator::run_single() const{
+void Simulator::reportProductionLoss(ProductionLoss &report) const {
+    fstream out_file;
+
+    out_file.open(incident_register_path_ + (string) "production_loss.csv", ios_base::out | ios_base::app);
+    for (auto &item: report) {
+        out_file << item.first;
+        for (const auto &value: item.second) {
+            out_file << "," << value;
+        }
+        out_file << endl;
+    }
+}
+
+void Simulator::run_single() const {
 
     for (int i = 0; i < simulations_; ++i) {
         auto progress = ProductionManager(simulation_duration_, structure_, failures_);
