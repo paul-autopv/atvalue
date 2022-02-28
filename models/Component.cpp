@@ -14,7 +14,7 @@ Component::Component(int id, string name, const int &simulation_duration, int da
         name_ {std::move(name)},
         simulation_duration_ {simulation_duration},
         failure_modes_ {move(failure_modes)},
-        capacity_ {capacity},
+        active_capacity_ {capacity},
         day_installed_ {days_installed}{
     children_.reserve(children);
     available_days.resize(simulation_duration_, true);
@@ -70,6 +70,16 @@ bool Component::isAvailable(const int &day) const {
 
 vector<bool> Component::getAvailability() {
     return available_days;
+}
+
+double Component::getCapacity() {
+    if (active_capacity_ > 0)
+        return active_capacity_;
+    double capacity {0};
+    for (auto &child : children_){
+        capacity += child->getCapacity();
+    }
+    return capacity;
 }
 
 #pragma clang diagnostic pop

@@ -25,7 +25,7 @@ private:
     vector<bool> online_days;
     int simulation_duration_ {};
     int day_installed_{};
-    double capacity_{};
+    double active_capacity_ {0};
 
 
 public:
@@ -46,7 +46,7 @@ public:
     void scheduleOutage(const int &start, const int &outage_duration);
     bool isAvailable(const int &day) const;
     vector<bool> getAvailability();
-
+    double getCapacity();
 };
 
 
