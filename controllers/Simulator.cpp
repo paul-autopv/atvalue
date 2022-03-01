@@ -85,6 +85,7 @@ void Simulator::reportIncidents(vector<Incident> &report) {
         out_file << endl;
         ++entry;
     }
+    out_file.close();
 }
 
 void Simulator::reportProductionLoss(ProductionLoss &report) const {
@@ -109,8 +110,27 @@ void Simulator::run_single() const {
 }
 
 void Simulator::prepareOutputFiles() {
-    fstream out_file;
-    remove(incident_register_path_);
-    out_file.open(incident_register_path_, ios_base::out);
-    out_file << "event,failure_id,component_id,name,description,tag,scope,capex,opex,investigation_days,procure_days,repair_days,day,simulation" << endl;
+    prepareOutputFile(
+            (string)incident_register_path_ + "incidents.csv",
+            "event,failure_id,component_id,name,description,tag,scope,capex,opex,investigation_days,procure_days,repair_days,day,simulation"
+            );
+
+    string loss_header {"component_id"};
+    for (unsigned int c = 1; c <= simulation_duration_; ++c){
+        auto coloumn_name = "," + to_string(c);
+        loss_header+=coloumn_name;
+    }
+
+    prepareOutputFile(
+            (string)incident_register_path_ + "production_loss.csv",
+            loss_header
+            );
+}
+
+void Simulator::prepareOutputFile(const string& name, const string& header){
+    fstream file;
+    remove(&name[0]);
+    file.open(name, ios_base::out | ios_base::app);
+    file << header << endl;
+    file.close();
 }

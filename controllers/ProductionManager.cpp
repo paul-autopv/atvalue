@@ -17,7 +17,12 @@ ProductionManager::ProductionManager(const int &simulation_duration, const Input
 
 ProductionReport ProductionManager::operator()() {
     const int max {1'000'000};
+    typedef std::chrono::high_resolution_clock my_clock;
+    my_clock::time_point beginning = my_clock::now();
+    my_clock::duration d = my_clock::now() - beginning;
     default_random_engine engine {};
+    engine.seed(d.count());
+
     uniform_int_distribution distribution {0, max};
     auto likelihood = [&distribution, &engine](){ return (double)distribution(engine)/max; };
 
@@ -60,13 +65,15 @@ void ProductionManager::shutDownAffectedComponents(const int &component_id, Fail
     if (scope == FailureScope::all){
         shutDown(facility_->getRootComponentPtr(), day, duration);
     }
-    if (scope == FailureScope::parent){
+    else if (scope == FailureScope::parent){
         auto component = facility_->getComponentPtr(component_id);
         shutDown(facility_->getComponentPtr(component->getParentId()), day, duration);
     }
-    if (scope == FailureScope::component){
+    else if (scope == FailureScope::component){
         shutDown(facility_->getComponentPtr(component_id), day, duration);
     }
+    else
+        throw invalid_argument("Undefined FailureScope" + (string) reinterpret_cast<const char *>(static_cast<unsigned char>(scope)));
 }
 
 void ProductionManager::shutDown(const shared_ptr<Component>& component, const int &day, const int &duration) const {

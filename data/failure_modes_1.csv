@@ -1,0 +1,3 @@
+id,component_id,name,description,tag,scope,investigate_days,procure_days,repair_days,capex,opex,probability,a,b
+1,2,Failure of pumps during dewatering resulting in ex,Failure of pumps during dewatering resulting in ex,tag 1,component,0,90,0,0,55000,triangular,7000,8000
+2,1,Failure of pumps during dewatering resulting in ex,Failure of pumps during dewatering resulting in ex,tag 1,component,0,180,0,0,55000,triangular,7000,8000

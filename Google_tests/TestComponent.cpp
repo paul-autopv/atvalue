@@ -121,6 +121,10 @@ TEST_F(TestComponent, scheduleCapacityLossUpdatesChildComponentLossCorrectlyWhen
     double result2 = accumulate(loss2.begin(), loss2.end(), 0.);
     double result3 = result1 + result2;
 
+    ASSERT_EQ(loss1[9], 0);
+    ASSERT_EQ(loss1[10], 101);
+    ASSERT_EQ(loss2[39], 101);
+    ASSERT_EQ(loss2[40], 0);
     ASSERT_EQ(result1, 505);
     ASSERT_EQ(result2, 2525);
     ASSERT_EQ(result3, 30*101);

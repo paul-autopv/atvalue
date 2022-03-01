@@ -28,18 +28,20 @@ public:
 
 private:
     int simulations_;
-    const int simulation_duration_;
+    int simulation_duration_;
     InputMap failures_;
     InputMap structure_;
-    static constexpr auto incident_register_path_ = "../output/";
 
-    static void prepareOutputFiles();
+    void prepareOutputFiles();
     void reportToCsv(ProductionReport report) const;
 
     static void reportIncidents(vector<Incident> &report);
 
     void reportProductionLoss(ProductionLoss &report) const;
+
+    static void prepareOutputFile(const string& name, const string& header);
 };
 
+static char *incident_register_path_ {"../output/"};
 
 #endif //ATVALUE_SIMULATOR_H
