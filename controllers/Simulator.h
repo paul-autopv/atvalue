@@ -27,6 +27,7 @@ public:
     void run_single() const;
 
 private:
+
     int simulations_;
     int simulation_duration_;
     InputMap failures_;
@@ -40,8 +41,10 @@ private:
     void reportProductionLoss(ProductionLoss &report) const;
 
     static void prepareOutputFile(const string& name, const string& header);
+
+    ProductionLoss getComponentAverageProductionLoss(ProductionLoss &report) const;
 };
 
-static char *incident_register_path_ {"../output/"};
+static std::string incident_register_path_ {"../output/"};
 
 #endif //ATVALUE_SIMULATOR_H

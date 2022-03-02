@@ -1,6 +1,7 @@
 //
 // Created by Paul on 2022/01/17.
 //
+#include <algorithm>
 #include "Simulator.h"
 
 
@@ -91,8 +92,9 @@ void Simulator::reportIncidents(vector<Incident> &report) {
 void Simulator::reportProductionLoss(ProductionLoss &report) const {
     fstream out_file;
 
+    auto loss = getComponentAverageProductionLoss(report);
     out_file.open(incident_register_path_ + (string) "production_loss.csv", ios_base::out | ios_base::app);
-    for (auto &item: report) {
+    for (auto &item: loss) {
         out_file << item.first;
         for (const auto &value: item.second) {
             out_file << "," << value;
@@ -100,6 +102,29 @@ void Simulator::reportProductionLoss(ProductionLoss &report) const {
         out_file << endl;
     }
 }
+
+ProductionLoss Simulator::getComponentAverageProductionLoss(ProductionLoss &report) const {
+    ProductionLoss average;
+
+    for (auto &entry : report){
+        if (average.find(entry.first) == average.end()){
+            average.emplace(entry);
+        }
+        else{
+            auto additional = entry.second;
+//            std::transform(average.begin(), average.end(), additional.begin(),
+//                           average.begin(), std::plus<double>());
+        }
+    }
+    for (auto &entry : average){
+        std::transform(average.begin(), average.end(), average.begin(),
+                       [this](double value)-> double{ return value/simulations_; }
+                       );
+    }
+    return average;
+}
+
+
 
 void Simulator::run_single() const {
 
