@@ -42,7 +42,7 @@ private:
 
     static void prepareOutputFile(const string& name, const string& header);
 
-    ProductionLoss getComponentAverageProductionLoss(ProductionLoss &report) const;
+    ProductionLoss getComponentAverageProductionLoss(ProductionLoss &report, ProductionLoss &loss_register) const;
 };
 
 static std::string incident_register_path_ {"../output/"};
