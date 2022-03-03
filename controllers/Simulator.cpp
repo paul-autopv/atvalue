@@ -61,14 +61,26 @@ void Simulator::run() const {
         auto report = futures[future].get();
         cout << "Writing register for simulation " << future << endl;
         auto incidents = report.getIncidents();
-        reportIncidents(incidents);
+        fileIncidents(incidents);
         auto production_loss = report.getProductionLoss();
-        loss_register = getComponentAverageProductionLoss(production_loss, loss_register);
+        loss_register = accumulateProductionLoss(production_loss, loss_register);
     }
-    reportProductionLoss(loss_register);
+    loss_register = normaliseProductionLoss(loss_register);
+    fileProductionLoss(loss_register);
 }
 
-void Simulator::reportIncidents(vector<Incident> &report) {
+ProductionLoss Simulator::normaliseProductionLoss(ProductionLoss loss_register) const {
+    if (simulations_ > 0) {
+        for (auto &entry: loss_register) {
+            std::transform(entry.second.begin(), entry.second.end(), entry.second.begin(),
+                           [this](double value) -> double { return value / simulations_; }
+            );
+        }
+    }
+    return loss_register;
+};
+
+void Simulator::fileIncidents(vector<Incident> &report) {
     fstream out_file;
 
     out_file.open(incident_register_path_ + (string)"incidents.csv", ios_base::out | ios_base::app);
@@ -84,7 +96,7 @@ void Simulator::reportIncidents(vector<Incident> &report) {
     out_file.close();
 }
 
-void Simulator::reportProductionLoss(ProductionLoss &report) const {
+void Simulator::fileProductionLoss(ProductionLoss &report) const {
     fstream out_file;
 
     out_file.open(incident_register_path_ + (string) "production_loss.csv", ios_base::out | ios_base::app);
@@ -97,25 +109,21 @@ void Simulator::reportProductionLoss(ProductionLoss &report) const {
     }
 }
 
-ProductionLoss Simulator::getComponentAverageProductionLoss(ProductionLoss &report, ProductionLoss &loss_register) const {
+ProductionLoss Simulator::accumulateProductionLoss(ProductionLoss &report, const ProductionLoss &loss_register) const {
 
+    auto loss = loss_register;
     for (auto &entry : report){
-        if (loss_register.find(entry.first) == loss_register.end()){
-            loss_register.emplace(entry);
+        if (loss.find(entry.first) == loss.end()){
+            loss.emplace(entry);
         }
         else {
-            for (auto &item: report) {
-                for (int i = 0; i < item.second.size(); ++i)
-                    item.second[i] += loss_register.at(item.first)[i];
+            for (int i = 0; i < entry.second.size(); ++i) {
+                loss.at(entry.first)[i] += report.at(entry.first)[i];
             }
         }
     }
-    for (auto &entry : report){
-        std::transform(entry.second.begin(), entry.second.end(), entry.second.begin(),
-                       [this](double value)-> double{ return value/simulations_; }
-                       );
-    }
-    return report;
+
+    return loss;
 }
 
 

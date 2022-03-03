@@ -36,13 +36,15 @@ private:
     void prepareOutputFiles();
     void reportToCsv(ProductionReport report) const;
 
-    static void reportIncidents(vector<Incident> &report);
+    static void fileIncidents(vector<Incident> &report);
 
-    void reportProductionLoss(ProductionLoss &report) const;
+    void fileProductionLoss(ProductionLoss &report) const;
 
     static void prepareOutputFile(const string& name, const string& header);
 
-    ProductionLoss getComponentAverageProductionLoss(ProductionLoss &report, ProductionLoss &loss_register) const;
+    ProductionLoss accumulateProductionLoss(ProductionLoss &report, const ProductionLoss &loss_register) const;
+
+    ProductionLoss normaliseProductionLoss(ProductionLoss loss_register) const;
 };
 
 static std::string incident_register_path_ {"../output/"};
