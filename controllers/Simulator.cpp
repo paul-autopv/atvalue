@@ -72,7 +72,7 @@ void Simulator::reportIncidents(vector<Incident> &report) {
     fstream out_file;
 
     out_file.open(incident_register_path_ + (string)"incidents.csv", ios_base::out | ios_base::app);
-    int entry{1};
+    int entry {1};
     for (auto &item: report) {
         out_file << entry;
         for (const auto& value: item.event) {
