@@ -2,6 +2,7 @@
 // Created by Paul.Nel on 24/02/2022.
 //
 
+#include <numeric>
 #include "gtest/gtest.h"
 #include "../models/Component.h"
 
@@ -18,9 +19,17 @@ protected:
     shared_ptr<Component> child1_ = make_shared<Component>(
             2, "child1", duration_, 1,vector<shared_ptr<FailureMode>>(),0,1);
     shared_ptr<Component> child2_ = make_shared<Component>(
-            1, "child2", duration_, 1,vector<shared_ptr<FailureMode>>(),0,1);
+            3, "child2", duration_, 1,vector<shared_ptr<FailureMode>>(),0,1);
 
 };
+
+TEST_F(TestComponent, ExceptionWhenDurationLessThanZero){
+    shared_ptr<Component> child3 = make_shared<Component>(
+            1, "child3", duration_, 1,vector<shared_ptr<FailureMode>>(),0,1);
+
+    ASSERT_THROW(parent_->addChild(child3), std::invalid_argument);
+}
+
 
 TEST_F(TestComponent, scheduleOutageCorrectlyAllocatesAvailabilityDays){
 
@@ -48,3 +57,75 @@ TEST_F(TestComponent, scheduleOutageCorrectlyAllocatesAvailabilityDays){
 
 }
 
+TEST_F(TestComponent, getCapacityReturnsCorrectCapacityIfActiveCapacityIsSet) {
+    shared_ptr<Component> child3 = make_shared<Component>(
+            4, "child3", duration_, 1,vector<shared_ptr<FailureMode>>(),100,1);
+    shared_ptr<Component> child4 = make_shared<Component>(
+            5, "child4", duration_, 1,vector<shared_ptr<FailureMode>>(),0,1);
+    parent_->addChild(child3);
+    child3->addChild(child4);
+
+    auto result = child3->getCapacity();
+
+    ASSERT_EQ(result, 100);
+
+}
+
+TEST_F(TestComponent, getCapacityReturnsCorrectCapacityIfActiveCapacityIsNotSet) {
+    shared_ptr<Component> child3 = make_shared<Component>(
+            4, "child3", duration_, 1,vector<shared_ptr<FailureMode>>(),0,1);
+    shared_ptr<Component> child4 = make_shared<Component>(
+            5, "child4", duration_, 1,vector<shared_ptr<FailureMode>>(),100,1);
+    shared_ptr<Component> child5 = make_shared<Component>(
+            6, "child5", duration_, 1,vector<shared_ptr<FailureMode>>(),100,1);
+    parent_->addChild(child3);
+    child3->addChild(child4);
+    child3->addChild(child5);
+
+    auto result = child3->getCapacity();
+
+    ASSERT_EQ(result, 200);
+}
+TEST_F(TestComponent, scheduleCapacityLossUpdatesComponentLossCorrectly) {
+    shared_ptr<Component> child3 = make_shared<Component>(
+            4, "child3", duration_, 1,vector<shared_ptr<FailureMode>>(),0,1);
+    shared_ptr<Component> child4 = make_shared<Component>(
+            5, "child4", duration_, 1,vector<shared_ptr<FailureMode>>(),101,1);
+
+    parent_->addChild(child3);
+    child3->addChild(child4);
+
+    child3->scheduleCapacityLoss(10,20);
+    auto loss = child3->getCapacityLoss();
+
+    double result = accumulate(loss.begin(), loss.end(), 0.);
+
+    ASSERT_EQ(result, 2020);
+}
+
+TEST_F(TestComponent, scheduleCapacityLossUpdatesChildComponentLossCorrectlyWhenParentFailsAfter) {
+    shared_ptr<Component> child3 = make_shared<Component>(
+            4, "child3", duration_, 1,vector<shared_ptr<FailureMode>>(),0,1);
+    shared_ptr<Component> child4 = make_shared<Component>(
+            5, "child4", duration_, 1,vector<shared_ptr<FailureMode>>(),101,1);
+
+    parent_->addChild(child3);
+    child3->addChild(child4);
+
+    child4->scheduleCapacityLoss(10,20);
+    child3->scheduleCapacityLoss(15,25);
+    auto loss1 = child4->getCapacityLoss();
+    auto loss2 = child3->getCapacityLoss();
+
+    double result1 = accumulate(loss1.begin(), loss1.end(), 0.);
+    double result2 = accumulate(loss2.begin(), loss2.end(), 0.);
+    double result3 = result1 + result2;
+
+    ASSERT_EQ(loss1[9], 0);
+    ASSERT_EQ(loss1[10], 101);
+    ASSERT_EQ(loss2[39], 101);
+    ASSERT_EQ(loss2[40], 0);
+    ASSERT_EQ(result1, 505);
+    ASSERT_EQ(result2, 2525);
+    ASSERT_EQ(result3, 30*101);
+}

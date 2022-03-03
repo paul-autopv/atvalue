@@ -56,8 +56,8 @@ public:
 
     std::string getScopeString() const {
         std::string scope_string;
-        if (scope == FailureScope::cascade) {
-            scope_string = "cascade";
+        if (scope == FailureScope::component) {
+            scope_string = "component";
         }
         if (scope == FailureScope::parent) {
             scope_string  = "parent";

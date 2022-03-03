@@ -15,9 +15,14 @@ ProductionManager::ProductionManager(const int &simulation_duration, const Input
 };
 
 
-IncidentRegister ProductionManager::operator()() {
+ProductionReport ProductionManager::operator()() {
     const int max {1'000'000};
+    typedef std::chrono::high_resolution_clock my_clock;
+    my_clock::time_point beginning = my_clock::now();
+    my_clock::duration d = my_clock::now() - beginning;
     default_random_engine engine {};
+    engine.seed(d.count());
+
     uniform_int_distribution distribution {0, max};
     auto likelihood = [&distribution, &engine](){ return (double)distribution(engine)/max; };
 
@@ -37,7 +42,14 @@ IncidentRegister ProductionManager::operator()() {
             }
         }
     }
-    return incidentRegister_;
+    logProductionLoss();
+    return report_;
+}
+
+void ProductionManager::logProductionLoss() {
+    for (auto &component : facility_->getComponents()){
+        report_.logProductionLoss(component.first, component.second->getCapacityLoss());
+    }
 }
 
 bool ProductionManager::hasOccurredFailure(const int &day, const int &failureId, const double &probability) {
@@ -48,6 +60,41 @@ bool ProductionManager::hasOccurredFailure(const int &day, const int &failureId,
     return false;
 }
 
+void ProductionManager::shutDownAffectedComponents(const int &component_id, FailureScope scope, const int &day,
+                                                   const int &duration) {
+    if (scope == FailureScope::all){
+        shutDown(facility_->getRootComponentPtr(), day, duration);
+    }
+    else if (scope == FailureScope::parent){
+        auto component = facility_->getComponentPtr(component_id);
+        shutDown(facility_->getComponentPtr(component->getParentId()), day, duration);
+    }
+    else if (scope == FailureScope::component){
+        shutDown(facility_->getComponentPtr(component_id), day, duration);
+    }
+    else
+        throw invalid_argument("Undefined FailureScope" + (string) reinterpret_cast<const char *>(static_cast<unsigned char>(scope)));
+}
+
+void ProductionManager::shutDown(const shared_ptr<Component>& component, const int &day, const int &duration) const {
+    component->scheduleOutage( day, duration);
+    component->scheduleCapacityLoss(day, duration);
+}
+
+void ProductionManager::recordFailure(const int &incident_id, const int &day, FailureModeDetail &event) {
+    auto simulation = to_string(std::hash<std::thread::id>{}(std::this_thread::get_id()));
+    auto event_record = event.toString();
+    event_record.push_back(to_string(day));
+    event_record.push_back(simulation);
+    report_.logIncident(Incident(incident_id, event_record));
+}
+
+void ProductionManager::resolveFailure(const FailureModeDetail &failureModeDetail, const int &day) {
+
+    scheduleOutage(failureModeDetail, day);
+    repairComponent(failureModeDetail, day);
+}
+
 bool ProductionManager::isComponentOnline(const int &failure_id, const int &day) {
     auto failure = facility_->getFailureModeDetail(failure_id);
     auto component = facility_->getComponentPtr(failure.component_id);
@@ -55,20 +102,6 @@ bool ProductionManager::isComponentOnline(const int &failure_id, const int &day)
         return component->isOnline(day);
     }
     return false;
-}
-
-void ProductionManager::recordFailure(const int &incident, const int &day, FailureModeDetail &event) {
-    auto simulation = to_string(std::hash<std::thread::id>{}(std::this_thread::get_id()));
-    auto event_record = event.toString();
-    event_record.push_back(to_string(day));
-    event_record.push_back(simulation);
-    incidentRegister_.insert(pair<int, vector<string>>(incident, event_record));
-}
-
-void ProductionManager::resolveFailure(const FailureModeDetail &failureModeDetail, const int &day) {
-
-    scheduleOutage(failureModeDetail, day);
-    repairComponent(failureModeDetail, day);
 }
 
 void ProductionManager::scheduleOutage(const FailureModeDetail &detail, const int &day) {
@@ -93,27 +126,10 @@ int ProductionManager::scheduleOutageOfType(const FailureModeDetail &failureMode
                                             OutageType type, OutageCost cost) {
     if (duration | cost.isNotZero()){
         auto schedule = OutageSchedule(start, duration);
-        outageManager_.scheduleOutage(failureModeDetail.component_id, type, schedule, cost);
+        outageManager_.recordOutage(failureModeDetail.component_id, type, schedule, cost);
         start += duration;
     }
     return start;
-}
-
-void ProductionManager::shutDownAffectedComponents(const int &component_id, FailureScope scope, const int &day,
-                                                   const int &duration) {
-    if (scope == FailureScope::all){
-        auto component = facility_->getRootComponentPtr();
-        component->scheduleOutage( day, duration);
-    }
-    if (scope == FailureScope::parent){
-        auto child = facility_->getComponentPtr(component_id);
-        auto parent = facility_->getComponentPtr(child->getParentId());
-        parent->scheduleOutage(day, duration);
-    }
-    if (scope == FailureScope::cascade){
-        auto component = facility_->getComponentPtr(component_id);
-        component->scheduleOutage(day, duration);
-    }
 }
 
 #pragma clang diagnostic pop

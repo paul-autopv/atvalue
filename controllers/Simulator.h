@@ -16,8 +16,7 @@
 #include <utility>
 #include <fstream>
 
-using Task_type = IncidentRegister();
-using Register = IncidentRegister;
+using Task_type = ProductionReport();
 
 class Simulator {
 
@@ -28,15 +27,24 @@ public:
     void run_single() const;
 
 private:
+
     int simulations_;
-    const int simulation_duration_;
+    int simulation_duration_;
     InputMap failures_;
     InputMap structure_;
-    static constexpr auto incident_register_path_ = "../output/incidents.csv";
 
-    static void prepareOutputFiles();
-    static void writeRegisterToCsv(const Register& the_register) ;
+    void prepareOutputFiles();
+    void reportToCsv(ProductionReport report) const;
+
+    static void reportIncidents(vector<Incident> &report);
+
+    void reportProductionLoss(ProductionLoss &report) const;
+
+    static void prepareOutputFile(const string& name, const string& header);
+
+    ProductionLoss getComponentAverageProductionLoss(ProductionLoss &report, ProductionLoss &loss_register) const;
 };
 
+static std::string incident_register_path_ {"../output/"};
 
 #endif //ATVALUE_SIMULATOR_H

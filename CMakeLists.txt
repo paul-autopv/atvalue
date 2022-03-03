@@ -23,7 +23,9 @@ set(HEADER_FILES
         models/FailureModeDetail.h
         models/enums/OutageType.h
         models/enums/ShutdownCode.h
-        models/enums/FailureScope.h)
+        models/enums/FailureScope.h
+        controllers/ProductionReport.h
+        models/Incident.h)
 
 set(SOURCE_FILES
         models/Component.cpp
@@ -34,7 +36,8 @@ set(SOURCE_FILES
         controllers/Simulator.cpp
         controllers/ProductionManager.cpp
         models/Outage.cpp
-        models/OutageManager.cpp)
+        models/OutageManager.cpp
+        controllers/ProductionReport.cpp)
 
 add_library(models STATIC ${SOURCE_FILES} ${HEADER_FILES})
 

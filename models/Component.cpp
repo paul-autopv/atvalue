@@ -14,13 +14,13 @@ Component::Component(int id, string name, const int &simulation_duration, int da
         name_ {std::move(name)},
         simulation_duration_ {simulation_duration},
         failure_modes_ {move(failure_modes)},
-        capacity_ {capacity},
+        active_capacity_ {capacity},
         day_installed_ {days_installed}{
     children_.reserve(children);
     available_days.resize(simulation_duration_, true);
     online_days.resize(simulation_duration_, true);
+    capacity_loss_.resize(simulation_duration_, 0);
 };
-
 
 std::ostream &operator<<(std::ostream &os, const Component &unit) {
     os << "Component id_: " << unit.id_ << " (" << unit.name_ << ")";
@@ -32,6 +32,8 @@ int Component::getId() const{
 }
 
 void Component::addChild(const shared_ptr<Component>& child) {
+    if (child->getId() == this->getId())
+        throw std::invalid_argument("Trying to add child with same id as parent.");
     children_.push_back(child);
 }
 
@@ -60,6 +62,23 @@ void Component::scheduleOutage(const int &start, const int &outage_duration) {
     }
 }
 
+void Component::scheduleCapacityLoss(const int &start, const int &outage_duration) {
+    setCapacity(start, outage_duration, getCapacity());
+}
+
+void Component::setCapacity(const int &start, const int &outage_duration, const double &value) {
+    auto end = outage_duration < 0 ? start : min(start + outage_duration, simulation_duration_);
+    for (auto day = start; day < end; ++day) {
+        capacity_loss_.at(day) = value;
+    }
+    // avoid possible double counting of capacity loss
+    if (!children_.empty()) {
+        for (auto &child: children_) {
+            child->setCapacity(start, outage_duration, 0);
+        }
+    }
+}
+
 bool Component::isOnline(const int &day) const {
     return online_days.at(day);
 }
@@ -70,6 +89,20 @@ bool Component::isAvailable(const int &day) const {
 
 vector<bool> Component::getAvailability() {
     return available_days;
+}
+
+double Component::getCapacity() {
+    if (active_capacity_ > 0)
+        return active_capacity_;
+    double capacity {0};
+    for (auto &child : children_){
+        capacity += child->getCapacity();
+    }
+    return capacity;
+}
+
+vector<double> Component::getCapacityLoss() {
+    return capacity_loss_;
 }
 
 #pragma clang diagnostic pop

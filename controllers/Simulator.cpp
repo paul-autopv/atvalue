@@ -1,6 +1,7 @@
 //
 // Created by Paul on 2022/01/17.
 //
+#include <algorithm>
 #include "Simulator.h"
 
 
@@ -28,72 +29,98 @@ void Simulator::run() const {
 
     // define functors
     vector<ProductionManager> productionManagers(simulations_);
-    for (auto i = 0; i < simulations_; ++i){
+    for (auto i = 0; i < simulations_; ++i) {
         productionManagers[i] = ProductionManager(simulation_duration_, structure_, failures_);
     }
 
     // define tasks
     deque<packaged_task<Task_type>> productionManagerTasks;
-    for (auto i = 0; i < simulations_; ++i){
-        packaged_task<Task_type> productionManagerTask {(productionManagers[i]) };
+    for (auto i = 0; i < simulations_; ++i) {
+        packaged_task<Task_type> productionManagerTask{(productionManagers[i])};
         productionManagerTasks.push_back(move(productionManagerTask));
     }
 
     // define futures
-    vector<future<Register>> futures(simulations_);
-    for (auto i = 0; i < simulations_; ++i){
+    vector<future<ProductionReport>> futures(simulations_);
+    for (auto i = 0; i < simulations_; ++i) {
         futures[i] = productionManagerTasks[i].get_future();
     }
 
     // define threads
-    int i {0};
-    while (!productionManagerTasks.empty()){
+    int i{0};
+    while (!productionManagerTasks.empty()) {
         auto task = move(productionManagerTasks.front());
         productionManagerTasks.pop_front();
-        thread t {move(task)};
+        thread t{move(task)};
         t.detach();
         ++i;
     }
 
-    for (auto future = 0; future < simulations_; ++future){
-        auto the_register = futures[future].get();
-        cout << "Writing register for simulation " << future  << endl;
-        writeRegisterToCsv(the_register);
+    ProductionLoss loss_register;
+    for (auto future = 0; future < simulations_; ++future) {
+        auto report = futures[future].get();
+        cout << "Writing register for simulation " << future << endl;
+        auto incidents = report.getIncidents();
+        reportIncidents(incidents);
+        auto production_loss = report.getProductionLoss();
+        loss_register = getComponentAverageProductionLoss(production_loss, loss_register);
     }
-
-
-// Code commented out below is an example of how to work with output of futures.
-//
-//        TypeRegister accumulator;
-//        accumulator.resize(simulation_duration_);
-//        for (auto future = 0; future < simulations_; ++future){
-//        auto future_register = futures[future].get();
-//        accumulator = sumRegister(accumulator, future_register);
-//        }
-//
-//        long sum {0};
-//        for (int j = 0; j < simulation_duration_; ++j) {
-//        sum += accumulator[j];
-//        }
-//        std::cout << "Sum of all elements: " << sum << endl;
-//        std::cout << "Done" << std::endl;
+    reportProductionLoss(loss_register);
 }
 
-void Simulator::writeRegisterToCsv(const Register& the_register) {
+void Simulator::reportIncidents(vector<Incident> &report) {
     fstream out_file;
 
-    out_file.open(incident_register_path_, ios_base::out | ios_base::app);
+    out_file.open(incident_register_path_ + (string)"incidents.csv", ios_base::out | ios_base::app);
+    int entry {1};
+    for (auto &item: report) {
+        out_file << entry;
+        for (const auto& value: item.event) {
+            out_file << "," << value;
+        }
+        out_file << endl;
+        ++entry;
+    }
+    out_file.close();
+}
 
-    for (auto & it : the_register){
-        out_file << it.first;
-        for (auto & item : it.second){
-            out_file << "," << item ;
+void Simulator::reportProductionLoss(ProductionLoss &report) const {
+    fstream out_file;
+
+    out_file.open(incident_register_path_ + (string) "production_loss.csv", ios_base::out | ios_base::app);
+    for (auto &item: report) {
+        out_file << item.first;
+        for (const auto &value: item.second) {
+            out_file << "," << value;
         }
         out_file << endl;
     }
 }
 
-void Simulator::run_single() const{
+ProductionLoss Simulator::getComponentAverageProductionLoss(ProductionLoss &report, ProductionLoss &loss_register) const {
+
+    for (auto &entry : report){
+        if (loss_register.find(entry.first) == loss_register.end()){
+            loss_register.emplace(entry);
+        }
+        else {
+            for (auto &item: report) {
+                for (int i = 0; i < item.second.size(); ++i)
+                    item.second[i] += loss_register.at(item.first)[i];
+            }
+        }
+    }
+    for (auto &entry : report){
+        std::transform(entry.second.begin(), entry.second.end(), entry.second.begin(),
+                       [this](double value)-> double{ return value/simulations_; }
+                       );
+    }
+    return report;
+}
+
+
+
+void Simulator::run_single() const {
 
     for (int i = 0; i < simulations_; ++i) {
         auto progress = ProductionManager(simulation_duration_, structure_, failures_);
@@ -102,8 +129,27 @@ void Simulator::run_single() const{
 }
 
 void Simulator::prepareOutputFiles() {
-    fstream out_file;
-    remove(incident_register_path_);
-    out_file.open(incident_register_path_, ios_base::out);
-    out_file << "event,failure_id,component_id,name,description,tag,scope,capex,opex,investigation_days,procure_days,repair_days,day,simulation" << endl;
+    prepareOutputFile(
+            (string)incident_register_path_ + "incidents.csv",
+            "event,failure_id,component_id,name,description,tag,scope,capex,opex,investigation_days,procure_days,repair_days,day,simulation"
+            );
+
+    string loss_header {"component_id"};
+    for (unsigned int c = 1; c <= simulation_duration_; ++c){
+        auto coloumn_name = "," + to_string(c);
+        loss_header+=coloumn_name;
+    }
+
+    prepareOutputFile(
+            (string)incident_register_path_ + "production_loss.csv",
+            loss_header
+            );
+}
+
+void Simulator::prepareOutputFile(const string& name, const string& header){
+    fstream file;
+    remove(&name[0]);
+    file.open(name, ios_base::out | ios_base::app);
+    file << header << endl;
+    file.close();
 }

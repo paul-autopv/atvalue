@@ -11,6 +11,7 @@
 #include <iostream>
 #include <random>
 
+#include "Incident.h"
 #include "Component.h"
 #include "CsvMap.h"
 #include "../probabilities/TriangularProbability.h"
@@ -22,7 +23,7 @@ using InputMap = std::map<int, std::vector<std::string>>;
 using FailureMap = unordered_map<int, shared_ptr<FailureMode>>;
 using ComponentMap = unordered_map<int, shared_ptr<Component>>;
 using ComponentFailureModes = std::unordered_map<int, std::vector<int>>;
-using IncidentRegister = map<int, vector<string>>;
+using IncidentRegister = vector<Incident>;
 
 class Facility {
 
@@ -39,6 +40,7 @@ public:
     void resetFailureModeProbability(const int &day, const int &failure_mode_id);
 
     unsigned long failureCount() const;
+    ComponentMap getComponents() const;
     shared_ptr<Component> getComponentPtr(const int &component_id) const;
     shared_ptr<Component> getRootComponentPtr() const;
 

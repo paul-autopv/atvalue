@@ -62,7 +62,7 @@ GTEST_API_ std::string FormatMatcherDescription(bool negation,
 // bipartite matching. Flow is considered to be from left to right.
 // There is an implicit source node that is connected to all of the left
 // nodes, and an implicit sink node that is connected to all of the
-// right nodes. All edges have unit capacity_.
+// right nodes. All edges have unit active_capacity_.
 //
 // Neither the flow graph nor the residual flow graph are represented
 // explicitly. Instead, they are implied by the information in 'graph' and
@@ -82,7 +82,7 @@ GTEST_API_ std::string FormatMatcherDescription(bool negation,
 //   - The same three edges are removed from the residual flow graph.
 //   - The reverse edges (l, source), (r, l), and (sink, r) are added
 //     to the residual flow graph, which is a directional graph
-//     representing unused flow capacity_.
+//     representing unused flow active_capacity_.
 //
 // When the method augments a flow (moving left_[l] from some r1 to some
 // other r2), this can be thought of as "undoing" the above steps with

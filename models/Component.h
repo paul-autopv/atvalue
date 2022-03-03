@@ -23,10 +23,12 @@ private:
     vector<shared_ptr<FailureMode>> failure_modes_;
     vector<bool> available_days;
     vector<bool> online_days;
+    vector<double> capacity_loss_;
     int simulation_duration_ {};
     int day_installed_{};
-    double capacity_{};
+    double active_capacity_ {0};
 
+    void setCapacity(const int &start, const int &outage_duration, const double &value);
 
 public:
     friend ostream& operator<<(ostream& os, const Component& unit);
@@ -41,12 +43,15 @@ public:
     int getParentId() const;
     void addChild(const shared_ptr<Component>& child);
     int getId() const;
-    int getDayInstalled() const;
+
     void setDayInstalled(const int& day);
     void scheduleOutage(const int &start, const int &outage_duration);
     bool isAvailable(const int &day) const;
     vector<bool> getAvailability();
+    vector<double> getCapacityLoss();
+    double getCapacity();
 
+    void scheduleCapacityLoss(const int &start, const int &outage_duration);
 };
 
 
