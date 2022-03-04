@@ -13,7 +13,7 @@ class ProductionReport{
 
 public:
     void logIncident(const Incident& incident);
-    void logProductionLoss(const int &component_id, vector<double> production_loss);
+    void logProductionLoss(const int &component_id, vector<double> production_loss, bool all);
 
     vector<Incident> getIncidents();
     ProductionLoss getProductionLoss();

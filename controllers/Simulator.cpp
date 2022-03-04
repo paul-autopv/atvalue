@@ -100,27 +100,32 @@ void Simulator::fileProductionLoss(ProductionLoss &report) const {
     fstream out_file;
 
     out_file.open(incident_register_path_ + (string) "production_loss.csv", ios_base::out | ios_base::app);
-//    for (auto &item: report) {
-//        out_file << item.first;
-//        for (const auto &value: item.second) {
-//            out_file << "," << value;
-//        }
-//        out_file << endl;
-//
-//    }
-    writeProductionLossReportHeader(report, out_file);
+    auto header = writeProductionLossReportHeader(report, out_file);
 
-
+    for (int day = 0; day < simulation_duration_; ++day) {
+        out_file << (day + 1) << ",";
+        for (const auto &component_id: header) {
+            out_file << report.at(component_id)[day] << ",";
+        }
+        out_file << endl;
+    }
+    out_file.close();
 }
 
-void Simulator::writeProductionLossReportHeader(ProductionLoss &report, fstream &out_file) const {
+vector<int> Simulator::writeProductionLossReportHeader(const ProductionLoss &report, fstream &out_file) const {
+    vector<int> header;
     auto start = report.begin();
-    out_file << "day," << start->first;
+    auto component_id = start->first;
+    header.push_back(component_id);
+    out_file << "day," << component_id;
     advance(start,1);
     for (auto it = start; it != report.end(); ++it){
-        out_file << "," << it->first;
+        component_id = it->first;
+        header.push_back(component_id);
+        out_file << "," << component_id;
     }
     out_file << endl;
+    return header;
 }
 
 ProductionLoss Simulator::accumulateProductionLoss(ProductionLoss &report, const ProductionLoss &loss_register) const {

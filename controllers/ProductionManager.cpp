@@ -48,7 +48,7 @@ ProductionReport ProductionManager::operator()() {
 
 void ProductionManager::logProductionLoss() {
     for (auto &component : facility_->getComponents()){
-        report_.logProductionLoss(component.first, component.second->getCapacityLoss());
+        report_.logProductionLoss(component.first, component.second->getCapacityLoss(), true);
     }
 }
 
@@ -114,12 +114,10 @@ void ProductionManager::scheduleOutage(const FailureModeDetail &detail, const in
 }
 
 void ProductionManager::repairComponent(const FailureModeDetail &detail, const int &day) {
-    auto component_id = detail.component_id;
-    auto failure_id = detail.id;
-    auto component = facility_->getComponentPtr(component_id);
-    auto failure_mode = failures_.at(failure_id);
+    auto component = facility_->getComponentPtr(detail.component_id);
+    auto failure_mode = failures_.at(detail.id);
     component->setDayInstalled(day);
-    facility_->resetFailureModeProbability(day, failure_id);
+    facility_->resetFailureModeProbability(day, detail.id);
 }
 
 int ProductionManager::scheduleOutageOfType(const FailureModeDetail &failureModeDetail, int start, int duration,
