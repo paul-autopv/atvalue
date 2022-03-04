@@ -100,13 +100,27 @@ void Simulator::fileProductionLoss(ProductionLoss &report) const {
     fstream out_file;
 
     out_file.open(incident_register_path_ + (string) "production_loss.csv", ios_base::out | ios_base::app);
-    for (auto &item: report) {
-        out_file << item.first;
-        for (const auto &value: item.second) {
-            out_file << "," << value;
-        }
-        out_file << endl;
+//    for (auto &item: report) {
+//        out_file << item.first;
+//        for (const auto &value: item.second) {
+//            out_file << "," << value;
+//        }
+//        out_file << endl;
+//
+//    }
+    writeProductionLossReportHeader(report, out_file);
+
+
+}
+
+void Simulator::writeProductionLossReportHeader(ProductionLoss &report, fstream &out_file) const {
+    auto start = report.begin();
+    out_file << "day," << start->first;
+    advance(start,1);
+    for (auto it = start; it != report.end(); ++it){
+        out_file << "," << it->first;
     }
+    out_file << endl;
 }
 
 ProductionLoss Simulator::accumulateProductionLoss(ProductionLoss &report, const ProductionLoss &loss_register) const {
@@ -142,15 +156,15 @@ void Simulator::prepareOutputFiles() {
             "event,failure_id,component_id,name,description,tag,scope,capex,opex,investigation_days,procure_days,repair_days,day,simulation"
             );
 
-    string loss_header {"component_id"};
-    for (unsigned int c = 1; c <= simulation_duration_; ++c){
-        auto coloumn_name = "," + to_string(c);
-        loss_header+=coloumn_name;
-    }
-
+//    string loss_header {"component_id"};
+//    for (unsigned int c = 1; c <= simulation_duration_; ++c){
+//        auto coloumn_name = "," + to_string(c);
+//        loss_header+=coloumn_name;
+//    }
+//
     prepareOutputFile(
             (string)incident_register_path_ + "production_loss.csv",
-            loss_header
+            ""
             );
 }
 
@@ -158,6 +172,7 @@ void Simulator::prepareOutputFile(const string& name, const string& header){
     fstream file;
     remove(&name[0]);
     file.open(name, ios_base::out | ios_base::app);
-    file << header << endl;
+    if (!header.empty())
+        file << header << endl;
     file.close();
 }

@@ -45,6 +45,8 @@ private:
     ProductionLoss accumulateProductionLoss(ProductionLoss &report, const ProductionLoss &loss_register) const;
 
     ProductionLoss normaliseProductionLoss(ProductionLoss loss_register) const;
+
+    void writeProductionLossReportHeader(ProductionLoss &report, fstream &out_file) const;
 };
 
 static std::string incident_register_path_ {"../output/"};
