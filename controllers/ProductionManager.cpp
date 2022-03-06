@@ -42,13 +42,14 @@ ProductionReport ProductionManager::operator()() {
             }
         }
     }
-    logProductionLoss();
+    logComponentFailures();
     return report_;
 }
 
-void ProductionManager::logProductionLoss() {
+void ProductionManager::logComponentFailures() {
     for (auto &component : facility_->getComponents()){
         report_.logProductionLoss(component.first, component.second->getCapacityLoss(), true);
+        report_.logAvailability(component.first, component.second->getAvailability());
     }
 }
 

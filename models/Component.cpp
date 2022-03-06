@@ -105,4 +105,5 @@ vector<double> Component::getCapacityLoss() {
     return capacity_loss_;
 }
 
+
 #pragma clang diagnostic pop

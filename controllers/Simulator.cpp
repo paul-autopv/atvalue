@@ -56,29 +56,35 @@ void Simulator::run() const {
         ++i;
     }
 
-    ProductionLoss loss_register;
+    ProductionRegister production_loss_register;
+    ProductionRegister availability_register;
     for (auto future = 0; future < simulations_; ++future) {
         auto report = futures[future].get();
         cout << "Writing register for simulation " << future << endl;
         auto incidents = report.getIncidents();
         fileIncidents(incidents);
         auto production_loss = report.getProductionLoss();
-        loss_register = accumulateProductionLoss(production_loss, loss_register);
+        auto availabilty = report.getAvailability();
+        production_loss_register = accumulateProductionLoss(production_loss, production_loss_register);
+        availability_register = accumulateProductionLoss(availabilty, availability_register);
     }
-    loss_register = normaliseProductionLoss(loss_register);
-    fileProductionLoss(loss_register);
+    production_loss_register = normaliseProductionRegister(production_loss_register);
+    availability_register = normaliseProductionRegister(availability_register);
+    fileRegister(production_loss_register, "production_loss");
+    fileRegister(availability_register, "availability");
 }
 
-ProductionLoss Simulator::normaliseProductionLoss(ProductionLoss loss_register) const {
+ProductionRegister Simulator::normaliseProductionRegister(ProductionRegister production_register) const {
     if (simulations_ > 0) {
-        for (auto &entry: loss_register) {
+        for (auto &entry: production_register) {
             std::transform(entry.second.begin(), entry.second.end(), entry.second.begin(),
                            [this](double value) -> double { return value / simulations_; }
             );
         }
     }
-    return loss_register;
-};
+    return production_register;
+}
+
 
 void Simulator::fileIncidents(vector<Incident> &report) {
     fstream out_file;
@@ -96,10 +102,10 @@ void Simulator::fileIncidents(vector<Incident> &report) {
     out_file.close();
 }
 
-void Simulator::fileProductionLoss(ProductionLoss &report) const {
+void Simulator::fileRegister(ProductionRegister &report, const string &name) const {
     fstream out_file;
 
-    out_file.open(incident_register_path_ + (string) "production_loss.csv", ios_base::out | ios_base::app);
+    out_file.open(incident_register_path_ + name + (string) ".csv", ios_base::out | ios_base::app);
     auto header = writeProductionLossReportHeader(report, out_file);
 
     for (int day = 0; day < simulation_duration_; ++day) {
@@ -112,7 +118,7 @@ void Simulator::fileProductionLoss(ProductionLoss &report) const {
     out_file.close();
 }
 
-vector<int> Simulator::writeProductionLossReportHeader(const ProductionLoss &report, fstream &out_file) const {
+vector<int> Simulator::writeProductionLossReportHeader(const ProductionRegister &report, fstream &out_file) const {
     vector<int> header;
     auto start = report.begin();
     auto component_id = start->first;
@@ -128,9 +134,9 @@ vector<int> Simulator::writeProductionLossReportHeader(const ProductionLoss &rep
     return header;
 }
 
-ProductionLoss Simulator::accumulateProductionLoss(ProductionLoss &report, const ProductionLoss &loss_register) const {
+ProductionRegister Simulator::accumulateProductionLoss(ProductionRegister &report, const ProductionRegister &productionLoss) const {
 
-    auto loss = loss_register;
+    auto loss = productionLoss;
     for (auto &entry : report){
         if (loss.find(entry.first) == loss.end()){
             loss.emplace(entry);
@@ -144,9 +150,6 @@ ProductionLoss Simulator::accumulateProductionLoss(ProductionLoss &report, const
 
     return loss;
 }
-
-
-
 void Simulator::run_single() const {
 
     for (int i = 0; i < simulations_; ++i) {
@@ -169,6 +172,11 @@ void Simulator::prepareOutputFiles() {
 //
     prepareOutputFile(
             (string)incident_register_path_ + "production_loss.csv",
+            ""
+            );
+
+    prepareOutputFile(
+            (string)incident_register_path_ + "availability.csv",
             ""
             );
 }

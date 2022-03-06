@@ -33,20 +33,21 @@ private:
     InputMap failures_;
     InputMap structure_;
 
-    void prepareOutputFiles();
+    static void prepareOutputFiles();
+
     void reportToCsv(ProductionReport report) const;
 
     static void fileIncidents(vector<Incident> &report);
 
-    void fileProductionLoss(ProductionLoss &report) const;
+    void fileRegister(ProductionRegister &report, const string &name) const;
 
     static void prepareOutputFile(const string& name, const string& header);
 
-    ProductionLoss accumulateProductionLoss(ProductionLoss &report, const ProductionLoss &loss_register) const;
+    ProductionRegister accumulateProductionLoss(ProductionRegister &report, const ProductionRegister &productionLoss) const;
 
-    ProductionLoss normaliseProductionLoss(ProductionLoss loss_register) const;
+    ProductionRegister normaliseProductionRegister(ProductionRegister production_register) const;
 
-    vector<int> writeProductionLossReportHeader(const ProductionLoss &report, fstream &out_file) const;
+    vector<int> writeProductionLossReportHeader(const ProductionRegister &report, fstream &out_file) const;
 };
 
 static std::string incident_register_path_ {"../output/"};
