@@ -20,11 +20,13 @@ ProductionReport ProductionManager::operator()() {
     typedef std::chrono::high_resolution_clock my_clock;
     my_clock::time_point beginning = my_clock::now();
     my_clock::duration d = my_clock::now() - beginning;
-    default_random_engine engine {};
+    default_random_engine engine {d.count()};
     engine.seed(d.count());
 
     uniform_int_distribution distribution {0, max};
     auto likelihood = [&distribution, &engine](){ return (double)distribution(engine)/max; };
+
+//    https://stackoverflow.com/questions/44030912/how-should-i-properly-seed-c11-stddefault-random-engine
 
     auto incident {1};
     for (int day = 0; day < simulation_duration_; ++day) {
@@ -74,7 +76,9 @@ void ProductionManager::shutDownAffectedComponents(const int &component_id, Fail
         shutDown(facility_->getComponentPtr(component_id), day, duration);
     }
     else
-        throw invalid_argument("Undefined FailureScope" + (string) reinterpret_cast<const char *>(static_cast<unsigned char>(scope)));
+        throw invalid_argument(
+                "Undefined FailureScope" +
+                (string) reinterpret_cast<const char *>(static_cast<unsigned char>(scope)));
 }
 
 void ProductionManager::shutDown(const shared_ptr<Component>& component, const int &day, const int &duration) const {
@@ -106,17 +110,13 @@ bool ProductionManager::isComponentOnline(const int &failure_id, const int &day)
 }
 
 void ProductionManager::scheduleOutage(const FailureModeDetail &detail, const int &day) {
-    int start = day;
-    auto cost = OutageCost(0,0);
-    start = scheduleOutageOfType(detail, start, detail.days_to_investigate, OutageType::investigation, cost);
-    start = scheduleOutageOfType(detail, start, detail.days_to_procure, OutageType::procurement, cost);
-    cost = OutageCost(detail.capex, detail.opex);
-    scheduleOutageOfType(detail, start, detail.days_to_repair, OutageType::repair, cost) ;
+    auto start = scheduleOutageOfType(detail, day, detail.days_to_investigate, OutageType::investigation, OutageCost(0,0));
+    start = scheduleOutageOfType(detail, start, detail.days_to_procure, OutageType::procurement, OutageCost(0,0));
+    scheduleOutageOfType(detail, start, detail.days_to_repair, OutageType::repair, OutageCost(detail.capex, detail.opex));
 }
 
 void ProductionManager::repairComponent(const FailureModeDetail &detail, const int &day) {
     auto component = facility_->getComponentPtr(detail.component_id);
-    auto failure_mode = failures_.at(detail.id);
     component->setDayInstalled(day);
     facility_->resetFailureModeProbability(day, detail.id);
 }

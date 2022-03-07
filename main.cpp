@@ -10,10 +10,10 @@ int main() {
 
     std::cout << "Hello, AtValue!" << std::endl;
 
-    auto failures = CsvReader::readCsv(R"(../data/failure_modes_2.csv)", true);
+    auto failures = CsvReader::readCsv(R"(../data/failure_modes_1.csv)", true);
     auto structure = CsvReader::readCsv(R"(../data/model_1.csv)", true);
 
-    int simulations {20};
+    int simulations {1};
     int duration {8000};
 
     auto simulator = Simulator(simulations, duration, failures, structure);
