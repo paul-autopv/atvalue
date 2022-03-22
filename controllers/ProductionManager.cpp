@@ -4,6 +4,7 @@
 // Created by Paul on 2/20/22.
 //
 
+#include <algorithm>
 #include "ProductionManager.h"
 
 ProductionManager::ProductionManager() : ProductionManager(0, InputMap(), InputMap()) {}
@@ -17,11 +18,9 @@ ProductionManager::ProductionManager(const int &simulation_duration, const Input
 
 ProductionReport ProductionManager::operator()() {
     const int max {1'000'000};
-    typedef std::chrono::high_resolution_clock my_clock;
-    my_clock::time_point beginning = my_clock::now();
-    my_clock::duration d = my_clock::now() - beginning;
-    default_random_engine engine {d.count()};
-    engine.seed(d.count());
+
+
+    auto engine = createEngine();
 
     uniform_int_distribution distribution {0, max};
     auto likelihood = [&distribution, &engine](){ return (double)distribution(engine)/max; };
@@ -129,6 +128,19 @@ int ProductionManager::scheduleOutageOfType(const FailureModeDetail &failureMode
         start += duration;
     }
     return start;
+}
+
+array<uint_fast32_t, ProductionManager::SEED_LENGTH> ProductionManager::generateSeedData() {
+    array<uint_fast32_t, SEED_LENGTH> random_data {};
+    random_device random_source;
+    generate(random_data.begin(), random_data.end(), std::ref(random_source));
+    return random_data;
+}
+
+default_random_engine ProductionManager::createEngine() {
+    auto random_data = generateSeedData();
+    std::seed_seq seed_seq(random_data.begin(), random_data.end());
+    return default_random_engine{ seed_seq };
 }
 
 #pragma clang diagnostic pop

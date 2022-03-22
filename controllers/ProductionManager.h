@@ -30,6 +30,8 @@ public:
     bool isComponentOnline(const int &failure_id, const int &day);
 
 private:
+    static constexpr std::size_t SEED_LENGTH = 8;
+
     int simulation_duration_;
     InputMap structure_;
     InputMap failures_;
@@ -49,6 +51,11 @@ private:
     void shutDown(const shared_ptr<Component>& component, const int &day, const int &duration) const;
 
     void logComponentFailures();
+
+    array<uint_fast32_t, SEED_LENGTH> generateSeedData();
+
+    default_random_engine createEngine();
+
 };
 
 

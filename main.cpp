@@ -13,7 +13,7 @@ int main() {
     auto failures = CsvReader::readCsv(R"(../data/failure_modes_1.csv)", true);
     auto structure = CsvReader::readCsv(R"(../data/model_1.csv)", true);
 
-    int simulations {1};
+    int simulations {100};
     int duration {8000};
 
     auto simulator = Simulator(simulations, duration, failures, structure);
